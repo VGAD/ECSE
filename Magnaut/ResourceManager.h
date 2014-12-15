@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+#include "Common.h"
+
 //! A data store intended for use with SFML Texture and SoundBuffer types.
 /*! Allows loading and storing based on filenames so data can be re-used. */
 template <typename T>
@@ -50,7 +52,10 @@ const T& ResourceManager<T>::get(const std::string filename)
     if (data != dataMap.end()) return data->second;
 
     // Data is not yet in map, so add it
-    dataMap[filename].loadFromFile(filename);
+    if (!dataMap[filename].loadFromFile(filename))
+    {
+        throw std::runtime_error("Failed to load data from file " + filename);
+    }
 
     return dataMap[filename];
 }

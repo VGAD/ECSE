@@ -1,0 +1,14 @@
+#include "Common.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+void errorMessage(std::string message)
+{
+#ifdef _WIN32
+    MessageBoxA(NULL, message.c_str(),  "Magnaut error!", MB_ICONEXCLAMATION | MB_OK);
+#else
+    // Oh dear! No code here yet.
+#endif
+}
