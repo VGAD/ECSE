@@ -54,7 +54,7 @@ const T& ResourceManager<T>::get(const std::string filename)
     // Data is not yet in map, so add it
     if (!dataMap[filename].loadFromFile(filename))
     {
-        throw std::runtime_error("Failed to load data from file " + filename);
+        throw std::runtime_error("Failed to load data from file \"" + filename + "\"!");
     }
 
     return dataMap[filename];
