@@ -20,7 +20,7 @@ public:
       If the file has not yet been loaded, it will be loaded into memory.
       \param filename The name of the file to load.
     */
-    const T& get(const std::string filename) const;
+    const T& get(const std::string filename);
 
     //! Deletes all data in the resource manager.
     void clear();
@@ -43,11 +43,11 @@ ResourceManager<T>::~ResourceManager()
 }
 
 template <typename T>
-const T& ResourceManager<T>::get(const std::string filename) const
+const T& ResourceManager<T>::get(const std::string filename)
 {
     // Check for data in the map
-    auto data = std::find(dataMap.begin(), dataMap.end());
-    if (data != dataMap.end()) return *data;
+    auto data = dataMap.find(filename);
+    if (data != dataMap.end()) return data->second;
 
     // Data is not yet in map, so add it
     dataMap[filename].loadFromFile(filename);
