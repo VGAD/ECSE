@@ -13,12 +13,6 @@ namespace Engine
     //! Keeps track of loaded SoundBuffers.
     extern ResourceManager<sf::SoundBuffer> soundManager;
 
-    //! Initializes the engine. Must be called only once.
-    void init();
-
-    //! Runs the main game loop.
-    void loop();
-
-    //! Cleans up before exiting.
-    void cleanup();
+    //! Runs the game init, loop and cleanup.
+    void run();
 }

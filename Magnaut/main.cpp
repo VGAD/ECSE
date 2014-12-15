@@ -2,9 +2,7 @@
 
 int main()
 {
-    Engine::init();
-    Engine::loop();
-    Engine::cleanup();
+    Engine::run();
 
     return 0;
 }
