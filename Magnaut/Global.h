@@ -1,4 +1,5 @@
 #pragma once
+#include "Common.h"
 #include "ResourceManager.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
