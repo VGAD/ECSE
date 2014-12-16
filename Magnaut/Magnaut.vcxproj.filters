@@ -15,7 +15,7 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{b669a54e-83fd-4317-bc5a-f9814e0b2ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Graphics">
+    <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{8a95e4c3-82ab-4e42-bc09-3a94602dfa29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -33,7 +33,7 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Spritemap.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>Source Files</Filter>
@@ -59,7 +59,7 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Spritemap.h">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Source Files\Engine</Filter>
