@@ -1,3 +1,4 @@
+#include "Global.h"
 #include "Engine.h"
 #include "Common.h"
 
@@ -10,7 +11,10 @@ int main()
 
     try
     {
-        Engine::run();
+        // Run the game, then clean up
+        Engine engine;
+        engine.run();
+        Magnaut::cleanup();
     }
     catch (const std::runtime_error& e)
     {

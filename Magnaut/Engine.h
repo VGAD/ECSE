@@ -4,15 +4,19 @@
 #include <SFML/Audio.hpp>
 #include "ResourceManager.h"
 
-//! Includes functions and data which are needed globally in the game.
-namespace Engine
+//! Contains the base game information and procedures, such as the game loop and resource management.
+class Engine
 {
-    //! Keeps track of loaded Textures.
-    extern ResourceManager<sf::Texture> textureManager;
+public:
+    //! Initializes the engine.
+    Engine();
 
-    //! Keeps track of loaded SoundBuffers.
-    extern ResourceManager<sf::SoundBuffer> soundManager;
+    //! Deallocates resources and stops the game.
+    ~Engine();
 
-    //! Runs the game init, loop and cleanup.
+    //! Runs the game loop.
     void run();
-}
+
+private:
+
+};
