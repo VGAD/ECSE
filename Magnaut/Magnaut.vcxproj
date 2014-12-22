@@ -93,16 +93,18 @@ XCOPY "$(SolutionDir)DLLs" "$(TargetDir)" /s /i /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Engine.h" />
