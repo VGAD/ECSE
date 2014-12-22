@@ -18,7 +18,7 @@ int main()
     }
     catch (const std::runtime_error& e)
     {
-        LOG(fatal) << e.what() << std::endl;
+        LOG(fatal) << e.what();
         errorMessage(e.what());
         return 1;
     }
