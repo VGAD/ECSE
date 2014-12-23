@@ -10,5 +10,6 @@ struct PoolBase
 template <typename T>
 struct Pool : PoolBase
 {
+    //! The actual object pool.
     boost::object_pool<T> pool;
 };

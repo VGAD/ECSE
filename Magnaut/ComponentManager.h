@@ -31,7 +31,7 @@ public:
 
     //! Destroy a component
     /*!
-      \param A pointer to the Component to be destroyed (must be from this manager's pool).
+      \param component A pointer to the Component to be destroyed (must be from this manager's pool).
     */
     template <typename ComponentType>
     void destroyComponent(ComponentType* component);
