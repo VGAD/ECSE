@@ -106,6 +106,7 @@ XCOPY "$(SolutionDir)DLLs" "$(TargetDir)" /s /i /y</Command>
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Pool.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Spritemap.h" />

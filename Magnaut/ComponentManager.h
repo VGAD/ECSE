@@ -7,6 +7,7 @@
 #include <boost/pool/object_pool.hpp>
 #include "Common.h"
 #include "Component.h"
+#include "Pool.h"
 
 //! Handles allocation and deallocation for all component types.
 class ComponentManager
@@ -31,21 +32,8 @@ private:
     template <typename ComponentType>
     boost::object_pool<ComponentType>& getPool();
 
-    //! Base class for Component collections.
-    struct CollectionBase
-    {
-        virtual ~CollectionBase() { }
-    };
-
-    //! Specialized collection for each Component type.
-    template <typename ComponentType>
-    struct Collection : CollectionBase
-    {
-        boost::object_pool<ComponentType> pool;
-    };
-
-    //! Map from component type to collection of Components.
-    std::map<size_t, std::unique_ptr<CollectionBase>> collections;
+    //! Map from component type to pools of Components.
+    std::map<size_t, std::unique_ptr<PoolBase>> pools;
 };
 
 //////////////////
@@ -83,20 +71,20 @@ boost::object_pool<ComponentType>& ComponentManager::getPool()
     static_assert(std::is_base_of<Component, ComponentType>::value,
                   "ComponentType must be a descendant of Component!");
 
-    typedef Collection<ComponentType> CType;
+    typedef Pool<ComponentType> PType;
 
     size_t typeHash = typeid(ComponentType).hash_code();
 
-    // Get the collection
-    CollectionBase* collection = collections[typeHash].get();
-    if (!collection)
+    // Get the base class pool pointer pool
+    PoolBase* pool = pools[typeHash].get();
+    if (!pool)
     {
-        collections[typeHash] = std::unique_ptr<CType>(new CType);
-        collection = collections[typeHash].get();
+        pools[typeHash] = std::unique_ptr<PType>(new PType);
+        pool = pools[typeHash].get();
     }
 
     // Cast to the actual class type
-    CType* typedCollection = static_cast<CType*>(collection);
+    PType* typedPool = static_cast<PType*>(pool);
 
-    return typedCollection->pool;
+    return typedPool->pool;
 }
