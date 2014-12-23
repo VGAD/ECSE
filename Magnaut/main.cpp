@@ -40,5 +40,7 @@ int main(int argv, char* argc[])
         return 1;
     }
 
+    LOG(INFO) << "Exiting Magnaut";
+
     return 0;
 }
