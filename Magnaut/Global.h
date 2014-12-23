@@ -1,4 +1,7 @@
+//! \file Global.h Contains globally-accessible (i.e. static) game data.
+
 #pragma once
+
 #include "Common.h"
 #include "ResourceManager.h"
 #include <SFML/Graphics.hpp>

@@ -16,7 +16,7 @@
     #endif
 #endif
 
-int main()
+int main(int argv, char* argc[])
 {
 #if defined(_MSC_VER) && defined(_WIN32) && defined(_DEBUG)
     // Memory leak debug
@@ -24,8 +24,7 @@ int main()
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 #endif
 
-    // Redirect stdout to a file
-    freopen("stdout.log", "w", stdout);
+    init_logging(argv, argc);
 
     try
     {
@@ -36,7 +35,7 @@ int main()
     }
     catch (const std::runtime_error& e)
     {
-        LOG(fatal) << e.what();
+        LOG(FATAL) << e.what();
         errorMessage(e.what());
         return 1;
     }

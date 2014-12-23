@@ -7,7 +7,7 @@ namespace Magnaut
 
     void cleanup()
     {
-        LOG(trace) << "Cleaning up";
+        LOG(TRACE) << "Cleaning up";
         textureManager.clear();
         soundManager.clear();
     }

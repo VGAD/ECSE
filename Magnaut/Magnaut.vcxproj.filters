@@ -27,6 +27,9 @@
     <Filter Include="Source Files\Engine\Component">
       <UniqueIdentifier>{c04936ae-d59b-49ce-ae0a-e31b014a36c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Logging">
+      <UniqueIdentifier>{77f1e9fc-6ab3-4aa0-8444-006c12418fc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\Engine\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging.cpp">
+      <Filter>Source Files\Logging</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,12 @@
     </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>Source Files\Engine\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging.h">
+      <Filter>Source Files\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="easylogging++.h">
+      <Filter>Source Files\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

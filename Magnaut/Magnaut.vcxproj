@@ -99,6 +99,7 @@ XCOPY "$(SolutionDir)DLLs" "$(TargetDir)" /s /i /y</Command>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="World.cpp" />
@@ -107,9 +108,11 @@ XCOPY "$(SolutionDir)DLLs" "$(TargetDir)" /s /i /y</Command>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="easylogging++.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Logging.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Engine.h" />
