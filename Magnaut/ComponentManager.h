@@ -22,14 +22,14 @@ public:
     //! Destroy the ComponentManager.
     ~ComponentManager();
 
-    //! Create a new component.
+    //! Create a new Component.
     /*!
       \return A pointer to the new Component.
     */
     template <typename ComponentType>
     ComponentType* createComponent();
 
-    //! Destroy a component
+    //! Destroy a Component.
     /*!
       \param component A pointer to the Component to be destroyed (must be from this manager's pool).
     */
@@ -37,7 +37,7 @@ public:
     void destroyComponent(ComponentType* component);
 
 private:
-    //! Get the collection of components of a given type.
+    //! Get the collection of Components of a given type.
     /*!
       \return A reference to the Component pool.
     */
