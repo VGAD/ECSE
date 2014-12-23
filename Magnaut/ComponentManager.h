@@ -10,6 +10,9 @@
 #include "Pool.h"
 
 //! Handles allocation and deallocation for all component types.
+/*!
+  This class allows Components of the same type to remain more or less tightly-packed.
+*/
 class ComponentManager
 {
 public:
@@ -20,15 +23,24 @@ public:
     ~ComponentManager();
 
     //! Create a new component.
+    /*!
+      \return A pointer to the new Component.
+    */
     template <typename ComponentType>
-    ComponentType* create();
+    ComponentType* createComponent();
 
     //! Destroy a component
+    /*!
+      \param A pointer to the Component to be destroyed (must be from this manager's pool).
+    */
     template <typename ComponentType>
-    void destroy(ComponentType* component);
+    void destroyComponent(ComponentType* component);
 
 private:
     //! Get the collection of components of a given type.
+    /*!
+      \return A reference to the Component pool.
+    */
     template <typename ComponentType>
     boost::object_pool<ComponentType>& getPool();
 
@@ -40,7 +52,7 @@ private:
 // Implementation
 
 template <typename ComponentType>
-ComponentType* ComponentManager::create()
+ComponentType* ComponentManager::createComponent()
 {
     // Get the pool of components for this type
     boost::object_pool<ComponentType>& pool = getPool<ComponentType>();
@@ -55,7 +67,7 @@ ComponentType* ComponentManager::create()
 }
 
 template <typename ComponentType>
-void ComponentManager::destroy(ComponentType* component)
+void ComponentManager::destroyComponent(ComponentType* component)
 {
     // Get the pool of components for this type
     boost::object_pool<ComponentType>& pool = getPool<ComponentType>();
