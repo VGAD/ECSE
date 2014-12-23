@@ -59,7 +59,7 @@ ComponentType* ComponentManager::createComponent()
     boost::object_pool<ComponentType>& pool = getPool<ComponentType>();
 
     // Attempt to allocate a new component
-    ComponentType* component = pool.malloc();
+    ComponentType* component = pool.construct();
     if (!component) {
         throw std::runtime_error("Out of memory!");
     }
@@ -75,7 +75,7 @@ void ComponentManager::destroyComponent(ComponentType* component)
 
     // Attempt to free the component
     assert(pool.is_from(component));
-    pool.free(component);
+    pool.destroy(component);
 }
 
 template <typename ComponentType>
