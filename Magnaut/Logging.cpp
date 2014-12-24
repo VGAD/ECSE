@@ -26,12 +26,26 @@ void init_logging(int argv, char* argc[])
     el::Configurations conf;
     conf.setToDefault();
 
-    // Set log filename
+    // Determine log name
     time_t time = std::time(nullptr);
     tm* localTime = std::localtime(&time);
+
     std::stringstream timeStr;
     timeStr << std::put_time(localTime, "%Y-%m-%d");
-    conf.setGlobally(el::ConfigurationType::Filename, "./logs/magnaut-" + timeStr.str() + ".log");
+
+    std::string filename = "./logs/magnaut-" + timeStr.str() + ".log";
+
+#ifdef CLEAN_LOG
+    // Delete the log file.
+    boost::filesystem::path logPath(filename);
+    if (boost::filesystem::exists(logPath))
+    {
+        boost::filesystem::remove(logPath);
+    }
+#endif
+
+    // Set log filename
+    conf.setGlobally(el::ConfigurationType::Filename, filename);
 
     // Configure log format for each severity level
     std::string preamble = "%datetime{%Y-%M-%d %H:%m:%s:%g} [%levshort] %fbase:%line: ";
