@@ -12,8 +12,7 @@ struct Animation
 
     FrameVector frames;
     sf::Time frameTime;
-    int row = 0;
-    bool looping = false;
+    bool looping;
 };
 
 //! Contains information about a Spritemap animation.

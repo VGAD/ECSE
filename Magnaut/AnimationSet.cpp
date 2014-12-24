@@ -36,7 +36,6 @@ bool AnimationSet::loadFromFile(const std::string &filename)
             float frameTime = animTree.get<float>("frameTime", 0.0);
             anim.frameTime = sf::seconds(frameTime);
             anim.looping = animTree.get<bool>("looping", false);
-            anim.row = animTree.get<int>("row", 0);
 
             // Frames of animation
             for (const ptree::value_type& framePair : animTree.get_child("frames"))
