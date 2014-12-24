@@ -53,9 +53,9 @@ void init_logging(int argv, char* argc[])
     conf.set(el::Level::Debug, el::ConfigurationType::Format, preamble + "* %msg *");
     conf.set(el::Level::Trace, el::ConfigurationType::Format, preamble + "%msg");
     conf.set(el::Level::Info, el::ConfigurationType::Format, preamble + "=== %msg ===");
-    conf.set(el::Level::Warning, el::ConfigurationType::Format, preamble + "!== %msg ==!");
-    conf.set(el::Level::Error, el::ConfigurationType::Format, preamble + "!!= %msg =!!");
-    conf.set(el::Level::Fatal, el::ConfigurationType::Format, preamble + "!!! %msg !!!");
+    conf.set(el::Level::Warning, el::ConfigurationType::Format, preamble + "@@@ %msg @@@");
+    conf.set(el::Level::Error, el::ConfigurationType::Format, preamble + "!!! %msg !!!");
+    conf.set(el::Level::Fatal, el::ConfigurationType::Format, preamble + "x_x %msg x_x");
     el::Loggers::reconfigureLogger("default", conf);
 
     LOG(INFO) << "Logging initialized";
