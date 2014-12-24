@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include "Spritemap.h"
 #include <memory>
 
 Engine::Engine()
@@ -16,6 +15,7 @@ void Engine::run()
 {
     sf::Vector2i size(800, 600);
     sf::RenderWindow window(sf::VideoMode(size.x, size.y), "Magnaut");
+    window.setFramerateLimit(60);
 
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
