@@ -62,8 +62,8 @@
       <AdditionalDependencies>winmm.lib;openal32.lib;sndfile.lib;opengl32.lib;gdi32.lib;freetype.lib;glew.lib;jpeg.lib;sfml-graphics-s-d.lib;sfml-audio-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(SolutionDir)Resources" "$(TargetDir)Resources" /s /i /y
-XCOPY "$(SolutionDir)DLLs" "$(TargetDir)" /s /i /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
