@@ -5,6 +5,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include "AnimationSet.h"
 
 typedef std::vector<size_t> FrameVector;
 
@@ -21,21 +22,12 @@ public:
     */
     explicit Spritemap(const sf::Texture& texture);
 
-    //! Create a Spritemap with a given frame width and height.
+    //! Create a Spritemap with a given texture and animation set.
     /*!
       \param texture    The texture to use.
-      \param frameSize  The size of a single frame.
+      \param animSet    The animation set to use.
     */
-    explicit Spritemap(const sf::Texture& texture, const sf::Vector2f & frameSize);
-
-    //! Add an animation type.
-    /*!
-      \param name       The name of the new animation.
-      \param frames     A vector containing the frame indices to display at each animation frame.
-      \param frameTime  The amount of time between frames.
-      \param looping    Whether the animation should loop.
-    */
-    void addAnimation(std::string name, FrameVector& frames, sf::Time frameTime, bool looping = true);
+    explicit Spritemap(const sf::Texture& texture, const AnimationSet& animSet);
 
     //! Play an animation.
     /*!
@@ -59,11 +51,11 @@ public:
     */
     void setTexture(const sf::Texture& texture);
 
-    //! Set the size of a single frame.
+    //! Set the animation set.
     /*!
-      \param frameSize  The size of a single frame.
+      \param animSet    The new animation set to use.
     */
-    void setFrameSize(const sf::Vector2f& frameSize);
+    void setAnimationSet(const AnimationSet& animSet);
 
     //! Set the current frame index.
     /*!
@@ -83,6 +75,12 @@ public:
       \return A pointer to the texture.
     */
     const sf::Texture* getTexture() const;
+
+    //! Get a pointer to the animation set.
+    /*!
+    \return A pointer to the animation set.
+    */
+    const AnimationSet* getAnimationSet() const;
 
     //! Get the color of the sprite.
     /*!
@@ -122,25 +120,18 @@ private:
     */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    // Data
 
-    //! Used to store animation data
-    struct Animation
-    {
-        FrameVector frames;
-        sf::Time frameTime;
-        bool looping;
-    };
+    // Data
 
     sf::Vertex          m_vertices[4];  //!< Vertices defining the sprite's geometry
     const sf::Texture*  m_texture;      //!< Texture of the sprite
-    const Animation*    m_currentAnim;  //!< A pointer to the current animation
+    const AnimationSet* m_animSet;      //!< AnimationSet used by the sprite
+    const Animation*    m_currentAnim;  //!< Current animation
     sf::Time            m_currentTime;  //!< The current animation time
-    sf::Vector2f        m_frameSize;    //!< The size of a frame
+    sf::Vector2f        m_frameSize;    //!< The size of a single frame
     sf::Vector2u        m_frameGrid;    //!< The number of rows and columns
     bool                m_playing;      //!< Whether the animation is currently playing
     size_t              m_currentIndex; //!< The current frame index
     size_t              m_currentFrame; //!< The current frame of animation
-    std::map<std::string, Animation> m_anims; //!< Map from names to animations
 };
 

@@ -65,6 +65,9 @@
     <ClCompile Include="Logging.cpp">
       <Filter>Source Files\Logging</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationSet.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
@@ -105,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="easylogging++.h">
       <Filter>Source Files\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSet.h">
+      <Filter>Source Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

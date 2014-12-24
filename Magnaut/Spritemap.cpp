@@ -1,7 +1,9 @@
 #include "Spritemap.h"
+#include "Common.h"
 
 Spritemap::Spritemap()
-    : m_texture(nullptr), callback(nullptr), m_currentFrame(0), m_currentTime(sf::Time::Zero)
+    : m_texture(nullptr), m_currentAnim(nullptr), m_animSet(nullptr), callback(nullptr),
+    m_currentFrame(0), m_currentTime(sf::Time::Zero)
 {
 
 }
@@ -12,24 +14,21 @@ Spritemap::Spritemap(const sf::Texture& texture)
     setTexture(texture);
 }
 
-Spritemap::Spritemap(const sf::Texture& texture, const sf::Vector2f& frameSize)
+Spritemap::Spritemap(const sf::Texture& texture, const AnimationSet& animSet)
     : Spritemap(texture)
 {
-    setFrameSize(frameSize);
+    setAnimationSet(animSet);
     setIndex(0);
-}
-
-void Spritemap::addAnimation(std::string name, FrameVector& frames, sf::Time frameTime, bool looping)
-{
-    Animation& anim = m_anims[name];
-    anim.frames = frames;
-    anim.frameTime = frameTime;
-    anim.looping = looping;
 }
 
 void Spritemap::playAnimation(std::string name, bool reset)
 {
-    Animation &newAnim = m_anims[name];
+    if (!m_animSet)
+    {
+        LOG(WARNING) << "Tried to play animation \"" + name + "\" on a Spritemap with no animations!";
+    }
+
+    const Animation &newAnim = m_animSet->getAnimation(name);
 
     // Already playing
     if (&newAnim == m_currentAnim && reset)
@@ -94,9 +93,11 @@ void Spritemap::setTexture(const sf::Texture& texture)
     updateGrid();
 }
 
-void Spritemap::setFrameSize(const sf::Vector2f& frameSize)
+void Spritemap::setAnimationSet(const AnimationSet& animSet)
 {
-    m_frameSize = frameSize;
+    m_animSet = &animSet;
+    m_frameSize = sf::Vector2f(static_cast<float>(animSet.frameSize.x),
+                               static_cast<float>(animSet.frameSize.y));
 
     updateGrid();
 }
@@ -135,6 +136,11 @@ void Spritemap::setColor(const sf::Color& color)
 const sf::Texture* Spritemap::getTexture() const
 {
     return m_texture;
+}
+
+const AnimationSet* Spritemap::getAnimationSet() const
+{
+    return m_animSet;
 }
 
 const sf::Color& Spritemap::getColor() const
