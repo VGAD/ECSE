@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magnaut", "Magnaut\Magnaut.vcxproj", "{76BA75D1-5CDE-4662-AF99-EE1F39A09B8A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Documentation", "Documentation\Documentation.vcxproj", "{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{76BA75D1-5CDE-4662-AF99-EE1F39A09B8A}.Debug|Win32.Build.0 = Debug|Win32
 		{76BA75D1-5CDE-4662-AF99-EE1F39A09B8A}.Release|Win32.ActiveCfg = Release|Win32
 		{76BA75D1-5CDE-4662-AF99-EE1F39A09B8A}.Release|Win32.Build.0 = Release|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Debug|Win32.ActiveCfg = Doxygen|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Debug|Win32.Build.0 = Doxygen|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Release|Win32.ActiveCfg = Doxygen|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Release|Win32.Build.0 = Doxygen|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
