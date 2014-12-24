@@ -28,6 +28,8 @@ public:
 
     //! Get a pointer to an Entity by its ID.
     /*!
+      Note that Entity::invalidID (0) is never a valid ID.
+
       \param id The ID of the entity to be removed.
       \return The Entity with this ID. If it's not in the EntityManager, nullptr is returned.
     */
@@ -43,7 +45,7 @@ public:
 
 private:
     //! The next entity ID to use.
-    Entity::ID nextID;
+    Entity::ID nextID = Entity::invalidID + 1;
     
     //! Map from Entity ID to a pointer to the actual Entity.
     std::unordered_map<Entity::ID, Entity*> idMap;

@@ -37,6 +37,12 @@ public:
     */
     const std::map<size_t, Component*>& getComponents() const;
 
+
+    // Data
+
+    //! The invalid ID.
+    const static ID invalidID = 0;
+
 private:
     //! Attach a component.
     /*!

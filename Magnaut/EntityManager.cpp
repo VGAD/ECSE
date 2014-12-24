@@ -1,6 +1,6 @@
 #include "EntityManager.h"
 
-EntityManager::EntityManager() : nextID(0)
+EntityManager::EntityManager()
 {
 }
 
@@ -17,7 +17,7 @@ Entity::ID EntityManager::createEntity()
         bool found = false;
 
         // This ID is taken; try to find a new one
-        for (Entity::ID i = 0; i < std::numeric_limits<Entity::ID>::max(); ++i)
+        for (Entity::ID i = Entity::invalidID + 1; i < std::numeric_limits<Entity::ID>::max(); ++i)
         {
             if (!idMap[i])
             {
@@ -47,7 +47,7 @@ Entity* EntityManager::getEntity(Entity::ID id)
 
 void EntityManager::destroyEntity(Entity::ID id)
 {
-    Entity* e = idMap[id];
+    Entity* e = getEntity(id);
 
     if (!e)
     {
