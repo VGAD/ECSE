@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "Engine.h"
 #include "Common.h"
+#include "AnimationSet.h"
 
 #include <cstdio>
 
@@ -31,14 +32,14 @@ int main(int argv, char* argc[])
         // Run the game, then clean up
         Engine engine;
         engine.run();
-        Magnaut::cleanup();
     }
     catch (const std::runtime_error& e)
     {
         LOG(FATAL) << e.what();
         errorMessage(e.what());
-        return 1;
     }
+
+    Magnaut::cleanup();
 
     LOG(INFO) << "Exiting Magnaut";
 
