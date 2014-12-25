@@ -1,0 +1,62 @@
+#include "System.h"
+#include <cassert>
+
+void System::advance()
+{
+    for (const auto& e : toAdd)
+    {
+        // If we've reached this point, we should be able to assume that the Entity isn't
+        // in the System since we made a check in markToAdd
+        assert(!hasEntity(*e));
+        internalAddEntity(*e);
+    }
+
+    for (const auto& e : toRemove)
+    {
+        // Similar to comment above about adding
+        assert(hasEntity(*e));
+        internalRemoveEntity(*e);
+    }
+}
+
+void System::inspectEntity(Entity& e)
+{
+    if (checkRequirements(e))
+    {
+        markToAdd(e);
+    }
+}
+
+void System::markToRemove(Entity& e)
+{
+    if (!hasEntity(e))
+    {
+        LOG(WARNING) << "Tried to remove an Entity from a System which doesn't contain it.";
+        return;
+    }
+
+    if (toRemove.find(&e) != toRemove.end())
+    {
+        LOG(WARNING) << "Marked the same Entity for removal more than once.";
+        return;
+    }
+
+    toRemove.insert(&e);
+}
+
+void System::markToAdd(Entity& e)
+{
+    if (hasEntity(e))
+    {
+        LOG(WARNING) << "Tried to add an Entity to a System which already contains it.";
+        return;
+    }
+
+    if (toAdd.find(&e) != toAdd.end())
+    {
+        LOG(WARNING) << "Marked the same Entity for adding more than once.";
+        return;
+    }
+
+    toAdd.insert(&e);
+}

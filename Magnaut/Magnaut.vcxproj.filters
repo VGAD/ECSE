@@ -30,6 +30,9 @@
     <Filter Include="Source Files\Logging">
       <UniqueIdentifier>{77f1e9fc-6ab3-4aa0-8444-006c12418fc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\System">
+      <UniqueIdentifier>{6652997e-a3a9-42a7-8e56-0e9d4ca77c9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="AnimationSet.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleSystem.cpp">
+      <Filter>Source Files\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +120,12 @@
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Source Files\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleSystem.h">
+      <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
