@@ -71,10 +71,10 @@
     <ClCompile Include="AnimationSet.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleSystem.cpp">
+    <ClCompile Include="System.cpp">
       <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
+    <ClCompile Include="SetSystem.cpp">
       <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -124,7 +124,7 @@
     <ClInclude Include="System.h">
       <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleSystem.h">
+    <ClInclude Include="SetSystem.h">
       <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
   </ItemGroup>
