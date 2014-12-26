@@ -15,7 +15,7 @@ public:
     //! Return whether an Entity is already in the System.
     /*!
     * \param e The Entity to check.
-    * \return Whether the Entity is already in the System's internal systems.
+    * \return Whether the Entity is already in the System's internal structure.
     */
     virtual bool hasEntity(const Entity& e) const = 0;
 
@@ -70,17 +70,17 @@ protected:
     */
     virtual void internalAddEntity(Entity& e) = 0;
 
-    //! Remove an Entity to the internal list.
+    //! Remove an Entity from the internal System structure.
     /*!
     * This is where subclasses should handle actually removing the Entity.
     * 
-    * \param e The entity to remove.
+    * \param e The Entity to remove.
     */
     virtual void internalRemoveEntity(Entity& e) = 0;
 
     //! Check whether an Entity meets the requirements to be added to this System.
     /*!
-    * \param e The entity to check.
+    * \param e The Entity to check.
     * \return Whether the Entity matches this System's requirements.
     */
     virtual bool checkRequirements(const Entity& e) const = 0;
