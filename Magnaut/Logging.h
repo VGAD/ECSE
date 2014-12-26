@@ -5,6 +5,6 @@
 
 //! Initialize everything required for logging.
 /*!
-  Sets up easylogging++ and redirects stdout to a separate log file.
+* Sets up easylogging++ and redirects stdout to a separate log file.
 */
 extern void init_logging(int argv, char* argc[]);

@@ -11,8 +11,8 @@
 
 //! Handles allocation and deallocation for all component types.
 /*!
-  This class allows Components of the same type to remain more or less tightly-packed. Ownership of
-  the allocated Components will always remain within the ComponentManager.
+* This class allows Components of the same type to remain more or less tightly-packed. Ownership of
+* the allocated Components will always remain within the ComponentManager.
 */
 class ComponentManager
 {
@@ -25,14 +25,14 @@ public:
 
     //! Create a new Component.
     /*!
-      \return A pointer to the new Component.
+    * \return A pointer to the new Component.
     */
     template <typename ComponentType>
     ComponentType* createComponent();
 
     //! Destroy a Component.
     /*!
-      \param component A pointer to the Component to be destroyed (must be from this manager's pool).
+    * \param component A pointer to the Component to be destroyed (must be from this manager's pool).
     */
     template <typename ComponentType>
     void destroyComponent(ComponentType* component);
@@ -40,7 +40,7 @@ public:
 private:
     //! Get the collection of Components of a given type.
     /*!
-      \return A reference to the Component pool.
+    * \return A reference to the Component pool.
     */
     template <typename ComponentType>
     boost::object_pool<ComponentType>& getPool();

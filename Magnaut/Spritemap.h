@@ -18,21 +18,21 @@ public:
 
     //! Create a Spritemap with a given texture.
     /*!
-      \param texture The texture to use.
+    * \param texture The texture to use.
     */
     explicit Spritemap(const sf::Texture& texture);
 
     //! Create a Spritemap with a given texture and animation set.
     /*!
-      \param texture    The texture to use.
-      \param animSet    The animation set to use.
+    * \param texture    The texture to use.
+    * \param animSet    The animation set to use.
     */
     explicit Spritemap(const sf::Texture& texture, const AnimationSet& animSet);
 
     //! Play an animation.
     /*!
-      \param name   The name of the animation to play.
-      \param reset  Whether the animation should restart if it's already playing.
+    * \param name   The name of the animation to play.
+    * \param reset  Whether the animation should restart if it's already playing.
     */
     void playAnimation(std::string name, bool reset = false);
 
@@ -41,62 +41,62 @@ public:
 
     //! Update the animation frame.
     /*!
-      \param deltaTime  The amount of time to animate.
+    * \param deltaTime  The amount of time to animate.
     */
     void update(sf::Time deltaTime);
 
     //! Set the texture from which frames are taken.
     /*!
-      \param texture    The new texture to use.
+    * \param texture    The new texture to use.
     */
     void setTexture(const sf::Texture& texture);
 
     //! Set the animation set.
     /*!
-      \param animSet    The new animation set to use.
+    * \param animSet    The new animation set to use.
     */
     void setAnimationSet(const AnimationSet& animSet);
 
     //! Set the current frame index.
     /*!
-      \param newFrame   The new frame.
-      \param stop       Whether the animation should stop at this frame.
+    * \param newFrame   The new frame.
+    * \param stop       Whether the animation should stop at this frame.
     */
     void setIndex(size_t newFrame, bool stop = false);
 
     //! Set the color of the sprite.
     /*!
-      \param color  The new color to use.
+    * \param color  The new color to use.
     */
     void setColor(const sf::Color& color);
 
     //! Get a pointer to the texture.
     /*!
-      \return A pointer to the texture.
+    * \return A pointer to the texture.
     */
     const sf::Texture* getTexture() const;
 
     //! Get a pointer to the animation set.
     /*!
-    \return A pointer to the animation set.
+    * \return A pointer to the animation set.
     */
     const AnimationSet* getAnimationSet() const;
 
     //! Get the color of the sprite.
     /*!
-      \return The color of the sprite.
+    * \return The color of the sprite.
     */
     const sf::Color& getColor() const;
 
     //! Get the local bounds of the current frame.
     /*!
-      \return The local bounds of the sprite frame.
+    * \return The local bounds of the sprite frame.
     */
     sf::FloatRect getLocalBounds() const;
 
     //! Get the global bounds of the current frame.
     /*!
-      \return The global bounds of the sprite frame.
+    * \return The global bounds of the sprite frame.
     */
     sf::FloatRect getGlobalBounds() const;
 
@@ -115,8 +115,8 @@ private:
 
     //! Draw the sprite to a render target.
     /*!
-      \param target Render target to draw to
-      \param states Current render states
+    * \param target Render target to draw to
+    * \param states Current render states
     */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

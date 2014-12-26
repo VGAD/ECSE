@@ -19,8 +19,8 @@ public:
     
     //! Returns a reference to the data with the given filename.
     /*!
-      If the file has not yet been loaded, it will be loaded into memory.
-      \param filename The name of the file to load.
+    * If the file has not yet been loaded, it will be loaded into memory.
+    * \param filename The name of the file to load.
     */
     const T& get(const std::string filename);
 

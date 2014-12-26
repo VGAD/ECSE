@@ -12,6 +12,6 @@ typedef sf::Vector2<double> Vector2d;
 
 //! Pops up an OS-specific error message.
 /*!
-  \param message The error message.
+* \param message The error message.
 */
 extern void errorMessage(std::string message);

@@ -6,9 +6,9 @@
 
 //! A container for Components.
 /*!
-  Components should only be attached when the Entity is first created, and before it is passed
-  off to a World's Systems to be inspected. This is why there is no detach function -- it is
-  assumed that the map of Components will not change until the Entity is destroyed.
+* Components should only be attached when the Entity is first created, and before it is passed
+* off to a World's Systems to be inspected. This is why there is no detach function -- it is
+* assumed that the map of Components will not change until the Entity is destroyed.
 */
 class Entity
 {
@@ -26,14 +26,14 @@ public:
 
     //! Get a pointer to the Component of a certain type.
     /*!
-      \return A pointer to the component of that type.
+    * \return A pointer to the component of that type.
     */
     template <typename ComponentType>
     ComponentType* getComponent() const;
 
     //! Get the Entity's Components.
     /*!
-      \return A reference to the Entity's components, mapped by type hash code.
+    * \return A reference to the Entity's components, mapped by type hash code.
     */
     const std::map<size_t, Component*>& getComponents() const;
 
@@ -46,7 +46,7 @@ public:
 private:
     //! Attach a component.
     /*!
-      \param component A pointer to the Component to attach.
+    * \param component A pointer to the Component to attach.
     */
     template <typename ComponentType>
     void attachComponent(ComponentType* component);

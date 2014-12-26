@@ -21,13 +21,13 @@ class AnimationSet
 public:
     //! Load the animation data from a JSON file.
     /*!
-      \param filename The name of the file from which to load the animation.
+    * \param filename The name of the file from which to load the animation.
     */
     bool loadFromFile(const std::string& filename);
 
     //! Get an animation from this set.
     /*!
-      \param name The name of the animation to get.
+    * \param name The name of the animation to get.
     */
     const Animation& getAnimation(const std::string& name) const;
 
