@@ -76,7 +76,7 @@ ComponentType* Entity::getComponent() const
         throw std::runtime_error(ss.str());
     }
 
-    return static_cast<ComponentType*>(*it);
+    return static_cast<ComponentType*>(it->second);
 }
 
 template <typename ComponentType>
