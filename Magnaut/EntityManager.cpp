@@ -1,6 +1,6 @@
 #include "EntityManager.h"
 
-Entity::ID EntityManager::createEntity()
+Entity* EntityManager::createEntity()
 {
     Entity::ID newID = ++nextID;
 
@@ -29,7 +29,7 @@ Entity::ID EntityManager::createEntity()
     Entity* e = entityPool.construct();
     e->id = newID;
 
-    return newID;
+    return e;
 }
 
 Entity* EntityManager::getEntity(Entity::ID id)
@@ -48,4 +48,9 @@ void EntityManager::destroyEntity(Entity::ID id)
 
     entityPool.destroy(e);
     idMap[id] = nullptr;
+}
+
+void EntityManager::destroyEntity(Entity* entity)
+{
+    destroyEntity(entity->id);
 }

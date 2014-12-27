@@ -19,9 +19,9 @@ public:
 
     //! Create a new Entity.
     /*!
-    * \return The ID of the new Entity.
+    * \return A pointer to the new Entity.
     */
-    virtual Entity::ID createEntity();
+    virtual Entity* createEntity();
 
     //! Get a pointer to an Entity by its ID.
     /*!
@@ -39,6 +39,12 @@ public:
     * \param id The ID of the entity to be removed.
     */
     virtual void destroyEntity(Entity::ID id);
+
+    //! Destroy an Entity, removing it from the simulation.
+    /*!
+    * \param entity A pointer to the Entity to remove.
+    */
+    void destroyEntity(Entity* entity);
 
 private:
     //! The next entity ID to use.
