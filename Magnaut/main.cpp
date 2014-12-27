@@ -1,6 +1,6 @@
-#include "Resources.h"
 #include "Engine.h"
 #include "Common.h"
+#include "Resources.h"
 #include <cstdio>
 
 // Memory leak debug
@@ -14,6 +14,18 @@
         #define new DBG_NEW
     #endif
 #endif
+
+class TestState : public State
+{
+    virtual void activate() { LOG(TRACE) << getName() << " active"; }
+    virtual void deactivate() { LOG(TRACE) << getName() << " inactive"; }
+
+    void update(sf::Time deltaTime) {}
+    void advance() {}
+    void render(double alpha) {}
+
+    virtual const std::string getName() { return "TestState"; }
+};
 
 int main(int argv, char* argc[])
 {
@@ -29,6 +41,8 @@ int main(int argv, char* argc[])
     {
         // Run the game
         Engine engine;
+        engine.pushState(std::unique_ptr<TestState>(new TestState));
+
         engine.run();
     }
     catch (const std::runtime_error& e)
