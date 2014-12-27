@@ -1,4 +1,4 @@
-#include "Global.h"
+#include "Resources.h"
 
 namespace Magnaut
 {

@@ -1,4 +1,4 @@
-//! \file Global.h Contains globally-accessible (i.e. static) game data.
+//! \file Resources.h Contains globally-accessible game resource data.
 
 #pragma once
 
