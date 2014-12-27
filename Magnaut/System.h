@@ -44,8 +44,7 @@ public:
     */
     virtual void advance();
 
-    //! Check whether an Entity needs to be tracked by this System,
-    //! and if so, mark it to be added to the internal list.
+    //! Check whether an Entity needs to be tracked by this System, and if so, mark it to be added to the internal list.
     /*!
     * This function should only be called once per Entity.
     * You probably want to override checkRequirements instead of this functions, as it
