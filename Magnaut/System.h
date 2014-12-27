@@ -96,7 +96,7 @@ protected:
 
 
     // Data
-    World* world;   //<! The World that this System belongs to.
+    World* world;   //!< The World to which this System belongs.
 
 private:
     //! Mark an Entity to be added to the internal list on the advance step.
