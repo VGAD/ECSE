@@ -1,6 +1,16 @@
 #include "System.h"
 #include <cassert>
 
+System::System(World* world) : world(world)
+{
+
+}
+
+System::~System()
+{
+
+}
+
 void System::advance()
 {
     for (const auto& e : toAdd)
@@ -59,4 +69,9 @@ void System::markToAdd(Entity& e)
     }
 
     toAdd.insert(&e);
+}
+
+World* System::getWorld()
+{
+    return world;
 }

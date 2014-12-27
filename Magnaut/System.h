@@ -5,12 +5,16 @@
 #include "Entity.h"
 #include "Common.h"
 
+class World;
+
 //! An interface which maintains a list of Entities and performs operations on their Components.
 class System
 {
 public:
+    System(World* world);
+
     //! Destroy the System.
-    virtual ~System() {};
+    virtual ~System();
 
     //! Return whether an Entity is already in the System.
     /*!
@@ -60,6 +64,9 @@ public:
     */
     void markToRemove(Entity& e);
 
+    //! Returns the System's world.
+    World* getWorld();
+
 protected:
     //! Add an Entity to the internal System structure.
     /*!
@@ -83,6 +90,10 @@ protected:
     * \return Whether the Entity matches this System's requirements.
     */
     virtual bool checkRequirements(const Entity& e) const = 0;
+
+
+    // Data
+    World* world;   //<! The World that this System belongs to.
 
 private:
     //! Mark an Entity to be added to the internal list on the advance step.

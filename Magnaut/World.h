@@ -69,7 +69,7 @@ void World::addSystem()
     }
 
     size_t hashCode = typeid(SystemType).hash_code();
-    systems[hashCode] = std::unique_ptr<System>(new SystemType);
+    systems[hashCode] = std::unique_ptr<System>(new SystemType(this));
 }
 
 template <typename SystemType>

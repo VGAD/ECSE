@@ -8,6 +8,9 @@ class SetSystem :
     public System
 {
 public:
+    //! Construct the SetSystem.
+    SetSystem(World* world) : System(world) {}
+
     //! Destroy the SetSystem.
     virtual ~SetSystem();
 
