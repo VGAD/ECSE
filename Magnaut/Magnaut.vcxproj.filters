@@ -33,6 +33,12 @@
     <Filter Include="Source Files\Engine\System">
       <UniqueIdentifier>{6652997e-a3a9-42a7-8e56-0e9d4ca77c9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Resources">
+      <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Util">
+      <UniqueIdentifier>{d9b1a7dc-bb1d-411c-a871-9d874205bc50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,9 +49,6 @@
     </ClCompile>
     <ClCompile Include="Spritemap.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Common.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\Engine\World</Filter>
@@ -69,7 +72,10 @@
       <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,9 +85,6 @@
     <ClInclude Include="World.h">
       <Filter>Source Files\Engine\World</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Source Files\Engine\Component</Filter>
     </ClInclude>
@@ -89,12 +92,6 @@
       <Filter>Source Files\Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Pool.h">
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
@@ -119,7 +116,16 @@
       <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Source Files\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Source Files\Engine\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
