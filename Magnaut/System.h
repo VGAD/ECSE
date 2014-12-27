@@ -11,6 +11,10 @@ class World;
 class System
 {
 public:
+    //! Construct the System.
+    /*!
+    * \param world The World this System will belong to.
+    */
     System(World* world);
 
     //! Destroy the System.
