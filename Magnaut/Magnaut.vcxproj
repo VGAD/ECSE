@@ -113,6 +113,7 @@
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Logging.h" />
     <ClInclude Include="Pool.h" />

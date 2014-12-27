@@ -39,6 +39,9 @@
     <Filter Include="Source Files\Engine\Util">
       <UniqueIdentifier>{d9b1a7dc-bb1d-411c-a871-9d874205bc50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\State">
+      <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,6 +129,9 @@
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Source Files\Engine\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
