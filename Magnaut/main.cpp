@@ -27,7 +27,7 @@ int main(int argv, char* argc[])
 
     try
     {
-        // Run the game, then clean up
+        // Run the game
         Engine engine;
         engine.run();
     }
@@ -37,6 +37,7 @@ int main(int argv, char* argc[])
         errorMessage(e.what());
     }
 
+    // Clean up global resources
     Magnaut::cleanup();
 
     LOG(INFO) << "Exiting Magnaut";
