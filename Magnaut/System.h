@@ -65,7 +65,10 @@ public:
     void markToRemove(Entity& e);
 
     //! Returns the System's world.
-    World* getWorld();
+    /*!
+    * \return A pointer to the System's world.
+    */
+    World* getWorld() const;
 
 protected:
     //! Add an Entity to the internal System structure.

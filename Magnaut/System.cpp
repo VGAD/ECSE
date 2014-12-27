@@ -71,7 +71,7 @@ void System::markToAdd(Entity& e)
     toAdd.insert(&e);
 }
 
-World* System::getWorld()
+World* System::getWorld() const
 {
     return world;
 }
