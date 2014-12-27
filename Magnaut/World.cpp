@@ -8,9 +8,28 @@ World::~World()
 {
 }
 
-void World::update(double deltaTime)
+void World::update(sf::Time deltaTime)
 {
+    for (auto& pair : systems)
+    {
+        pair.second->update(deltaTime);
+    }
+}
 
+void World::advance()
+{
+    for (auto& pair : systems)
+    {
+        pair.second->advance();
+    }
+}
+
+void World::render(double alpha)
+{
+    for (auto& pair : systems)
+    {
+        pair.second->render(alpha);
+    }
 }
 
 void World::destroyEntity(Entity::ID id)
