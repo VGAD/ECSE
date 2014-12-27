@@ -1,8 +1,6 @@
 #include "Global.h"
 #include "Engine.h"
 #include "Common.h"
-#include "AnimationSet.h"
-
 #include <cstdio>
 
 // Memory leak debug
