@@ -95,7 +95,6 @@
     <ClCompile Include="AnimationSet.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />

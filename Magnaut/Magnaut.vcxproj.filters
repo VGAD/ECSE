@@ -53,9 +53,6 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\Engine\World</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>Source Files\Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Source Files\Engine\Component</Filter>
     </ClCompile>

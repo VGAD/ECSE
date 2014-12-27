@@ -17,11 +17,8 @@
 class ComponentManager
 {
 public:
-    //! Construct the ComponentManager.
-    ComponentManager();
-
     //! Destroy the ComponentManager.
-    ~ComponentManager();
+    ~ComponentManager() {};
 
     //! Create a new Component.
     /*!
