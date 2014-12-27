@@ -14,17 +14,14 @@
 class EntityManager
 {
 public:
-    //! Construct the EntityManager.
-    EntityManager();
-
     //! Destroy the EntityManager.
-    ~EntityManager();
+    virtual ~EntityManager() {}
 
     //! Create a new Entity.
     /*!
     * \return The ID of the new Entity.
     */
-    Entity::ID createEntity();
+    virtual Entity::ID createEntity();
 
     //! Get a pointer to an Entity by its ID.
     /*!
@@ -33,7 +30,7 @@ public:
     * \param id The ID of the entity to be removed.
     * \return The Entity with this ID. If it's not in the EntityManager, nullptr is returned.
     */
-    Entity* getEntity(Entity::ID id);
+    virtual Entity* getEntity(Entity::ID id);
 
     //! Destroy an Entity, removing it from the simulation.
     /*!
@@ -41,7 +38,7 @@ public:
     * 
     * \param id The ID of the entity to be removed.
     */
-    void destroyEntity(Entity::ID id);
+    virtual void destroyEntity(Entity::ID id);
 
 private:
     //! The next entity ID to use.

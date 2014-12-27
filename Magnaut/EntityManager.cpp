@@ -1,13 +1,5 @@
 #include "EntityManager.h"
 
-EntityManager::EntityManager()
-{
-}
-
-EntityManager::~EntityManager()
-{
-}
-
 Entity::ID EntityManager::createEntity()
 {
     Entity::ID newID = ++nextID;
