@@ -7,7 +7,7 @@ SetSystem::~SetSystem()
 
 bool SetSystem::hasEntity(const Entity& e) const
 {
-    return entities.find(&e) != entities.end();
+    return entities.find(const_cast<Entity*>(&e)) != entities.end();
 }
 
 void SetSystem::internalAddEntity(Entity& e)
@@ -15,7 +15,7 @@ void SetSystem::internalAddEntity(Entity& e)
     entities.insert(&e);
 }
 
-void SetSystem::internalAddEntity(Entity& e)
+void SetSystem::internalRemoveEntity(Entity& e)
 {
     entities.erase(&e);
 }

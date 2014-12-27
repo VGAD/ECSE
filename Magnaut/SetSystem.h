@@ -32,5 +32,5 @@ protected:
     virtual void internalRemoveEntity(Entity& e);
 
 private:
-    std::set<const Entity*> entities;   //!< The set of Entities operated on by this SetSystem.
+    std::set<Entity*> entities;   //!< The set of Entities operated on by this SetSystem.
 };
