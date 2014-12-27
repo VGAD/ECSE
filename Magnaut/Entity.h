@@ -37,6 +37,13 @@ public:
     */
     const std::map<size_t, Component*>& getComponents() const;
 
+    //! Attach a component.
+    /*!
+    * \param component A pointer to the Component to attach.
+    */
+    template <typename ComponentType>
+    void attachComponent(ComponentType* component);
+
 
     // Data
 
@@ -44,12 +51,6 @@ public:
     const static ID invalidID = 0;
 
 private:
-    //! Attach a component.
-    /*!
-    * \param component A pointer to the Component to attach.
-    */
-    template <typename ComponentType>
-    void attachComponent(ComponentType* component);
 
     ID id;                                      //!< Unique identifier for this Entity.
     std::map<size_t, Component*> components;    //!< Map from type hash code to a pointer to the Component.
@@ -64,8 +65,18 @@ ComponentType* Entity::getComponent() const
     static_assert(std::is_base_of<Component, ComponentType>::value,
                   "ComponentType must be a descendant of Component!");
 
-    Component* component = components[typeid(ComponentType)];
-    return static_cast<ComponentType*>(component);
+    size_t hashCode = typeid(ComponentType).hash_code();
+    auto it = components.find(hashCode);
+
+    if (it == components.end())
+    {
+        std::stringstream ss;
+        ss << "No Component of type \"" << typeid(ComponentType).name() << "\" is attached to this Entity!";
+
+        throw std::runtime_error(ss.str());
+    }
+
+    return static_cast<ComponentType*>(*it);
 }
 
 template <typename ComponentType>
@@ -74,5 +85,16 @@ void Entity::attachComponent(ComponentType* component)
     static_assert(std::is_base_of<Component, ComponentType>::value,
                   "ComponentType must be a descendant of Component!");
 
-    components[typeid(ComponentType)] = static_cast<ComponentType*>(component);
+    size_t hashCode = typeid(ComponentType).hash_code();
+    auto it = components.find(hashCode);
+
+    if (it != components.end())
+    {
+        std::stringstream ss;
+        ss << "A Component of type \"" << typeid(ComponentType).name() << "\" is already attached to this Entity!";
+
+        throw std::runtime_error(ss.str());
+    }
+
+    components[hashCode] = static_cast<ComponentType*>(component);
 }
