@@ -33,9 +33,6 @@
     <Filter Include="Source Files\Engine\System">
       <UniqueIdentifier>{6652997e-a3a9-42a7-8e56-0e9d4ca77c9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Resources">
-      <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Util">
       <UniqueIdentifier>{d9b1a7dc-bb1d-411c-a871-9d874205bc50}</UniqueIdentifier>
     </Filter>
@@ -44,6 +41,9 @@
     </Filter>
     <Filter Include="Source Files\Magnaut">
       <UniqueIdentifier>{1515cb1b-20b9-4746-9e68-894071b70aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Resource">
+      <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +75,7 @@
       <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
-      <Filter>Source Files\Engine\Resources</Filter>
+      <Filter>Source Files\Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>Source Files\Engine\Util</Filter>
@@ -122,10 +122,10 @@
       <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
-      <Filter>Source Files\Engine\Resources</Filter>
+      <Filter>Source Files\Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Source Files\Engine\Resources</Filter>
+      <Filter>Source Files\Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Pool.h">
       <Filter>Source Files\Engine\Util</Filter>
