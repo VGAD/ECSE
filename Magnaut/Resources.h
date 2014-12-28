@@ -9,7 +9,7 @@
 #include <SFML/Audio.hpp>
 
 //! Contains global game-specific information.
-namespace Magnaut
+namespace Resources
 {
     // Data
     extern ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.

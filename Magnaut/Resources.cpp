@@ -1,6 +1,6 @@
 #include "Resources.h"
 
-namespace Magnaut
+namespace Resources
 {
     ResourceManager<sf::Texture> textureManager;
     ResourceManager<sf::SoundBuffer> soundManager;

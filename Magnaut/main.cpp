@@ -52,7 +52,7 @@ int main(int argv, char* argc[])
     }
 
     // Clean up global resources
-    Magnaut::cleanup();
+    Resources::cleanup();
 
     LOG(INFO) << "Exiting Magnaut";
 
