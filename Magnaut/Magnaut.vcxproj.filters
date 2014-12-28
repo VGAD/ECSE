@@ -136,5 +136,8 @@
     <ClInclude Include="State.h">
       <Filter>Source Files\Engine\State</Filter>
     </ClInclude>
+    <ClInclude Include="VectorMath.h">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
