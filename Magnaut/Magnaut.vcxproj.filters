@@ -42,11 +42,11 @@
     <Filter Include="Source Files\Engine\State">
       <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Magnaut">
+      <UniqueIdentifier>{1515cb1b-20b9-4746-9e68-894071b70aeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
@@ -79,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Magnaut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
