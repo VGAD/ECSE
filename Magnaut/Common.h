@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <SFML/System/Vector2.hpp>
 #include <boost/log/trivial.hpp>
 #include <string>
 #include <cstdlib>
