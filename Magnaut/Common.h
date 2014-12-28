@@ -46,7 +46,7 @@ inline float degToRad(float angle)
 * \return The interpolated value.
 */
 template <typename T>
-inline T lerp(T value1, T value2, T amount)
+inline T lerp(T value1, T value2, float amount)
 {
     return value1 + (value2 - value1) * amount;
 }
