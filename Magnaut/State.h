@@ -38,6 +38,15 @@ public:
     */  
     virtual const std::string getName() = 0;
 
+    //! Get the Engine to which this belongs.
+    /*!
+    * \param A pointer to the Engine to which this belongs.
+    */
+    inline Engine* getEngine() const
+    {
+        return engine;
+    }
+
 protected:
     //! The Engine to which this belongs.
     Engine* engine = nullptr;
