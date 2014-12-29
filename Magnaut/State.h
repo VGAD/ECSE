@@ -12,10 +12,10 @@ public:
     virtual ~State() {};
 
     //! Called when this becomes active.
-    virtual void activate() = 0;
+    virtual void activate() {};
 
     //! Called when this becomes inactive (not popped, but not being updated).
-    virtual void deactivate() = 0;
+    virtual void deactivate() {};
 
     //! Perform the update step.
     /*!
