@@ -122,6 +122,7 @@
     <ClInclude Include="SetSystem.h" />
     <ClInclude Include="Spritemap.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="VectorMath.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

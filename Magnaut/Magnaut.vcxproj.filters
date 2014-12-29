@@ -45,6 +45,12 @@
     <Filter Include="Source Files\Engine\Resource">
       <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Component\Base">
+      <UniqueIdentifier>{2445c8c7-4abb-496f-8b8f-ceacc0165c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Component\Implementation">
+      <UniqueIdentifier>{d17a30bc-3ec6-438e-946e-122c8b5c79b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -91,12 +97,6 @@
     <ClInclude Include="World.h">
       <Filter>Source Files\Engine\World</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Source Files\Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>Source Files\Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
@@ -138,6 +138,15 @@
     </ClInclude>
     <ClInclude Include="VectorMath.h">
       <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>Source Files\Engine\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Engine\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
