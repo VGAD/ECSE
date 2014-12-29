@@ -34,6 +34,15 @@ public:
     */
     void pushState(std::unique_ptr<State> state);
 
+    //! Get the window's RenderTarget.
+    /*!
+    * \return The RenderTarget.
+    */
+    inline sf::RenderTarget* getRenderTarget() const
+    {
+        return static_cast<sf::RenderTarget*>(window.get());
+    }
+
 private:
     ////////////
     // Functions
@@ -43,6 +52,7 @@ private:
 
     //! Update the state stack.
     void updateStateStack();
+
 
     ///////
     // Data
