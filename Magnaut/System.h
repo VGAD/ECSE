@@ -33,7 +33,7 @@ public:
     * 
     * \param deltaTime The amount of elapsed time to simulate.
     */
-    virtual void update(sf::Time deltaTime) = 0;
+    virtual void update(sf::Time deltaTime);
 
     //! Called on a render step.
     /*!
@@ -41,7 +41,7 @@ public:
     * 
     * \param alpha The amount of interpolation between the two states.
     */
-    virtual void render(float alpha) = 0;
+    virtual void render(float alpha);
 
     //! Called on an advance step.
     /*!

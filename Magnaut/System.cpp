@@ -11,6 +11,16 @@ System::~System()
 
 }
 
+void System::update(sf::Time deltaTime)
+{
+
+}
+
+void System::render(float alpha)
+{
+
+}
+
 void System::advance()
 {
     for (const auto& e : toAdd)
