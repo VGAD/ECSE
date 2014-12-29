@@ -22,7 +22,7 @@ class TestState : public State
 
     void update(sf::Time deltaTime) {}
     void advance() {}
-    void render(double alpha) {}
+    void render(float alpha) {}
 
     virtual const std::string getName() { return "TestState"; }
 };

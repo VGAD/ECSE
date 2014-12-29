@@ -33,7 +33,7 @@ public:
     /*!
     * \param alpha The amount of interpolation in this render.
     */
-    virtual void render(double alpha);
+    virtual void render(float alpha);
 
     //! Destroy an Entity, removing it from the simulation.
     /*!

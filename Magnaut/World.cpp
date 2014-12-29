@@ -24,7 +24,7 @@ void World::advance()
     }
 }
 
-void World::render(double alpha)
+void World::render(float alpha)
 {
     for (auto& pair : systems)
     {

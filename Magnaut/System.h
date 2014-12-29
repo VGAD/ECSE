@@ -41,7 +41,7 @@ public:
     * 
     * \param alpha The amount of interpolation between the two states.
     */
-    virtual void render(double alpha) = 0;
+    virtual void render(float alpha) = 0;
 
     //! Called on an advance step.
     /*!

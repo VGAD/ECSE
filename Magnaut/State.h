@@ -30,12 +30,12 @@ public:
     /*!
     * \param alpha The amount of interpolation in this render.
     */
-    virtual void render(double alpha) = 0;
+    virtual void render(float alpha) = 0;
 
     //! Get the name of this State class.
     /*!
     * \return The name of the class.
-    */
+    */  
     virtual const std::string getName() = 0;
 
 protected:
