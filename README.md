@@ -33,3 +33,10 @@ mklink libsndfile-1.dll ..\DLLs\libsndfile-1.dll
 mklink openal32.dll ..\DLLs\openal32.dll
 mklink /D resources ..\resources
 ```
+
+Coding Conventions
+==================
+* No "naked news." Any time memory is allocated it should be wrapped in a smart pointer (even if it's just going to be passed to another function).
+* The owner should always maintain a smart pointer. Non-owners should use a regular pointer.
+* References should be used when passing objects that must exists (i.e. in cases where the pointer will never be null).
+* Null pointers should be set to `nullptr`, **not** 0 or `NULL`.
