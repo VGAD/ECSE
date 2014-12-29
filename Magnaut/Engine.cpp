@@ -87,6 +87,12 @@ void Engine::Pop::execute(Engine* engine)
 
     LOG(INFO) << "Popping " << states.top()->getName();
     states.pop();
+
+    if (!states.empty())
+    {
+        LOG(TRACE) << "Activating " << states.top()->getName();
+        states.top()->activate();
+    }
 }
 
 
