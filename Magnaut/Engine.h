@@ -47,8 +47,8 @@ private:
     ////////////
     // Functions
 
-    //! Check whether the window should be closed.
-    bool checkClose() const;
+    //! Poll events and handle them.
+    void pollEvents();
 
     //! Update the state stack.
     void updateStateStack();

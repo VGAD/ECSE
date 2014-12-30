@@ -16,16 +16,13 @@ Engine::~Engine()
 
 void Engine::run()
 {
+
+
     // Run the main loop
     while (window->isOpen())
     {
         updateStateStack();
-
-        if (checkClose())
-        {
-            LOG(TRACE) << "Close event detected";
-            window->close();
-        }
+        pollEvents();
 
         // TODO: implement proper timing code
         /*State* state = states.top().get();
@@ -48,7 +45,7 @@ void Engine::pushState(std::unique_ptr<State> state)
     ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
 }
 
-bool Engine::checkClose() const
+void Engine::pollEvents()
 {
     sf::Event event;
 
@@ -57,11 +54,12 @@ bool Engine::checkClose() const
         if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
         {
-            return true;
+            LOG(TRACE) << "Close event detected";
+            window->close();
+
+            break;
         }
     }
-
-    return false;
 }
 
 void Engine::updateStateStack()
