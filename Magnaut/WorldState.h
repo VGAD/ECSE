@@ -7,6 +7,7 @@
 //! A State which maintains a single World.
 class WorldState : public State
 {
+public:
     //! Construct the WorldState.
     WorldState();
 
