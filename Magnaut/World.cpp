@@ -1,6 +1,8 @@
 #include "World.h"
+#include "WorldState.h"
 
-World::World()
+World::World(WorldState* worldState)
+    : worldState(worldState), engine(worldState->getEngine())
 {
 }
 

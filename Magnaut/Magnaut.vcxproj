@@ -104,6 +104,7 @@
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSet.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="VectorMath.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,9 @@
 #include "EntityManager.h"
 #include "System.h"
 
+class Engine;
+class WorldState;
+
 //! Holds Systems and executes their functions.
 /*!
 * Also responsible for allocating and deallocating both Entities and Components.
@@ -15,7 +18,7 @@ class World : public EntityManager, public ComponentManager
 {
 public:
     //! Create an empty World.
-    World();
+    World(WorldState* worldState);
 
     //! Destroy the World and its contents.
     virtual ~World();
@@ -47,9 +50,25 @@ public:
     template <typename SystemType>
     void addSystem();
 
-    //! Get a pointer to the System of this type type from the World, or nullptr if it doesn't have one.
+    //! Get the System of this type.
+    /*!
+    * \return A pointer to the System of the given type, or nullptr if it doesn't have one.
+    */
     template <typename SystemType>
     SystemType* getSystem();
+
+    //! Get the Engine to which this belongs.
+    /*!
+    * \param A pointer to the Engine to which this belongs.
+    */
+    inline Engine* getEngine() const
+    {
+        return engine;
+    }
+
+protected:
+    Engine* engine = nullptr;           //!< The Engine to which this belongs.
+    WorldState* worldState = nullptr;   //!< The WorldState to which this belongs.
 
 private:
     std::map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.

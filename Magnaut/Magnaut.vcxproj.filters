@@ -89,6 +89,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Magnaut</Filter>
     </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Source Files\Engine\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Source Files\Engine\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
