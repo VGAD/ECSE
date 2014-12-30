@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Common.h"
 #include "Resources.h"
+#include "WorldState.h"
 #include <cstdio>
 
 // Memory leak debug
@@ -15,14 +16,10 @@
     #endif
 #endif
 
-class TestState : public State
+class TestState : public WorldState
 {
     virtual void activate() { LOG(TRACE) << getName() << " active"; }
     virtual void deactivate() { LOG(TRACE) << getName() << " inactive"; }
-
-    void update(sf::Time deltaTime) {}
-    void advance() {}
-    void render(float alpha) {}
 
     virtual const std::string getName() { return "TestState"; }
 };
