@@ -1,12 +1,13 @@
 #include "Engine.h"
 #include <memory>
 
-Engine::Engine()
+Engine::Engine(unsigned int fps)
 {
     sf::Vector2i size(800, 600);
     window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), "Magnaut"));
-    window->setFramerateLimit(60);
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
+
+    deltaTime = sf::seconds(1.f / float(fps));
 }
 
 Engine::~Engine()
@@ -16,21 +17,41 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    sf::Time accumulator = sf::Time::Zero;
+    sf::Clock clock;
 
+    // Do this to make sure we have an initial State which is ready to advance
+    updateStateStack();
+    states.top()->update(deltaTime);
 
     // Run the main loop
     while (window->isOpen())
     {
-        updateStateStack();
-        pollEvents();
+        sf::Time elapsed = clock.restart();
+        accumulator += elapsed;
 
-        // TODO: implement proper timing code
-        /*State* state = states.top().get();
-        state->update(sf::Time::Zero);
-        state->advance();*/
+        State* state = &getActiveState();
 
+        while (accumulator >= deltaTime)
+        {
+            // Advance the state
+            state->advance();
+
+            // We can now safely switch states because the state has advanced
+            state = &updateStateStack();
+
+            // Prepare for the next advance
+            pollEvents();
+            state->update(deltaTime);
+
+            accumulator -= deltaTime;
+        }
+
+        float alpha = accumulator / deltaTime;
+
+        // Draw to screen
         window->clear();
-        //state->render(0.0);
+        state->render(alpha);
         window->display();
     }
 }
@@ -62,7 +83,7 @@ void Engine::pollEvents()
     }
 }
 
-void Engine::updateStateStack()
+State& Engine::updateStateStack()
 {
     while (!ops.empty())
     {
@@ -70,6 +91,18 @@ void Engine::updateStateStack()
         op->execute(this);
         ops.pop();
     }
+
+    return getActiveState();
+}
+
+State& Engine::getActiveState() const
+{
+    if (states.empty())
+    {
+        throw std::runtime_error("No State left in the stack!");
+    }
+
+    return *states.top();
 }
 
 

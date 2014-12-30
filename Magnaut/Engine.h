@@ -12,7 +12,7 @@ class Engine
 {
 public:
     //! Create the game window and initialize the Engine.
-    Engine();
+    Engine(unsigned int fps = 60);
 
     //! Destroy all game objects and stop the game.
     ~Engine();
@@ -50,9 +50,17 @@ private:
     //! Poll events and handle them.
     void pollEvents();
 
-    //! Update the state stack.
-    void updateStateStack();
+    //! Update the State stack.
+    /*!
+    * \return A reference to the State on top of the stack.
+    */
+    State& updateStateStack();
 
+    //! Get the current active State.
+    /*!
+    * \return A reference to the State on top of the stac.
+    */
+    State& getActiveState() const;
 
     ///////
     // Data
@@ -90,4 +98,5 @@ private:
     StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
+    sf::Time deltaTime;                                 //!< The amount of time per sim update.
 };
