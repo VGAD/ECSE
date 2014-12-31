@@ -8,9 +8,6 @@
 class TransformComponent : public Component
 {
 public:
-    sf::Vector2f nextPosition;  //!< Next position in pixels.
-    float nextAngle;            //!< Next angle in radians.
-
     //! Get the position interpolated between its current and next value.
     /*!
     * \param alpha The amount of interpolation (0.0 - 1.0).
@@ -18,7 +15,7 @@ public:
     */
     inline sf::Vector2f interpolatePosition(float alpha) const
     {
-        return lerp(position, nextPosition, alpha);
+        return discretePosition ? nextPosition : lerp(position, nextPosition, alpha);
     }
 
     //! Get the angle interpolate between its current and next value.
@@ -28,14 +25,43 @@ public:
     */
     inline float interpolateAngle(float alpha) const
     {
-        return lerp(angle, nextAngle, alpha);
+        return discreteAngle ? nextAngle : lerp(angle, nextAngle, alpha);
     }
 
-    //! Set the current values to their next values.
+    //! Set the current values to their next values and sets movement back to linear for the new timestep.
     inline void advance()
     {
         position = nextPosition;
         angle = nextAngle;
+
+        discretePosition = false;
+        discreteAngle = false;
+    }
+
+    //! Set the next position.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param newPosition The position to move to.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    inline void setNextPosition(const sf::Vector2f& newPosition, bool discrete = false)
+    {
+        nextPosition = newPosition;
+        discretePosition = discrete;
+    }
+
+    //! Set the next angle.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param newPosition The angle to rotate to.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    inline void setNextAngle(float newAngle, bool discrete = false)
+    {
+        nextAngle = newAngle;
+        discreteAngle = discrete;
     }
 
     //! Get the current position.
@@ -56,8 +82,32 @@ public:
         return angle;
     }
 
+    //! Get the next position.
+    /*!
+    * \return A reference to the next position.
+    */
+    inline const sf::Vector2f& getNextPosition() const
+    {
+        return nextPosition;
+    }
+
+    //! Get the next angle.
+    /*!
+    * \return The next angle.
+    */
+    inline float getNextAngle() const
+    {
+        return nextAngle;
+    }
+
 private:
-    sf::Vector2f position;  //!< Current position in pixels.
-    float angle;            //!< Current angle in radians.
+    sf::Vector2f nextPosition;  //!< Next position in pixels.
+    float nextAngle;            //!< Next angle in radians.
+
+    sf::Vector2f position;      //!< Current position in pixels.
+    float angle;                //!< Current angle in radians.
+
+    bool discretePosition;      //!< Whether the position change in this timestep should be a discrete jump.
+    bool discreteAngle;         //!< Whether the angle change in this timestep should be a discrete jump.
 };
 
