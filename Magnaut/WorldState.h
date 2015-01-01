@@ -36,5 +36,5 @@ public:
     virtual const std::string getName();
 
 protected:
-    World world;    //<! The contained world.
+    World world;    //!< The contained world.
 };

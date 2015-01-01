@@ -40,7 +40,7 @@ public:
 
     //! Get the Engine to which this belongs.
     /*!
-    * \param A pointer to the Engine to which this belongs.
+    * \return A pointer to the Engine to which this belongs.
     */
     inline Engine* getEngine() const
     {

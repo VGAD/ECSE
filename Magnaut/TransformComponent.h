@@ -18,7 +18,7 @@ public:
         return discretePosition ? nextPosition : lerp(position, nextPosition, alpha);
     }
 
-    //! Get the angle interpolate between its current and next value.
+    //! Get the angle interpolated between its current and next value.
     /*!
     * \param alpha The amount of interpolation (0.0 - 1.0).
     * \return The interpolated angle.
@@ -55,7 +55,7 @@ public:
     /*!
     * Only the last call to this function in a given timestep will actually affect the next position.
     *
-    * \param newPosition The angle to rotate to.
+    * \param newAngle The angle to rotate to.
     * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
     */
     inline void setNextAngle(float newAngle, bool discrete = false)
