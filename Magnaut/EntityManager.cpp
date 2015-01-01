@@ -2,7 +2,7 @@
 
 Entity* EntityManager::createEntity()
 {
-    Entity::ID newID = ++nextID;
+    Entity::ID newID = nextID++;
 
     if (idMap[newID])
     {
@@ -28,6 +28,7 @@ Entity* EntityManager::createEntity()
 
     Entity* e = entityPool.construct();
     e->id = newID;
+    idMap[newID] = e;
 
     return e;
 }
