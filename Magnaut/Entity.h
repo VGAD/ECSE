@@ -24,6 +24,12 @@ public:
     //! Destroy the Entity.
     ~Entity();
 
+    //! Get the Entity's ID.
+    inline ID getID() const
+    {
+        return id;
+    }
+
     //! Get a pointer to the Component of a certain type.
     /*!
     * \return A pointer to the component of that type, or nullptr if it doesn't have one.
