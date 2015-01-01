@@ -37,6 +37,8 @@ protected:
     */
     inline void internalAddEntity(Entity& e)
     {
+        LOG(DEBUG) << "Entity #" << e.getID() << " added to SetSystem";
+
         entities.insert(&e);
     }
 
@@ -46,6 +48,8 @@ protected:
     */
     inline void internalRemoveEntity(Entity& e)
     {
+        LOG(DEBUG) << "Entity #" << e.getID() << " removed from SetSystem";
+
         entities.erase(&e);
     }
 
