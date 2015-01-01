@@ -30,6 +30,7 @@ void System::advance()
         assert(!hasEntity(*e));
         internalAddEntity(*e);
     }
+    toAdd.clear();
 
     for (const auto& e : toRemove)
     {
@@ -37,6 +38,7 @@ void System::advance()
         assert(hasEntity(*e));
         internalRemoveEntity(*e);
     }
+    toRemove.clear();
 }
 
 void System::inspectEntity(Entity& e)
