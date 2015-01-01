@@ -47,6 +47,8 @@ void World::registerEntity(Entity::ID id)
     {
         pair.second->inspectEntity(*entity);
     }
+
+    entity->registered = true;
 }
 
 void World::destroyEntity(Entity::ID id)

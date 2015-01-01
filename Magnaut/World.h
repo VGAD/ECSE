@@ -106,6 +106,14 @@ ComponentType* World::attachComponent(Entity::ID id)
         throw std::runtime_error(ss.str());
     }
 
+    if (entity->registered)
+    {
+        std::stringstream ss;
+        ss << "Tried to attach a Component to an Entity which has already been registered (#" << id << ")";
+
+        throw std::runtime_error(ss.str());
+    }
+
     ComponentType* component = createComponent<ComponentType>();
     entity->attachComponent(component);
 

@@ -60,6 +60,7 @@ private:
 
     ID id;                                      //!< Unique identifier for this Entity.
     std::map<size_t, Component*> components;    //!< Map from type hash code to a pointer to the Component.
+    bool registered = false;                    //!< Whether this has been registered in any Systems yet.
 };
 
 /////////////////
