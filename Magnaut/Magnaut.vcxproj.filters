@@ -15,9 +15,6 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{b669a54e-83fd-4317-bc5a-f9814e0b2ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{8a95e4c3-82ab-4e42-bc09-3a94602dfa29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\World">
       <UniqueIdentifier>{cdf1c0ff-6b92-49ec-9787-97b8a77a1d19}</UniqueIdentifier>
     </Filter>
@@ -57,13 +54,16 @@
     <Filter Include="Source Files\Engine\System\Implementation">
       <UniqueIdentifier>{9d8adbcf-9b2f-471c-a340-9f01edf751e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Graphics">
+      <UniqueIdentifier>{8a95e4c3-82ab-4e42-bc09-3a94602dfa29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Spritemap.cpp">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\Engine\World</Filter>
@@ -78,7 +78,7 @@
       <Filter>Source Files\Logging</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSet.cpp">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files\Engine\Resource</Filter>
@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Source Files\Engine\World</Filter>
@@ -122,7 +122,7 @@
       <Filter>Source Files\Logging</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSet.h">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Source Files\Engine\Resource</Filter>
