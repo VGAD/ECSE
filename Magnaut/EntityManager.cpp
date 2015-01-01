@@ -1,6 +1,6 @@
 #include "EntityManager.h"
 
-Entity* EntityManager::createEntity()
+Entity::ID EntityManager::createEntity()
 {
     Entity::ID newID = nextID++;
 
@@ -30,7 +30,7 @@ Entity* EntityManager::createEntity()
     e->id = newID;
     idMap[newID] = e;
 
-    return e;
+    return newID;
 }
 
 Entity* EntityManager::getEntity(Entity::ID id)

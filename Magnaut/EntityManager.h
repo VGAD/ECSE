@@ -19,9 +19,9 @@ public:
 
     //! Create a new Entity.
     /*!
-    * \return A pointer to the new Entity.
+    * \return The ID of the new Entity.
     */
-    virtual Entity* createEntity();
+    virtual Entity::ID createEntity();
 
     //! Get a pointer to an Entity by its ID.
     /*!
