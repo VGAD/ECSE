@@ -6,9 +6,9 @@
 
 //! A container for Components.
 /*!
-* Components should only be attached when the Entity is first created, and before it is passed
-* off to a World's Systems to be inspected. This is why there is no detach function -- it is
-* assumed that the map of Components will not change until the Entity is destroyed.
+* Components can only be attached through the public World function attachComponent. This
+* is because Components should only be attached before the Entity is registered with any
+* systems. This also helps to avoid attaching Components from a different World.
 */
 class Entity
 {
