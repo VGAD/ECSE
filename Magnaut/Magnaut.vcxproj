@@ -97,6 +97,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
@@ -111,9 +112,12 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="DepthComponent.h" />
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Logging.h" />
