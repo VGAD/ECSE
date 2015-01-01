@@ -77,13 +77,9 @@ public:
     /*!
     * \return A pointer to the Engine to which this belongs.
     */
-    inline Engine* getEngine() const
-    {
-        return engine;
-    }
+    Engine* getEngine() const;
 
 protected:
-    Engine* engine = nullptr;           //!< The Engine to which this belongs.
     WorldState* worldState = nullptr;   //!< The WorldState to which this belongs.
 
 private:

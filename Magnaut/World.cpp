@@ -1,8 +1,9 @@
 #include "World.h"
 #include "WorldState.h"
+#include "Engine.h"
 
 World::World(WorldState* worldState)
-    : worldState(worldState), engine(worldState->getEngine())
+    : worldState(worldState)
 {
 }
 
@@ -60,4 +61,9 @@ void World::destroyEntity(Entity::ID id)
     }
 
     EntityManager::destroyEntity(id);
+}
+
+Engine* World::getEngine() const
+{
+    return worldState->getEngine();
 }
