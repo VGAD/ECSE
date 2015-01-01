@@ -95,6 +95,9 @@
     <ClCompile Include="System.cpp">
       <Filter>Source Files\Engine\System\Base</Filter>
     </ClCompile>
+    <ClCompile Include="TransformSystem.cpp">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="System.h">
       <Filter>Source Files\Engine\System\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSystem.h">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
