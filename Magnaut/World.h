@@ -54,6 +54,14 @@ public:
     */
     virtual void registerEntity(Entity::ID id);
 
+    //! Attach a Component to an Entity.
+    /*!
+    * \param id The ID of the Entity.
+    * \return A pointer to the Component.
+    */
+    template <typename ComponentType>
+    ComponentType* attachComponent(Entity::ID id);
+
     //! Add a System of this type to the World.
     template <typename SystemType>
     void addSystem();
@@ -84,6 +92,26 @@ private:
 
 /////////////////
 // Implementation
+
+template <typename ComponentType>
+ComponentType* World::attachComponent(Entity::ID id)
+{
+    Entity* entity = getEntity(id);
+
+    if (!entity)
+    {
+        std::stringstream ss;
+        ss << "Tried to attach a Component to an Entity with an invalid id (#" << id << ")";
+
+        throw std::runtime_error(ss.str());
+    }
+
+    ComponentType* component = createComponent<ComponentType>();
+    entity->attachComponent(component);
+
+    return component;
+}
+
 template <typename SystemType>
 void World::addSystem()
 {

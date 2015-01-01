@@ -13,6 +13,7 @@
 class Entity
 {
     friend class EntityManager;
+    friend class World;
 
 public:
     //! The type used for Entity IDs.
@@ -43,13 +44,6 @@ public:
     */
     const std::map<size_t, Component*>& getComponents() const;
 
-    //! Attach a component.
-    /*!
-    * \param component A pointer to the Component to attach.
-    */
-    template <typename ComponentType>
-    void attachComponent(ComponentType* component);
-
 
     // Data
 
@@ -57,6 +51,12 @@ public:
     const static ID invalidID = 0;
 
 private:
+    //! Attach a component.
+    /*!
+    * \param component A pointer to the Component to attach.
+    */
+    template <typename ComponentType>
+    void attachComponent(ComponentType* component);
 
     ID id;                                      //!< Unique identifier for this Entity.
     std::map<size_t, Component*> components;    //!< Map from type hash code to a pointer to the Component.
