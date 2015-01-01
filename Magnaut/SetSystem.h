@@ -21,6 +21,9 @@ public:
     */
     virtual bool hasEntity(const Entity& e) const;
 
+    //! Get the Entities contained in the SetSystem.
+    const std::set<Entity*>& getEntities() const;
+
 protected:
     //! Add an Entity to the internal Entity set.
     /*!
