@@ -40,15 +40,15 @@ inline float degToRad(float angle)
 /*!
 * You should probably only use floating-point types for this function.
 *
-* \param value1 The first value.
-* \param value2 The second value.
+* \param from The first value.
+* \param to The second value.
 * \param amount The interpolation amount.
 * \return The interpolated value.
 */
 template <typename T>
-inline T lerp(T value1, T value2, float amount)
+inline T lerp(T from, T to, float amount)
 {
-    return value1 + (value2 - value1) * amount;
+    return from + (to - from) * amount;
 }
 
 //! Clamp a value between two other values.
@@ -83,4 +83,36 @@ T wrapDifference(T from, T to, T wrap)
     T diffB = (abs(diffA) - wrap) * (diffA > T(0) ? T(-1) : T(1));
 
     return (abs(diffA) < abs(diffB)) ? diffA : diffB;
+}
+
+//! Linearly interpolate between two values, wrapping over a given point.
+/*!
+* You should probably only use floating-point types for this function.
+*
+* \param from The first value.
+* \param to The second value.
+* \param wrap The wrapping point.
+* \param amount The interpolation amount.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T wrapLerp(T from, T to, T wrap, float amount)
+{
+    T diff = wrapDifference(from, to, wrap);
+    return lerp(from, from + diff, amount);
+}
+
+//! Linearly interpolate an angle taking into account periodicity.
+/*!
+* You should probably only use floating-point types for this function.
+*
+* \param from The first angle.
+* \param to The second angle.
+* \param amount The interpolation amount.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T angularLerp(T from, T to, float amount)
+{
+    return wrapLerp(from, to, T(pi), amount);
 }
