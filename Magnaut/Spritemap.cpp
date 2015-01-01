@@ -90,6 +90,11 @@ void Spritemap::setTexture(const sf::Texture& texture)
 {
     m_texture = &texture;
 
+    if (!m_animSet)
+    {
+        setIndex(0);
+    }
+
     updateGrid();
 }
 
@@ -160,7 +165,12 @@ sf::FloatRect Spritemap::getGlobalBounds() const
 
 sf::FloatRect Spritemap::getIndexRect(size_t frame) const
 {
-    if (m_frameGrid.x == 0 || m_frameGrid.y == 0) return sf::FloatRect();
+    if (m_frameGrid.x == 0 || m_frameGrid.y == 0)
+    {
+        LOG(DEBUG) << "Zero frameGrid";
+        return sf::FloatRect(sf::Vector2f(),
+                             sf::Vector2f(m_texture->getSize()));
+    }
 
     sf::Vector2f frameOffset = sf::Vector2f(
         static_cast<float>(frame % m_frameGrid.x),
