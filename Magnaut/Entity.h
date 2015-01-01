@@ -26,7 +26,7 @@ public:
 
     //! Get a pointer to the Component of a certain type.
     /*!
-    * \return A pointer to the component of that type.
+    * \return A pointer to the component of that type, or nullptr if it doesn't have one.
     */
     template <typename ComponentType>
     ComponentType* getComponent() const;
@@ -70,10 +70,7 @@ ComponentType* Entity::getComponent() const
 
     if (it == components.end())
     {
-        std::stringstream ss;
-        ss << "No Component of type \"" << typeid(ComponentType).name() << "\" is attached to this Entity!";
-
-        throw std::runtime_error(ss.str());
+        return nullptr;
     }
 
     return static_cast<ComponentType*>(it->second);
