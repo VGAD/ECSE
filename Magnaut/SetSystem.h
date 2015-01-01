@@ -12,30 +12,42 @@ public:
     SetSystem(World* world) : System(world) {}
 
     //! Destroy the SetSystem.
-    virtual ~SetSystem();
+    virtual ~SetSystem() {}
 
     //! Return whether an Entity is already in the System.
     /*!
     * \param e The Entity to check.
     * \return Whether the Entity is already in the System's set.
     */
-    virtual bool hasEntity(const Entity& e) const;
+    inline bool hasEntity(const Entity& e) const
+    {
+        return entities.find(const_cast<Entity*>(&e)) != entities.end();
+    }
 
     //! Get the Entities contained in the SetSystem.
-    const std::set<Entity*>& getEntities() const;
+    inline const std::set<Entity*>& getEntities() const
+    {
+        return entities;
+    }
 
 protected:
     //! Add an Entity to the internal Entity set.
     /*!
     * \param e The Entity to add.
     */
-    virtual void internalAddEntity(Entity& e);
+    inline void internalAddEntity(Entity& e)
+    {
+        entities.insert(&e);
+    }
 
     //! Remove an Entity from the internal Entity set.
     /*!
     * \param e The Entity to remove.
     */
-    virtual void internalRemoveEntity(Entity& e);
+    inline void internalRemoveEntity(Entity& e)
+    {
+        entities.erase(&e);
+    }
 
 private:
     std::set<Entity*> entities;   //!< The set of Entities operated on by this SetSystem.

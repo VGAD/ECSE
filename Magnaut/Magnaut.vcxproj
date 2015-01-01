@@ -100,7 +100,6 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SetSystem.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="World.cpp" />

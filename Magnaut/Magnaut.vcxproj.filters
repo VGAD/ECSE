@@ -51,6 +51,12 @@
     <Filter Include="Source Files\Engine\Component\Implementation">
       <UniqueIdentifier>{d17a30bc-3ec6-438e-946e-122c8b5c79b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\System\Base">
+      <UniqueIdentifier>{09455084-dede-45a2-be0d-774c09142f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\System\Implementation">
+      <UniqueIdentifier>{9d8adbcf-9b2f-471c-a340-9f01edf751e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -74,12 +80,6 @@
     <ClCompile Include="AnimationSet.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>Source Files\Engine\System</Filter>
-    </ClCompile>
-    <ClCompile Include="SetSystem.cpp">
-      <Filter>Source Files\Engine\System</Filter>
-    </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files\Engine\Resource</Filter>
     </ClCompile>
@@ -91,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files\Engine\State</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>Source Files\Engine\System\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,12 +120,6 @@
     </ClInclude>
     <ClInclude Include="AnimationSet.h">
       <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>Source Files\Engine\System</Filter>
-    </ClInclude>
-    <ClInclude Include="SetSystem.h">
-      <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Source Files\Engine\Resource</Filter>
@@ -153,6 +150,12 @@
     </ClInclude>
     <ClInclude Include="WorldState.h">
       <Filter>Source Files\Engine\State</Filter>
+    </ClInclude>
+    <ClInclude Include="SetSystem.h">
+      <Filter>Source Files\Engine\System\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Source Files\Engine\System\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
