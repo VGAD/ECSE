@@ -101,13 +101,13 @@ public:
     }
 
 private:
-    sf::Vector2f nextPosition;  //!< Next position in pixels.
-    float nextAngle;            //!< Next angle in radians.
+    sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
+    float nextAngle = 0.f;                      //!< Next angle in radians.
 
-    sf::Vector2f position;      //!< Current position in pixels.
-    float angle;                //!< Current angle in radians.
+    sf::Vector2f position = sf::Vector2f();     //!< Current position in pixels.
+    float angle = 0.f;                          //!< Current angle in radians.
 
-    bool discretePosition;      //!< Whether the position change in this timestep should be a discrete jump.
-    bool discreteAngle;         //!< Whether the angle change in this timestep should be a discrete jump.
+    bool discretePosition = false;              //!< Whether the position change in this timestep should be a discrete jump.
+    bool discreteAngle = false;                 //!< Whether the angle change in this timestep should be a discrete jump.
 };
 
