@@ -42,9 +42,17 @@ public:
     /*!
     * Automatically removes the Entity's Components.
     * 
-    * \param id The ID of the entity to be removed.
+    * \param id The ID of the Entity to be removed.
     */
     virtual void destroyEntity(Entity::ID id);
+
+    //! Register an Entity with all the Systems.
+    /*!
+    * Must be called after the Entity has been created for it to actually do anything.
+    *
+    * \param id The ID of the Entity to be registered.
+    */
+    virtual void registerEntity(Entity::ID id);
 
     //! Add a System of this type to the World.
     template <typename SystemType>

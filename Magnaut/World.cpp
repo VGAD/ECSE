@@ -34,6 +34,21 @@ void World::render(float alpha)
     }
 }
 
+void World::registerEntity(Entity::ID id)
+{
+    Entity* entity = getEntity(id);
+
+    if (!entity)
+    {
+        throw std::runtime_error("Tried to register an Entity with an invalid ID!");
+    }
+
+    for (auto& pair : systems)
+    {
+        pair.second->inspectEntity(*entity);
+    }
+}
+
 void World::destroyEntity(Entity::ID id)
 {
     Entity* e = getEntity(id);
