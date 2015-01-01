@@ -25,7 +25,7 @@ public:
     */
     inline float interpolateAngle(float alpha) const
     {
-        return discreteAngle ? nextAngle : lerp(angle, nextAngle, alpha);
+        return discreteAngle ? nextAngle : angularLerp(angle, nextAngle, alpha);
     }
 
     //! Set the current values to their next values and sets movement back to linear for the new timestep.
