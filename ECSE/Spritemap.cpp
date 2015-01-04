@@ -114,9 +114,9 @@ void Spritemap::setIndex(size_t newFrame, bool stop)
     sf::FloatRect rect = getIndexRect(m_currentIndex);
 
     m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-    m_vertices[1].position = sf::Vector2f(0.f, rect.width);
-    m_vertices[2].position = sf::Vector2f(rect.height, 0.f);
-    m_vertices[3].position = sf::Vector2f(rect.height, rect.width);
+    m_vertices[1].position = sf::Vector2f(0.f, rect.height);
+    m_vertices[2].position = sf::Vector2f(rect.width, 0.f);
+    m_vertices[3].position = sf::Vector2f(rect.width, rect.height);
 
     m_vertices[0].texCoords = sf::Vector2f(rect.left, rect.top);
     m_vertices[1].texCoords = sf::Vector2f(rect.left, rect.top + rect.height);
