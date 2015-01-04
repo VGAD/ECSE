@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{cb5114fa-a3f9-4e1e-9875-dc153d98ac7f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{b669a54e-83fd-4317-bc5a-f9814e0b2ef7}</UniqueIdentifier>
     </Filter>
@@ -32,9 +29,6 @@
     </Filter>
     <Filter Include="Source Files\Engine\State">
       <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Magnaut">
-      <UniqueIdentifier>{1515cb1b-20b9-4746-9e68-894071b70aeb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine\Resource">
       <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
@@ -86,9 +80,6 @@
     <ClCompile Include="Common.cpp">
       <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files\Magnaut</Filter>
-    </ClCompile>
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files\Engine\State</Filter>
     </ClCompile>
@@ -100,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

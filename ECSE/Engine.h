@@ -12,7 +12,11 @@ class Engine
 {
 public:
     //! Create the game window and initialize the Engine.
-    Engine(unsigned int fps = 60);
+    /*!
+    * \param name The window name.
+    * \param fps The target FPS.
+    */
+    Engine(std::string name = "", unsigned int fps = 60);
 
     //! Destroy all game objects and stop the game.
     ~Engine();

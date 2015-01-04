@@ -7,7 +7,7 @@
 void errorMessage(std::string message)
 {
 #ifdef _WIN32
-    MessageBoxA(NULL, message.c_str(),  "Magnaut error!", MB_ICONEXCLAMATION | MB_OK);
+    MessageBoxA(NULL, message.c_str(),  "Error!", MB_ICONEXCLAMATION | MB_OK);
 #else
     // Oh dear! No code here yet.
 #endif

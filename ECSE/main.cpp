@@ -37,7 +37,7 @@ int main(int argv, char* argc[])
     try
     {
         // Run the game
-        Engine engine;
+        Engine engine("ECSE Example");
         engine.pushState(std::unique_ptr<TestState>(new TestState));
 
         engine.run();
@@ -51,7 +51,7 @@ int main(int argv, char* argc[])
     // Clean up global resources
     Resources::cleanup();
 
-    LOG(INFO) << "Exiting Magnaut";
+    LOG(INFO) << "Exiting";
 
     return 0;
 }

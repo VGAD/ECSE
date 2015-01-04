@@ -1,10 +1,10 @@
 #include "Engine.h"
 #include <memory>
 
-Engine::Engine(unsigned int fps)
+Engine::Engine(std::string name, unsigned int fps)
 {
     sf::Vector2i size(800, 600);
-    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), "Magnaut"));
+    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name));
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
     deltaTime = sf::seconds(1.f / float(fps));

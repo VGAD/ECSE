@@ -33,7 +33,7 @@ void init_logging(int argv, char* argc[])
     std::stringstream timeStr;
     timeStr << std::put_time(localTime, "%Y-%m-%d");
 
-    std::string filename = "./logs/magnaut-" + timeStr.str() + ".log";
+    std::string filename = "./logs/log-" + timeStr.str() + ".log";
 
 #ifdef CLEAN_LOG
     // Delete the log file.
