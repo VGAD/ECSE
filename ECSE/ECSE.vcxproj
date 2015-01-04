@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76BA75D1-5CDE-4662-AF99-EE1F39A09B8A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Magnaut</RootNamespace>
+    <RootNamespace>ECSE</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
