@@ -12,7 +12,9 @@ Engine::Engine(std::string name, unsigned int fps)
 
 Engine::~Engine()
 {
-
+    LOG(INFO) << "Cleaning up resources";
+    textureManager.clear();
+    soundManager.clear();
 }
 
 void Engine::run()
