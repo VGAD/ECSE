@@ -1,8 +1,12 @@
 #include "Engine.h"
-#include "Common.h"
-#include "Resources.h"
-#include "WorldState.h"
 #include <cstdio>
+
+#include "Common.h"
+#include "WorldState.h"
+#include "TransformSystem.h"
+#include "RenderSystem.h"
+#include "SpriteComponent.h"
+#include "DepthComponent.h"
 
 // Memory leak debug
 #if defined(_MSC_VER) && defined(_WIN32) && defined(_DEBUG)
@@ -18,6 +22,23 @@
 
 class TestState : public WorldState
 {
+public:
+    TestState(Engine* engine)
+        : WorldState(engine)
+    {
+        world.addSystem<TransformSystem>();
+        world.addSystem<RenderSystem>();
+
+        Entity::ID test = world.createEntity();
+        world.attachComponent<TransformComponent>(test);
+        world.attachComponent<DepthComponent>(test);
+
+        Spritemap* sprite = &world.attachComponent<SpriteComponent>(test)->sprite;
+        sprite->setTexture(engine->textureManager.get("resources/graphics/objects/player/core.png"));
+
+        world.registerEntity(test);
+    }
+
     virtual void activate() { LOG(TRACE) << getName() << " active"; }
     virtual void deactivate() { LOG(TRACE) << getName() << " inactive"; }
 
@@ -38,7 +59,7 @@ int main(int argv, char* argc[])
     {
         // Run the game
         Engine engine("ECSE Example");
-        engine.pushState(std::unique_ptr<TestState>(new TestState));
+        engine.pushState<TestState>();
 
         engine.run();
     }
@@ -47,9 +68,6 @@ int main(int argv, char* argc[])
         LOG(FATAL) << e.what();
         errorMessage(e.what());
     }
-
-    // Clean up global resources
-    Resources::cleanup();
 
     LOG(INFO) << "Exiting";
 

@@ -63,11 +63,6 @@ void Engine::popState()
     ops.push(std::unique_ptr<StackOperation>(new Pop()));
 }
 
-void Engine::pushState(std::unique_ptr<State> state)
-{
-    ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
-}
-
 void Engine::pollEvents()
 {
     sf::Event event;
