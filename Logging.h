@@ -1,6 +1,8 @@
 //! \file Logging.h Contains functions and macros for Boost logging.
 
 #pragma once
+
+#define _ELPP_NO_DEFAULT_LOG_FILE
 #include "easylogging++.h"
 
 //! Initialize everything required for logging.
