@@ -30,11 +30,11 @@ public:
         world.addSystem<RenderSystem>();
 
         Entity::ID test = world.createEntity();
-        world.attachComponent<TransformComponent>(test);
+        world.attachComponent<TransformComponent>(test)->setNextPosition(sf::Vector2f(240.f, 180.f), true);
         world.attachComponent<DepthComponent>(test);
 
         Spritemap* sprite = &world.attachComponent<SpriteComponent>(test)->sprite;
-        sprite->setTexture(engine->textureManager.get("resources/graphics/objects/player/core.png"));
+        sprite->setTexture(engine->textureManager.get("text.png"));
 
         world.registerEntity(test);
     }
