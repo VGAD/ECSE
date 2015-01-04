@@ -6,11 +6,16 @@
 #include <SFML/Audio.hpp>
 #include "State.h"
 #include "Common.h"
+#include "ResourceManager.h"
+#include "AnimationSet.h"
 
 //! Contains the base game information and procedures, such as the game loop and resource management.
 class Engine
 {
 public:
+    ////////////
+    // Functions
+
     //! Create the game window and initialize the Engine.
     /*!
     * \param name The window name.
@@ -18,7 +23,7 @@ public:
     */
     Engine(std::string name = "", unsigned int fps = 60);
 
-    //! Destroy all game objects and stop the game.
+    //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
 
     //! Run the game loop. This will not return until the game is finished running.
@@ -46,6 +51,13 @@ public:
     {
         return static_cast<sf::RenderTarget*>(window.get());
     }
+
+
+    ///////
+    // Data
+    ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.
+    ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
+    ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.
 
 private:
     ////////////
