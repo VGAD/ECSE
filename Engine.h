@@ -35,14 +35,6 @@ public:
     */
     void popState();
 
-    //! Push a State onto the stack.
-    /*!
-    * The State stack will not be updated until the beginning of the next game loop iteration.
-    *
-    * \param state The State to push onto the stack.
-    */
-    void pushState(std::unique_ptr<State> state);
-
     //! Get the window's RenderTarget.
     /*!
     * \return The RenderTarget.
@@ -51,6 +43,15 @@ public:
     {
         return static_cast<sf::RenderTarget*>(window.get());
     }
+
+    //! Push a State onto the stack.
+    /*!
+    * The State stack will not be updated until the beginning of the next game loop iteration.
+    *
+    * \return A pointer to the State.
+    */
+    template <typename StateType>
+    StateType* pushState();
 
 
     ///////
@@ -116,3 +117,20 @@ private:
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
     sf::Time deltaTime;                                 //!< The amount of time per sim update.
 };
+
+
+/////////////////
+// Implementation
+
+template <typename StateType>
+StateType* Engine::pushState()
+{
+    static_assert(std::is_base_of<State, StateType>::value,
+                  "StateType must be a descendant of State");
+
+    std::unique_ptr<StateType> state = std::unique_ptr<StateType>(new StateType(this));
+
+    ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
+
+    return state.get();
+}

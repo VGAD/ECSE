@@ -9,7 +9,10 @@ class WorldState : public State
 {
 public:
     //! Construct the WorldState.
-    WorldState();
+    /*!
+    * \param engine The State's engine.
+    */
+    WorldState(Engine* engine);
 
     //! Destroy the WorldState.
     virtual ~WorldState();

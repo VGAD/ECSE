@@ -1,7 +1,7 @@
 #include "WorldState.h"
 
-WorldState::WorldState()
-    : world(this)
+WorldState::WorldState(Engine* engine)
+    : State(engine), world(this)
 {
 }
 

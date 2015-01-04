@@ -8,6 +8,15 @@ class State
     friend class Engine;
 
 public:
+    //! Create the State in the given Engine.
+    /*!
+    * \param engine The State's engine.
+    */
+    class State(Engine* engine)
+        : engine(engine)
+    {
+    }
+
     //! Destroy the State.
     virtual ~State() {};
 

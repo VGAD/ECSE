@@ -74,9 +74,6 @@
     <ClCompile Include="AnimationSet.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Source Files\Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>Source Files\Engine\Util</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
     </ClInclude>
     <ClInclude Include="AnimationSet.h">
       <Filter>Source Files\Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Source Files\Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Source Files\Engine\Resource</Filter>
