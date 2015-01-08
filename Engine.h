@@ -4,6 +4,7 @@
 #include <queue>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/System/Vector2.hpp>
 #include "State.h"
 #include "Common.h"
 #include "ResourceManager.h"
@@ -21,7 +22,7 @@ public:
     * \param name The window name.
     * \param fps The target FPS.
     */
-    Engine(std::string name = "", unsigned int fps = 60);
+    Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60);
 
     //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
