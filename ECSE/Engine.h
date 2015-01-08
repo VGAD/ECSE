@@ -19,6 +19,7 @@ public:
 
     //! Create the game window and initialize the Engine.
     /*!
+    * \param size The window dimensions.
     * \param name The window name.
     * \param fps The target FPS.
     */
