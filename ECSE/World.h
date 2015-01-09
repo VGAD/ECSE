@@ -84,6 +84,8 @@ protected:
 
 private:
     std::map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
+    std::vector<System*> systemOrder;                   //!< Vector of Systems in preferred call order.
+
 };
 
 /////////////////
@@ -127,8 +129,12 @@ void World::addSystem()
         throw std::runtime_error(ss.str());
     }
 
+    SystemType *system = new SystemType(this);
     size_t hashCode = typeid(SystemType).hash_code();
-    systems[hashCode] = std::unique_ptr<System>(new SystemType(this));
+
+    // Add pointer to map and the vector. Map owns the system while vector has just the pointer
+    systems[hashCode] = std::unique_ptr<System>(system);
+    systemOrder.push_back(system);
 }
 
 template <typename SystemType>

@@ -13,25 +13,25 @@ World::~World()
 
 void World::update(sf::Time deltaTime)
 {
-    for (auto& pair : systems)
+    for (auto& system : systemOrder)
     {
-        pair.second->update(deltaTime);
+        system->update(deltaTime);
     }
 }
 
 void World::advance()
 {
-    for (auto& pair : systems)
+    for (auto& system : systemOrder)
     {
-        pair.second->advance();
+        system->advance();
     }
 }
 
 void World::render(float alpha)
 {
-    for (auto& pair : systems)
+    for (auto& system : systemOrder)
     {
-        pair.second->render(alpha);
+        system->render(alpha);
     }
 }
 
