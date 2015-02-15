@@ -100,5 +100,8 @@ void Entity::attachComponent(ComponentType* component)
         throw std::runtime_error(ss.str());
     }
 
-    components[hashCode] = static_cast<ComponentType*>(component);
+    components[hashCode] = component;
+
+    // Tell the Component it's been attached
+    component->attached(this);
 }
