@@ -2,6 +2,21 @@
 #include <cstdlib>
 #include <cmath>
 
+//! Rotate a vector 90 degrees counter-clockwise.
+/*!
+* This is faster than using rotate(v, pi * 0.5).
+* \param v The vector.
+* \return The vector rotated 90 degrees counter-clockwise.
+*/
+inline sf::Vector2f& rotate90(sf::Vector2f& v)
+{
+    float oldX = v.x;
+    v.x = -v.y;
+    v.y = oldX;
+
+    return v;
+}
+
 //! Rotate a vector by an angle.
 /*!
 * \param v The vector.
