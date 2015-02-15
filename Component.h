@@ -8,5 +8,11 @@
 */
 class Component
 {
+public:
+    //! Whether Systems should update this.
+    /*!
+    * Effectively, the System should behave as if this was not attached to its Entity.
+    */
+    bool enabled = true;
 };
 
