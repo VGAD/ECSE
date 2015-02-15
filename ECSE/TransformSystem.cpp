@@ -6,7 +6,10 @@ void TransformSystem::advance()
 
     for (Entity* entity : getEntities())
     {
-        entity->getComponent<TransformComponent>()->advance();
+        TransformComponent* tc = entity->getComponent<TransformComponent>();
+        if (!tc->enabled) continue;
+
+        tc->advance();
     }
 }
 

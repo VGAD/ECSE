@@ -32,7 +32,10 @@ void RenderSystem::render(float alpha)
     {
         for (auto& entity : pair.second)
         {
-            Spritemap& sprite = entity->getComponent<SpriteComponent>()->sprite;
+            SpriteComponent* sc = entity->getComponent<SpriteComponent>();
+            if (!sc->enabled) continue;
+
+            Spritemap& sprite = sc->sprite;
 
             // Update sprite transform
             TransformSystem* ts = world->getSystem<TransformSystem>();
