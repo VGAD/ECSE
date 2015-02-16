@@ -37,7 +37,14 @@ void init_logging(int argv, char* argc[])
     boost::filesystem::path logPath(filename);
     if (boost::filesystem::exists(logPath))
     {
-        boost::filesystem::remove(logPath);
+        try
+        {
+            boost::filesystem::remove(logPath);
+        }
+        catch (std::exception)
+        {
+            // Just ignore this for now
+        }
     }
 #endif
 
