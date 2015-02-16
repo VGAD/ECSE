@@ -34,7 +34,8 @@ public:
 
     //! Destroy an Entity, removing it from the simulation.
     /*!
-    * Note that this will NOT delete the Entity's Components, as this job belongs to the ComponentManager.
+    * Note that this will NOT delete the Entity's Components, as this job belongs
+    * to the ComponentManager.
     * 
     * \param id The ID of the entity to be removed.
     */
@@ -46,12 +47,28 @@ public:
     */
     void destroyEntity(Entity* entity);
 
+    //! Get a vector of all the Entities.
+    /*!
+    * \return A vector of all Entities.
+    */
+    virtual inline const std::vector<Entity*>& getEntities() const
+    {
+        return entities;
+    }
+
 private:
     //! The next entity ID to use.
     Entity::ID nextID = Entity::invalidID + 1;
     
     //! Map from Entity ID to a pointer to the actual Entity.
     std::unordered_map<Entity::ID, Entity*> idMap;
+
+    //! Vector of all entities.
+    /*!
+    * This is redundant, but saves us from having to reconstruct it every time we
+    * want all entities without the IDs attached as pairs.
+    */
+    std::vector<Entity*> entities;
 
     //! Pool from which Entities are allocated.
     boost::object_pool<Entity> entityPool;
