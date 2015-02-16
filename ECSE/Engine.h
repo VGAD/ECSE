@@ -44,6 +44,12 @@ public:
         return static_cast<sf::RenderTarget*>(window.get());
     }
 
+    //! Get the number of advances since this started.
+    inline size_t getTicks() const
+    {
+        return ticks;
+    }
+
     //! Push a State onto the stack.
     /*!
     * The State stack will not be updated until the beginning of the next game loop iteration.
@@ -79,8 +85,12 @@ private:
     */
     State& getActiveState() const;
 
+
     ///////
     // Data
+
+    //! Number of advances since the engine was started.
+    size_t ticks = 0;
 
     //! A stack of States.
     typedef std::stack<std::unique_ptr<State>> StateStack;

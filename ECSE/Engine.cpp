@@ -38,6 +38,7 @@ void Engine::run()
         {
             // Advance the state
             state->advance();
+            ++ticks;
 
             // We can now safely switch states because the state has advanced
             state = &updateStateStack();
