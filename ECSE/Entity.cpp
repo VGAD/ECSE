@@ -8,7 +8,7 @@ Entity::~Entity()
 {
 }
 
-const std::map<size_t, Component*>& Entity::getComponents() const
+const boost::unordered_map<size_t, Component*>& Entity::getComponents() const
 {
     return components;
 }
