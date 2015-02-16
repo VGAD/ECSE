@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <map>
+#include <boost/unordered_map.hpp>
 #include <SFML/Graphics.hpp>
 #include "ComponentManager.h"
 #include "EntityManager.h"
@@ -83,7 +83,8 @@ protected:
     WorldState* worldState = nullptr;   //!< The WorldState to which this belongs.
 
 private:
-    std::map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
+    // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
+    boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
 };
 
 /////////////////
