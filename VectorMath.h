@@ -63,6 +63,17 @@ inline float getMagnitude(const sf::Vector2f& v)
     return sqrt(getSqrMagnitude(v));
 }
 
+//! Get the dot product of two vectors.
+/*!
+* \param v1 The first vector.
+* \param v2 The second vector.
+* \return The dot product.
+*/
+inline float getDotProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
 //! Set a vector's angle of rotation, maintaining its magnitude.
 /*!
 * \param v The vector.
