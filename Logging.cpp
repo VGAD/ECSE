@@ -18,9 +18,6 @@ void init_logging(int argv, char* argc[])
         throw std::runtime_error("Failed to create the logs diretory!");
     }
 
-    // Redirect stdout to a file
-    freopen("logs/stdout.log", "w", stdout);
-
     // Set up logging
     el::Loggers::addFlag(el::LoggingFlag::DisableApplicationAbortOnFatalLog);
     el::Configurations conf;
