@@ -100,6 +100,24 @@ public:
         return nextAngle;
     }
 
+    //! Check if the position change is discrete.
+    /*!
+    * \return Whether the position change is discrete.
+    */
+    inline bool getDiscretePosition() const
+    {
+        return discretePosition;
+    }
+
+    //! Check if the angle change is discrete.
+    /*!
+    * \return Whether the angle change is discrete.
+    */
+    inline bool getDiscreteAngle() const
+    {
+        return discreteAngle;
+    }
+
 private:
     sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
     float nextAngle = 0.f;                      //!< Next angle in radians.
