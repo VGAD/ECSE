@@ -7,6 +7,13 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
     window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name));
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
+    if (!renderTarget.create(size.x, size.y))
+    {
+        throw new std::runtime_error("Failed to create render target!");
+    }
+
+    rtSprite.setTexture(renderTarget.getTexture());
+
     deltaTime = sf::seconds(1.f / float(fps));
 }
 
@@ -52,9 +59,14 @@ void Engine::run()
 
         float alpha = accumulator / deltaTime;
 
-        // Draw to screen
-        window->clear();
+        // Draw to the render target
+        renderTarget.clear();
         state->render(alpha);
+        renderTarget.display();
+
+        // Render scaled to screen
+        window->clear();
+        window->draw(rtSprite);
         window->display();
     }
 }
