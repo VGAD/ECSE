@@ -1,9 +1,9 @@
-#include "Engine.h"
 #include <memory>
+#include "Engine.h"
 
-Engine::Engine(std::string name, unsigned int fps)
+
+Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
-    sf::Vector2i size(800, 600);
     window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name));
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 

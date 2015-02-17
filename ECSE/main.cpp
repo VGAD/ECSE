@@ -55,10 +55,13 @@ int main(int argv, char* argc[])
 
     init_logging(argv, argc);
 
+    // Window size
+    sf::Vector2i size(800, 600);
+
     try
     {
         // Run the game
-        Engine engine("ECSE Example");
+        Engine engine(size, "ECSE Example");
         engine.pushState<TestState>();
 
         engine.run();

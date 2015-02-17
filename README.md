@@ -12,13 +12,18 @@ Note that the following libraries are required:
 - Boost 1.57.0 (installed in `C:\boost_1_57_0`)
 
 If you have these libraries installed in a different location, modify the
-settings for the Magnaut project. Include directories are set in
+settings for your game project. Include directories are set in
 `Configuration Properties -> C/C++ -> General`, while library directories
 are set in `Configuration Properties -> Linker -> General`.
 
-After opening the solution, make sure the ECSE project setting for
-`Configuration Properties -> Debugging -> Working Directory` is set to ..\Run if
-you want to see the example run.
+If you want to run the example make sure the ECSE project setting for
+`Configuration Properties -> Debugging -> Working Directory` is set to
+`$(SolutionDir)Run` and one of the Example configurations.
+
+Contribution Conventions
+========================
+* Pull request everything, even if it's a simple change.
+* Confirm with other contributors before accepting a PR (check implementation, style, build). This can be verbally or in PR discussion.
 
 Coding Conventions
 ==================
