@@ -85,6 +85,7 @@ protected:
 private:
     // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
     boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
+    std::vector<System*> orderedSystems;                            //!< Vector of Systems in preferred call order.
 };
 
 /////////////////
@@ -128,9 +129,14 @@ void World::addSystem()
         throw std::runtime_error(ss.str());
     }
 
+    std::unique_ptr<System> ptr = std::unique_ptr<System>(new SystemType(this));
     size_t hashCode = typeid(SystemType).hash_code();
-    systems[hashCode] = std::unique_ptr<System>(new SystemType(this));
+
+    // Add pointer to map and the vector. Map owns the system while vector has just the pointer
+    orderedSystems.push_back(ptr.get());
+    systems[hashCode] = std::move(ptr);
 }
+
 
 template <typename SystemType>
 SystemType* World::getSystem()
