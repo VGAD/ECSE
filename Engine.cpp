@@ -14,6 +14,7 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
         throw new std::runtime_error("Failed to create render target!");
     }
 
+    window->setFramerateLimit(fps);
     rtSprite.setTexture(renderTarget.getTexture());
 
     deltaTime = sf::seconds(1.f / float(fps));
