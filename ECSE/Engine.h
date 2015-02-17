@@ -41,9 +41,27 @@ public:
     /*!
     * \return The RenderTarget.
     */
-    inline sf::RenderTarget* getRenderTarget() const
+    inline sf::RenderTarget* getRenderTarget()
     {
-        return static_cast<sf::RenderTarget*>(window.get());
+        return &renderTarget;
+    }
+
+    //! Set the resolution scale.
+    /*!
+    * \param scale The new scale.
+    */
+    inline void setScale(float scale)
+    {
+        rtSprite.setScale(scale, scale);
+    }
+
+    //! Get the resolution scale.
+    /*!
+    * \return The scale.
+    */
+    inline float getScale() const
+    {
+        return rtSprite.getScale().x;
     }
 
     //! Get the number of advances since this started.
@@ -90,6 +108,12 @@ private:
 
     ///////
     // Data
+
+    //! Offscreen buffer used to update the window display.
+    sf::RenderTexture renderTarget;
+
+    //! Sprite which is used to update the window display.
+    sf::Sprite rtSprite;
 
     //! Number of advances since the engine was started.
     size_t ticks = 0;
