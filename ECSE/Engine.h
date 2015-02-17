@@ -31,6 +31,9 @@ public:
     //! Run the game loop. This will not return until the game is finished running.
     void run();
 
+    //! Save a screenshot.
+    void saveScreenshot();
+
     //! Pop the top State from the stack.
     /*!
     * The State stack will not be updated until the beginning of the next game loop iteration.
