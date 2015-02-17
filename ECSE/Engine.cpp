@@ -4,7 +4,8 @@
 
 Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
-    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name));
+    sf::Uint32 style = sf::Style::Close;
+    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name, style));
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
     if (!renderTarget.create(size.x, size.y))
