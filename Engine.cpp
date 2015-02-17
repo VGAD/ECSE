@@ -1,6 +1,7 @@
-#include <memory>
 #include "Engine.h"
-
+#include <memory>
+#include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 
 Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
@@ -74,6 +75,27 @@ void Engine::run()
     }
 }
 
+void Engine::saveScreenshot()
+{
+    unsigned int number = 0;
+    std::string formatString = "screenshot%1%.png";
+    std::string filename;
+
+    // Find an unused filename
+    do
+    {
+        filename = str(boost::format(formatString) % number);
+        number++;
+    }
+    while (boost::filesystem::exists(filename));
+
+    // Save the image
+    sf::Image screenshot = window->capture();
+    screenshot.saveToFile(filename);
+
+    LOG(INFO) << "Saved screenshot to \"" << filename << "\"";
+}
+
 void Engine::popState()
 {
     ops.push(std::unique_ptr<StackOperation>(new Pop()));
@@ -94,6 +116,14 @@ void Engine::pollEvents()
             break;
         }
     }
+
+#ifdef _WINDOWS
+    // SFML doesn't have the PrintScreen button. Wut.
+    if (GetKeyState(VK_SNAPSHOT) & 0x8000)
+    {
+        saveScreenshot();
+    }
+#endif
 }
 
 State& Engine::updateStateStack()
