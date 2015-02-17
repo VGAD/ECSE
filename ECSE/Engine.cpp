@@ -38,6 +38,8 @@ void Engine::run()
     while (window->isOpen())
     {
         sf::Time elapsed = clock.restart();
+        if (elapsed > maxElapsed) elapsed = maxElapsed;
+
         accumulator += elapsed;
 
         State* state = &getActiveState();

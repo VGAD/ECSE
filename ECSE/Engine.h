@@ -109,6 +109,12 @@ private:
     ///////
     // Data
 
+    //! Maximum amount of time to be simulated before rendering.
+    /*!
+    * This helps to avoid a spiral of doom when simulation is expensive.
+    */
+    sf::Time maxElapsed = sf::seconds(0.25f);
+
     //! Offscreen buffer used to update the window display.
     sf::RenderTexture renderTarget;
 
