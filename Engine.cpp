@@ -3,6 +3,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
+namespace ECSE
+{
+
 Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
     sf::Uint32 style = sf::Style::Close;
@@ -194,4 +197,6 @@ void Engine::Push::execute(Engine* engine)
 
     LOG(TRACE) << "Activating " << states.top()->getName();
     states.top()->activate();
+}
+
 }

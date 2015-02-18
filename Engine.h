@@ -11,6 +11,9 @@
 #include "AnimationSet.h"
 
 //! Contains the base game information and procedures, such as the game loop and resource management.
+namespace ECSE
+{
+
 class Engine
 {
 public:
@@ -178,4 +181,6 @@ StateType* Engine::pushState()
     ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
 
     return state.get();
+}
+
 }

@@ -4,6 +4,9 @@
 #include "System.h"
 
 //! A System which maintains a set of Entities as its internal structure.
+namespace ECSE
+{
+
 class SetSystem :
     public System
 {
@@ -56,3 +59,6 @@ protected:
 private:
     std::set<Entity*> entities;   //!< The set of Entities operated on by this SetSystem.
 };
+
+
+}

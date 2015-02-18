@@ -5,6 +5,9 @@
 #include "Common.h"
 
 //! A Component which stores local transform data (e.g. local position and angle).
+namespace ECSE
+{
+
 class TransformComponent : public Component
 {
 public:
@@ -129,3 +132,5 @@ private:
     bool discreteAngle = false;                 //!< Whether the angle change in this timestep should be a discrete jump.
 };
 
+
+}

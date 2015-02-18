@@ -5,6 +5,9 @@
 #include <cstdint>
 
 //! A container for Components.
+namespace ECSE
+{
+
 /*!
 * Components can only be attached through the public World function attachComponent. This
 * is because Components should only be attached before the Entity is registered with any
@@ -105,4 +108,6 @@ void Entity::attachComponent(ComponentType* component)
 
     // Tell the Component it's been attached
     component->attached(this);
+}
+
 }

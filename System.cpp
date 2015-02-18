@@ -1,6 +1,9 @@
 #include "System.h"
 #include <cassert>
 
+namespace ECSE
+{
+
 System::System(World* world) : world(world)
 {
 
@@ -92,4 +95,6 @@ void System::markToAdd(Entity& e)
 World* System::getWorld() const
 {
     return world;
+}
+
 }

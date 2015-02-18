@@ -7,6 +7,9 @@
 #include "Entity.h"
 
 //! Handles allocation and deallocation of Entities, as well as distribution of IDs.
+namespace ECSE
+{
+
 /*!
 * This class allows Entities to remain more or less tightly-packed. Ownership of the allocated
 * Entities will always remain within the EntityManager.
@@ -73,3 +76,6 @@ private:
     //! Pool from which Entities are allocated.
     boost::object_pool<Entity> entityPool;
 };
+
+
+}

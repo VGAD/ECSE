@@ -10,6 +10,9 @@
 #include "Pool.h"
 
 //! Handles allocation and deallocation for all component types.
+namespace ECSE
+{
+
 /*!
 * This class allows Components of the same type to remain more or less tightly-packed. Ownership of
 * the allocated Components will always remain within the ComponentManager.
@@ -97,4 +100,6 @@ boost::object_pool<ComponentType>& ComponentManager::getPool()
     PType* typedPool = static_cast<PType*>(pool);
 
     return typedPool->pool;
+}
+
 }
