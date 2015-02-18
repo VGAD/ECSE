@@ -5,11 +5,11 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-using boost::property_tree::ptree;
-using boost::property_tree::read_json;
-
 bool AnimationSet::loadFromFile(const std::string &filename)
 {
+    using boost::property_tree::ptree;
+    using boost::property_tree::read_json;
+
     ptree pt;
     try
     {
