@@ -1,6 +1,9 @@
 #include "Spritemap.h"
 #include "Common.h"
 
+namespace ECSE
+{
+
 Spritemap::Spritemap()
     : m_texture(nullptr), m_currentAnim(nullptr), m_animSet(nullptr), callback(nullptr),
     m_currentFrame(0), m_currentTime(sf::Time::Zero)
@@ -204,4 +207,6 @@ void Spritemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
         states.texture = m_texture;
         target.draw(m_vertices, 4, sf::TrianglesStrip, states);
     }
+}
+
 }

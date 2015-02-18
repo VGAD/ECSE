@@ -3,6 +3,9 @@
 #include <cmath>
 
 //! Rotate a vector 90 degrees counter-clockwise.
+namespace ECSE
+{
+
 /*!
 * This is faster than using rotate(v, pi * 0.5).
 * \param v The vector.
@@ -108,4 +111,6 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
 {
     normalize(v);
     v *= magnitude;
+}
+
 }

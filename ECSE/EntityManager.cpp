@@ -1,5 +1,8 @@
 #include "EntityManager.h"
 
+namespace ECSE
+{
+
 Entity::ID EntityManager::createEntity()
 {
     Entity::ID newID = nextID++;
@@ -56,4 +59,6 @@ void EntityManager::destroyEntity(Entity::ID id)
 void EntityManager::destroyEntity(Entity* entity)
 {
     destroyEntity(entity->id);
+}
+
 }

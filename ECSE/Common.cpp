@@ -4,6 +4,9 @@
 #include <Windows.h>
 #endif
 
+namespace ECSE
+{
+
 void errorMessage(std::string message)
 {
 #ifdef _WIN32
@@ -11,4 +14,6 @@ void errorMessage(std::string message)
 #else
     // Oh dear! No code here yet.
 #endif
+}
+
 }

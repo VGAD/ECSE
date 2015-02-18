@@ -7,6 +7,9 @@
 #include "EntityManager.h"
 #include "System.h"
 
+namespace ECSE
+{
+
 class Engine;
 class WorldState;
 
@@ -154,4 +157,6 @@ SystemType* World::getSystem()
 
     // We should be safe to do a static cast since we know exactly what type this is.
     return static_cast<SystemType*>(it->second.get());
+}
+
 }

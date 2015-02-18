@@ -7,6 +7,8 @@
 
 _INITIALIZE_EASYLOGGINGPP
 
+namespace ECSE {
+
 void init_logging(int argv, char* argc[])
 {
     _START_EASYLOGGINGPP(argv, argc);
@@ -63,4 +65,6 @@ void init_logging(int argv, char* argc[])
     el::Loggers::reconfigureLogger("default", conf);
 
     LOG(INFO) << "Logging initialized";
+}
+
 }

@@ -6,6 +6,9 @@
 #include "World.h"
 #include "Engine.h"
 
+namespace ECSE
+{
+
 bool RenderSystem::hasEntity(const Entity& e) const
 {
     return layers.find(const_cast<Entity*>(&e)) != layers.end();
@@ -100,4 +103,6 @@ void RenderSystem::sortLayers()
             entities[layer].insert(pair.first);
         }
     }
+}
+
 }

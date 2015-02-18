@@ -6,7 +6,12 @@
 #include "easylogging++.h"
 
 //! Initialize everything required for logging.
+namespace ECSE
+{
+
 /*!
 * Sets up easylogging++ and redirects stdout to a separate log file.
 */
 extern void init_logging(int argv, char* argc[]);
+
+}

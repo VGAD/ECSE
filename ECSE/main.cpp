@@ -20,6 +20,9 @@
     #endif
 #endif
 
+namespace ECSE
+{
+
 class TestState : public WorldState
 {
 public:
@@ -45,8 +48,12 @@ public:
     virtual const std::string getName() { return "TestState"; }
 };
 
+}
+
 int main(int argv, char* argc[])
 {
+    using namespace ECSE;
+
 #if defined(_MSC_VER) && defined(_WIN32) && defined(_DEBUG)
     // Memory leak debug
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

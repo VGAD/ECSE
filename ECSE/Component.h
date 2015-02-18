@@ -1,6 +1,9 @@
 #pragma once
 
 //! A class which holds data about an Entity.
+namespace ECSE
+{
+
 /*!
 * Components may include convenience functions for operating on their data, but should
 * generally not be aware of other Components. Any function that needs to deal with more
@@ -26,3 +29,5 @@ protected:
     virtual void attached(Entity* e) {};
 };
 
+
+}

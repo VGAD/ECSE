@@ -5,6 +5,9 @@
 #include "World.h"
 
 //! A State which maintains a single World.
+namespace ECSE
+{
+
 class WorldState : public State
 {
 public:
@@ -41,3 +44,5 @@ public:
 protected:
     World world;    //!< The contained world.
 };
+
+}

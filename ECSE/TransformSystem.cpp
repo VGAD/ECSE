@@ -1,5 +1,8 @@
 #include "TransformSystem.h"
 
+namespace ECSE
+{
+
 void TransformSystem::advance()
 {
     SetSystem::advance();
@@ -18,4 +21,6 @@ bool TransformSystem::checkRequirements(const Entity& e) const
     if (!e.getComponent<TransformComponent>()) return false;
 
     return true;
+}
+
 }

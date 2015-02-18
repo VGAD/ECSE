@@ -3,6 +3,9 @@
 #include <SFML/System.hpp>
 
 //! Handles a single game state.
+namespace ECSE
+{
+
 class State
 {
     friend class Engine;
@@ -61,3 +64,5 @@ protected:
     Engine* engine = nullptr;
 };
 
+
+}

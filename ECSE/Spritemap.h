@@ -7,6 +7,9 @@
 #include <SFML/System.hpp>
 #include "AnimationSet.h"
 
+namespace ECSE
+{
+
 typedef std::vector<size_t> FrameVector;
 
 //! A class used to draw animated sprites.
@@ -135,3 +138,5 @@ private:
     size_t              m_currentFrame; //!< The current frame of animation
 };
 
+
+}
