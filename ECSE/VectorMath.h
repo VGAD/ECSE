@@ -6,7 +6,31 @@
 
 //! Rotate a vector 90 degrees counter-clockwise.
 namespace ECSE
+{;
+
+//! Linearly interpolate between two vectors.
+/*!
+* \param from The first vector.
+* \param to The second vector.
+* \param amount The amount of lerping (usually between 0 and 1).
+* \return The interpolated vector.
+*/
+inline sf::Vector2f lerp(const sf::Vector2f& from, const sf::Vector2f& to, float amount)
 {
+    return sf::Vector2f((from.x + to.x) * amount,
+                        (from.y + to.y) * amount);
+}
+
+//! Get the midpoint of two vectors.
+/*!
+* \param from The first vector.
+* \param to The second vector.
+* \return The midpoint of the two vectors.
+*/
+inline sf::Vector2f midpoint(const sf::Vector2f& from, const sf::Vector2f& to)
+{
+    return lerp(from, to, 0.5f);
+}
 
 /*!
 * This is faster than using rotate(v, pi * 0.5).
