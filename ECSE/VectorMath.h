@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <cmath>
 
-//! Rotate a vector 90 degrees counter-clockwise.
 namespace ECSE
 {;
 
@@ -32,6 +31,7 @@ inline sf::Vector2f midpoint(const sf::Vector2f& from, const sf::Vector2f& to)
     return lerp(from, to, 0.5f);
 }
 
+//! Rotate a vector 90 degrees counter-clockwise.
 /*!
 * This is faster than using rotate(v, pi * 0.5).
 * \param v The vector.
