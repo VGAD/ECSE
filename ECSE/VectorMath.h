@@ -115,4 +115,34 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
     v *= magnitude;
 }
 
+//! Project a vector onto another vector.
+/*!
+* \param v1 The first vector.
+* \param v2 The vector onto which to project it.
+* \return A reference to v1.
+*/
+inline sf::Vector2f& project(sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    v1 = (getDotProduct(v1, v2) / getDotProduct(v2, v2)) * v2;
+
+    return v1;
+}
+
+//! Reject a vector onto another vector.
+/*!
+* This is also known as the orthogonal projection.
+* \param v1 The first vector.
+* \param v2 The vector onto which to reject it.
+* \return A reference v1.
+*/
+inline sf::Vector2f& reject(sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    sf::Vector2f projection(v1);
+    project(projection, v2);
+
+    v1 -= projection;
+
+    return v1;
+}
+
 }
