@@ -103,6 +103,19 @@ inline T lerp(T from, T to, float amount)
     return from + (to - from) * amount;
 }
 
+//! Find the midpoint between two values.
+/*!
+* \param from The first value.
+* \param to The second value.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T midpoint(T from, T to)
+{
+    static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
+    return lerp(from, to, 0.5f);
+}
+
 //! Clamp a value between two other values.
 /*!
 * \param min The minimum value.
