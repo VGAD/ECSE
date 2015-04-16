@@ -2,6 +2,7 @@
 
 #include <set>
 #include "System.h"
+#include "Logging.h"
 
 //! A System which maintains a set of Entities as its internal structure.
 namespace ECSE
@@ -12,7 +13,7 @@ class SetSystem :
 {
 public:
     //! Construct the SetSystem.
-    SetSystem(World* world) : System(world) {}
+    explicit SetSystem(World* world) : System(world) {}
 
     //! Destroy the SetSystem.
     virtual ~SetSystem() {}
@@ -22,7 +23,7 @@ public:
     * \param e The Entity to check.
     * \return Whether the Entity is already in the System's set.
     */
-    inline bool hasEntity(const Entity& e) const
+    inline bool hasEntity(const Entity& e) const override
     {
         return entities.find(const_cast<Entity*>(&e)) != entities.end();
     }
@@ -38,7 +39,7 @@ protected:
     /*!
     * \param e The Entity to add.
     */
-    inline void internalAddEntity(Entity& e)
+    inline void internalAddEntity(Entity& e) override
     {
         LOG(DEBUG) << "Entity #" << e.getID() << " added to SetSystem";
 
@@ -49,7 +50,7 @@ protected:
     /*!
     * \param e The Entity to remove.
     */
-    inline void internalRemoveEntity(Entity& e)
+    inline void internalRemoveEntity(Entity& e) override
     {
         LOG(DEBUG) << "Entity #" << e.getID() << " removed from SetSystem";
 

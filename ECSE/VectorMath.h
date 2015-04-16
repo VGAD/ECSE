@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-#include <cstdlib>
 #include <cmath>
 
 namespace ECSE
@@ -83,9 +82,8 @@ inline float getDotProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
 /*!
 * \param v The vector.
 * \param angle The new angle.
-* \return The vector's new angle.
 */
-inline float setHeading(sf::Vector2f& v, float angle)
+inline void setHeading(sf::Vector2f& v, float angle)
 {
     v.x = getMagnitude(v);
     v.y = 0;
@@ -113,6 +111,8 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
 {
     normalize(v);
     v *= magnitude;
+
+    return v;
 }
 
 //! Project a vector onto another vector.
@@ -137,7 +137,7 @@ inline sf::Vector2f& project(sf::Vector2f& v1, const sf::Vector2f& v2)
 */
 inline sf::Vector2f& reject(sf::Vector2f& v1, const sf::Vector2f& v2)
 {
-    sf::Vector2f projection(v1);
+    auto projection(v1);
     project(projection, v2);
 
     v1 -= projection;

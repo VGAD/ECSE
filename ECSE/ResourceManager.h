@@ -1,9 +1,6 @@
 #pragma once
 
-#include <string>
 #include <map>
-
-#include "Common.h"
 
 //! A data store intended for use with SFML Texture and SoundBuffer types.
 namespace ECSE

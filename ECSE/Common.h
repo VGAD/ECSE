@@ -2,11 +2,9 @@
 
 #pragma once
 
-#include <boost/log/trivial.hpp>
 #include <string>
 #include <cstdlib>
 #include <cmath>
-#include "Logging.h"
 
 namespace ECSE
 {

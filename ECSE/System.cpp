@@ -1,4 +1,5 @@
 #include "System.h"
+#include "Logging.h"
 #include <cassert>
 
 namespace ECSE
@@ -14,12 +15,12 @@ System::~System()
 
 }
 
-void System::update(sf::Time deltaTime)
+void System::update(sf::Time)
 {
 
 }
 
-void System::render(float alpha)
+void System::render(float)
 {
 
 }

@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Logging.h"
 #include <memory>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>

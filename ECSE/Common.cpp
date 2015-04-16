@@ -10,7 +10,7 @@ namespace ECSE
 void errorMessage(std::string message)
 {
 #ifdef _WIN32
-    MessageBoxA(NULL, message.c_str(),  "Error!", MB_ICONEXCLAMATION | MB_OK);
+    MessageBoxA(nullptr, message.c_str(),  "Error!", MB_ICONEXCLAMATION | MB_OK);
 #else
     // Oh dear! No code here yet.
 #endif

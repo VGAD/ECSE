@@ -12,7 +12,7 @@ WorldState::~WorldState()
 {
 }
 
-const std::string WorldState::getName()
+std::string WorldState::getName()
 {
     return "WorldState";
 }

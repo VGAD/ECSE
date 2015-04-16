@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <boost/unordered_map.hpp>
-#include <SFML/Graphics.hpp>
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "System.h"
@@ -21,10 +20,10 @@ class World : public EntityManager, public ComponentManager
 {
 public:
     //! Create an empty World.
-    World(WorldState* worldState);
+    explicit World(WorldState* worldState);
 
     //! Destroy the World and its contents.
-    virtual ~World();
+    virtual ~World() override;
 
     //! Perform the update step for all Systems.
     /*!
@@ -47,7 +46,7 @@ public:
     * 
     * \param id The ID of the Entity to be removed.
     */
-    virtual void destroyEntity(Entity::ID id);
+    virtual void destroyEntity(Entity::ID id) override;
 
     //! Register an Entity with all the Systems.
     /*!

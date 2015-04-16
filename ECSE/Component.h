@@ -14,6 +14,8 @@ class Component
 public:
     friend class Entity;
 
+    virtual ~Component() {}
+
     //! Whether Systems should update this.
     /*!
     * Effectively, the System should behave as if this was not attached to its Entity.
@@ -26,8 +28,7 @@ protected:
     * This is a good place to check requirements and/or notify other Components.
     * \param e The Entity to which this was attached.
     */
-    virtual void attached(Entity* e) {};
+    virtual void attached(Entity*) {};
 };
-
 
 }

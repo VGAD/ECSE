@@ -15,7 +15,7 @@ public:
     /*!
     * \param engine The State's engine.
     */
-    class State(Engine* engine)
+    explicit State(Engine* engine)
         : engine(engine)
     {
     }
@@ -48,7 +48,7 @@ public:
     /*!
     * \return The name of the class.
     */  
-    virtual const std::string getName() = 0;
+    virtual std::string getName() = 0;
 
     //! Get the Engine to which this belongs.
     /*!
@@ -63,6 +63,5 @@ protected:
     //! The Engine to which this belongs.
     Engine* engine = nullptr;
 };
-
 
 }
