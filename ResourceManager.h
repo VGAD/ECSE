@@ -6,6 +6,9 @@
 #include "Common.h"
 
 //! A data store intended for use with SFML Texture and SoundBuffer types.
+namespace ECSE
+{
+
 /*! Allows loading and storing based on filenames so data can be re-used. */
 template <typename T>
 class ResourceManager
@@ -64,4 +67,6 @@ template <typename T>
 void ResourceManager<T>::clear()
 {
     dataMap.clear();
+}
+
 }

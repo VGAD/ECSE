@@ -2,6 +2,9 @@
 #include "WorldState.h"
 #include "Engine.h"
 
+namespace ECSE
+{
+
 World::World(WorldState* worldState)
     : worldState(worldState)
 {
@@ -66,4 +69,6 @@ void World::destroyEntity(Entity::ID id)
 Engine* World::getEngine() const
 {
     return worldState->getEngine();
+}
+
 }

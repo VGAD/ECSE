@@ -5,6 +5,9 @@
 #include <SFML/System.hpp>
 
 //! Used to store animation data
+namespace ECSE
+{
+
 struct Animation
 {
     //! Type for vector of animation frames indices.
@@ -37,3 +40,6 @@ public:
 private:
     std::map<std::string, Animation> anims;   //!< Map from names to animations
 };
+
+
+}

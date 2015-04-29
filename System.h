@@ -5,6 +5,9 @@
 #include "Entity.h"
 #include "Common.h"
 
+namespace ECSE
+{
+
 class World;
 
 //! An interface which maintains a list of Entities and performs operations on their Components.
@@ -115,3 +118,5 @@ private:
     std::set<Entity*> toRemove; //!< Entities to be removed from the System on the advance step.
 };
 
+
+}

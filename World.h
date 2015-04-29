@@ -1,11 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <map>
+#include <boost/unordered_map.hpp>
 #include <SFML/Graphics.hpp>
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "System.h"
+
+namespace ECSE
+{
 
 class Engine;
 class WorldState;
@@ -83,8 +86,9 @@ protected:
     WorldState* worldState = nullptr;   //!< The WorldState to which this belongs.
 
 private:
-    std::map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
-    std::vector<System*> orderedSystems;                //!< Vector of Systems in preferred call order.
+    // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
+    boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
+    std::vector<System*> orderedSystems;                            //!< Vector of Systems in preferred call order.
 };
 
 /////////////////
@@ -153,4 +157,6 @@ SystemType* World::getSystem()
 
     // We should be safe to do a static cast since we know exactly what type this is.
     return static_cast<SystemType*>(it->second.get());
+}
+
 }
