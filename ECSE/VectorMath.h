@@ -2,6 +2,24 @@
 #include <cstdlib>
 #include <cmath>
 
+//! Rotate a vector 90 degrees counter-clockwise.
+namespace ECSE
+{
+
+/*!
+* This is faster than using rotate(v, pi * 0.5).
+* \param v The vector.
+* \return The vector rotated 90 degrees counter-clockwise.
+*/
+inline sf::Vector2f& rotate90(sf::Vector2f& v)
+{
+    float oldX = v.x;
+    v.x = -v.y;
+    v.y = oldX;
+
+    return v;
+}
+
 //! Rotate a vector by an angle.
 /*!
 * \param v The vector.
@@ -48,6 +66,17 @@ inline float getMagnitude(const sf::Vector2f& v)
     return sqrt(getSqrMagnitude(v));
 }
 
+//! Get the dot product of two vectors.
+/*!
+* \param v1 The first vector.
+* \param v2 The second vector.
+* \return The dot product.
+*/
+inline float getDotProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
 //! Set a vector's angle of rotation, maintaining its magnitude.
 /*!
 * \param v The vector.
@@ -82,4 +111,6 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
 {
     normalize(v);
     v *= magnitude;
+}
+
 }

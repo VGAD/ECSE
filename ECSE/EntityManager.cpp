@@ -1,5 +1,8 @@
 #include "EntityManager.h"
 
+namespace ECSE
+{
+
 Entity::ID EntityManager::createEntity()
 {
     Entity::ID newID = nextID++;
@@ -29,6 +32,7 @@ Entity::ID EntityManager::createEntity()
     Entity* e = entityPool.construct();
     e->id = newID;
     idMap[newID] = e;
+    entities.push_back(e);
 
     return newID;
 }
@@ -48,11 +52,14 @@ void EntityManager::destroyEntity(Entity::ID id)
         throw std::runtime_error("Tried to remove entity with ID #" + std::to_string(id) + " which does not exist!");
     }
 
-    entityPool.destroy(e);
     idMap[id] = nullptr;
+    std::remove(entities.begin(), entities.end(), e);
+    entityPool.destroy(e);
 }
 
 void EntityManager::destroyEntity(Entity* entity)
 {
     destroyEntity(entity->id);
+}
+
 }

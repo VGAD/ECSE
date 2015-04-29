@@ -5,6 +5,9 @@
 
 //! A System that handles updating TransformComponents as well as determining an Entity's global (not relative/local) transform data.
 // TODO: add a Component allowing Entities to attach to a parent.
+namespace ECSE
+{
+
 class TransformSystem :
     public SetSystem
 {
@@ -87,3 +90,6 @@ public:
         return e.getComponent<TransformComponent>()->interpolateAngle(alpha);
     }
 };
+
+
+}

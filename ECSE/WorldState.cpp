@@ -1,5 +1,8 @@
 #include "WorldState.h"
 
+namespace ECSE
+{
+
 WorldState::WorldState(Engine* engine)
     : State(engine), world(this)
 {
@@ -27,4 +30,6 @@ void WorldState::advance()
 void WorldState::render(float alpha)
 {
     world.render(alpha);
+}
+
 }

@@ -6,6 +6,9 @@
 #include "World.h"
 #include "Engine.h"
 
+namespace ECSE
+{
+
 bool RenderSystem::hasEntity(const Entity& e) const
 {
     return layers.find(const_cast<Entity*>(&e)) != layers.end();
@@ -32,7 +35,10 @@ void RenderSystem::render(float alpha)
     {
         for (auto& entity : pair.second)
         {
-            Spritemap& sprite = entity->getComponent<SpriteComponent>()->sprite;
+            SpriteComponent* sc = entity->getComponent<SpriteComponent>();
+            if (!sc->enabled) continue;
+
+            Spritemap& sprite = sc->sprite;
 
             // Update sprite transform
             TransformSystem* ts = world->getSystem<TransformSystem>();
@@ -97,4 +103,6 @@ void RenderSystem::sortLayers()
             entities[layer].insert(pair.first);
         }
     }
+}
+
 }

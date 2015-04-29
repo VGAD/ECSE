@@ -1,11 +1,24 @@
-#include <memory>
 #include "Engine.h"
+#include <memory>
+#include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 
+namespace ECSE
+{
 
 Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
-    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name));
+    sf::Uint32 style = sf::Style::Close;
+    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name, style));
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
+
+    if (!renderTarget.create(size.x, size.y))
+    {
+        throw new std::runtime_error("Failed to create render target!");
+    }
+
+    window->setFramerateLimit(fps);
+    rtSprite.setTexture(renderTarget.getTexture());
 
     deltaTime = sf::seconds(1.f / float(fps));
 }
@@ -30,6 +43,8 @@ void Engine::run()
     while (window->isOpen())
     {
         sf::Time elapsed = clock.restart();
+        if (elapsed > maxElapsed) elapsed = maxElapsed;
+
         accumulator += elapsed;
 
         State* state = &getActiveState();
@@ -38,6 +53,7 @@ void Engine::run()
         {
             // Advance the state
             state->advance();
+            ++ticks;
 
             // We can now safely switch states because the state has advanced
             state = &updateStateStack();
@@ -51,11 +67,37 @@ void Engine::run()
 
         float alpha = accumulator / deltaTime;
 
-        // Draw to screen
-        window->clear();
+        // Draw to the render target
+        renderTarget.clear();
         state->render(alpha);
+        renderTarget.display();
+
+        // Render scaled to screen
+        window->clear();
+        window->draw(rtSprite);
         window->display();
     }
+}
+
+void Engine::saveScreenshot()
+{
+    unsigned int number = 0;
+    std::string formatString = "screenshot%1%.png";
+    std::string filename;
+
+    // Find an unused filename
+    do
+    {
+        filename = str(boost::format(formatString) % number);
+        number++;
+    }
+    while (boost::filesystem::exists(filename));
+
+    // Save the image
+    sf::Image screenshot = window->capture();
+    screenshot.saveToFile(filename);
+
+    LOG(INFO) << "Saved screenshot to \"" << filename << "\"";
 }
 
 void Engine::popState()
@@ -78,6 +120,14 @@ void Engine::pollEvents()
             break;
         }
     }
+
+#ifdef _WINDOWS
+    // SFML doesn't have the PrintScreen button. Wut.
+    if (GetKeyState(VK_SNAPSHOT) & 0x8000)
+    {
+        saveScreenshot();
+    }
+#endif
 }
 
 State& Engine::updateStateStack()
@@ -147,4 +197,6 @@ void Engine::Push::execute(Engine* engine)
 
     LOG(TRACE) << "Activating " << states.top()->getName();
     states.top()->activate();
+}
+
 }

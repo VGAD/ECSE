@@ -5,11 +5,14 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-using boost::property_tree::ptree;
-using boost::property_tree::read_json;
+namespace ECSE
+{
 
 bool AnimationSet::loadFromFile(const std::string &filename)
 {
+    using boost::property_tree::ptree;
+    using boost::property_tree::read_json;
+
     ptree pt;
     try
     {
@@ -64,4 +67,6 @@ const Animation& AnimationSet::getAnimation(const std::string& name) const
     }
 
     return it->second;
+}
+
 }

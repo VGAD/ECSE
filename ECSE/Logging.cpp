@@ -7,6 +7,8 @@
 
 _INITIALIZE_EASYLOGGINGPP
 
+namespace ECSE {
+
 void init_logging(int argv, char* argc[])
 {
     _START_EASYLOGGINGPP(argv, argc);
@@ -17,9 +19,6 @@ void init_logging(int argv, char* argc[])
     {
         throw std::runtime_error("Failed to create the logs diretory!");
     }
-
-    // Redirect stdout to a file
-    freopen("logs/stdout.log", "w", stdout);
 
     // Set up logging
     el::Loggers::addFlag(el::LoggingFlag::DisableApplicationAbortOnFatalLog);
@@ -40,7 +39,14 @@ void init_logging(int argv, char* argc[])
     boost::filesystem::path logPath(filename);
     if (boost::filesystem::exists(logPath))
     {
-        boost::filesystem::remove(logPath);
+        try
+        {
+            boost::filesystem::remove(logPath);
+        }
+        catch (std::exception)
+        {
+            // Just ignore this for now
+        }
     }
 #endif
 
@@ -59,4 +65,6 @@ void init_logging(int argv, char* argc[])
     el::Loggers::reconfigureLogger("default", conf);
 
     LOG(INFO) << "Logging initialized";
+}
+
 }

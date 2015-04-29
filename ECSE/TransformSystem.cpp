@@ -1,12 +1,18 @@
 #include "TransformSystem.h"
 
+namespace ECSE
+{
+
 void TransformSystem::advance()
 {
     SetSystem::advance();
 
     for (Entity* entity : getEntities())
     {
-        entity->getComponent<TransformComponent>()->advance();
+        TransformComponent* tc = entity->getComponent<TransformComponent>();
+        if (!tc->enabled) continue;
+
+        tc->advance();
     }
 }
 
@@ -15,4 +21,6 @@ bool TransformSystem::checkRequirements(const Entity& e) const
     if (!e.getComponent<TransformComponent>()) return false;
 
     return true;
+}
+
 }

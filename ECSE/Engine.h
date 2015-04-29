@@ -11,6 +11,9 @@
 #include "AnimationSet.h"
 
 //! Contains the base game information and procedures, such as the game loop and resource management.
+namespace ECSE
+{
+
 class Engine
 {
 public:
@@ -31,6 +34,9 @@ public:
     //! Run the game loop. This will not return until the game is finished running.
     void run();
 
+    //! Save a screenshot.
+    void saveScreenshot();
+
     //! Pop the top State from the stack.
     /*!
     * The State stack will not be updated until the beginning of the next game loop iteration.
@@ -41,9 +47,33 @@ public:
     /*!
     * \return The RenderTarget.
     */
-    inline sf::RenderTarget* getRenderTarget() const
+    inline sf::RenderTarget* getRenderTarget()
     {
-        return static_cast<sf::RenderTarget*>(window.get());
+        return &renderTarget;
+    }
+
+    //! Set the resolution scale.
+    /*!
+    * \param scale The new scale.
+    */
+    inline void setScale(float scale)
+    {
+        rtSprite.setScale(scale, scale);
+    }
+
+    //! Get the resolution scale.
+    /*!
+    * \return The scale.
+    */
+    inline float getScale() const
+    {
+        return rtSprite.getScale().x;
+    }
+
+    //! Get the number of advances since this started.
+    inline size_t getTicks() const
+    {
+        return ticks;
     }
 
     //! Push a State onto the stack.
@@ -81,8 +111,24 @@ private:
     */
     State& getActiveState() const;
 
+
     ///////
     // Data
+
+    //! Maximum amount of time to be simulated before rendering.
+    /*!
+    * This helps to avoid a spiral of doom when simulation is expensive.
+    */
+    sf::Time maxElapsed = sf::seconds(0.25f);
+
+    //! Offscreen buffer used to update the window display.
+    sf::RenderTexture renderTarget;
+
+    //! Sprite which is used to update the window display.
+    sf::Sprite rtSprite;
+
+    //! Number of advances since the engine was started.
+    size_t ticks = 0;
 
     //! A stack of States.
     typedef std::stack<std::unique_ptr<State>> StateStack;
@@ -135,4 +181,6 @@ StateType* Engine::pushState()
     ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
 
     return state.get();
+}
+
 }

@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Component.h"
-#include <map>
+#include <boost/unordered_map.hpp>
 #include <cstdint>
 
 //! A container for Components.
+namespace ECSE
+{
+
 /*!
 * Components can only be attached through the public World function attachComponent. This
 * is because Components should only be attached before the Entity is registered with any
@@ -42,7 +45,7 @@ public:
     /*!
     * \return A reference to the Entity's components, mapped by type hash code.
     */
-    const std::map<size_t, Component*>& getComponents() const;
+    const boost::unordered_map<size_t, Component*>& getComponents() const;
 
 
     // Data
@@ -58,9 +61,10 @@ private:
     template <typename ComponentType>
     void attachComponent(ComponentType* component);
 
-    ID id;                                      //!< Unique identifier for this Entity.
-    std::map<size_t, Component*> components;    //!< Map from type hash code to a pointer to the Component.
-    bool registered = false;                    //!< Whether this has been registered in any Systems yet.
+    // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
+    boost::unordered_map<size_t, Component*> components;    //!< Map from type hash code to a pointer to the Component.
+    ID id;                                                  //!< Unique identifier for this Entity.
+    bool registered = false;                                //!< Whether this has been registered in any Systems yet.
 };
 
 /////////////////
@@ -100,5 +104,10 @@ void Entity::attachComponent(ComponentType* component)
         throw std::runtime_error(ss.str());
     }
 
-    components[hashCode] = static_cast<ComponentType*>(component);
+    components[hashCode] = component;
+
+    // Tell the Component it's been attached
+    component->attached(this);
+}
+
 }

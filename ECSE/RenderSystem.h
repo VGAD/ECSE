@@ -3,6 +3,9 @@
 #include "System.h"
 
 //! A system which renders entities to the screen.
+namespace ECSE
+{
+
 class RenderSystem :
     public System
 {
@@ -67,3 +70,5 @@ private:
     std::map<Entity*, int> layers;
 };
 
+
+}
