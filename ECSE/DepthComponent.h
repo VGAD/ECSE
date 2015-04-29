@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Component.h"
-#include "Spritemap.h"
 
 //! A Component which stores the Entity's depth.
 namespace ECSE
