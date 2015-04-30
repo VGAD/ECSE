@@ -3,10 +3,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 
+//! Rotate a vector 90 degrees counter-clockwise.
 namespace ECSE
 {
 
-//! Rotate a vector 90 degrees counter-clockwise.
 /*!
 * This is faster than using rotate(v, pi * 0.5).
 * \param v The vector.
@@ -111,6 +111,7 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
 {
     normalize(v);
     v *= magnitude;
+<<<<<<< HEAD:ECSE/ECSE/VectorMath.h
 
     return v;
 }
@@ -143,6 +144,8 @@ inline sf::Vector2f& reject(sf::Vector2f& v1, const sf::Vector2f& v2)
     v1 -= projection;
 
     return v1;
+=======
+>>>>>>> f2dbf8deed7a6453878b682095033387044098cc:ECSE/ECSE/VectorMath.h
 }
 
 }

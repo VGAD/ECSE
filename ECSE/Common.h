@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include <string>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
+#include <string>
 
 namespace ECSE
 {

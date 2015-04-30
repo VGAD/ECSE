@@ -13,7 +13,6 @@ class Component
 {
 public:
     friend class Entity;
-
     virtual ~Component() {}
 
     //! Whether Systems should update this.

@@ -39,6 +39,7 @@ Entity::ID EntityManager::createEntity()
 
 Entity* EntityManager::getEntity(Entity::ID id)
 {
+    assert(idMap.find(id) != idMap.end());
     return idMap[id];
 }
 

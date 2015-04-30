@@ -137,8 +137,7 @@ private:
     class StackOperation
     {
     public:
-        virtual ~StackOperation() {}
-
+        virtual ~StackOperation() {};
         virtual void execute(Engine* engine) = 0;
     };
 
@@ -180,8 +179,7 @@ StateType* Engine::pushState()
 
     std::unique_ptr<StateType> state = std::unique_ptr<StateType>(new StateType(this));
 
-    auto push = new Push(std::move(state));
-    ops.push(std::unique_ptr<StackOperation>(push));
+    ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
 
     return state.get();
 }
