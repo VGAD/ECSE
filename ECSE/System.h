@@ -3,7 +3,6 @@
 #include <set>
 #include <SFML/System.hpp>
 #include "Entity.h"
-#include "Common.h"
 
 namespace ECSE
 {
@@ -18,7 +17,7 @@ public:
     /*!
     * \param world The World this System will belong to.
     */
-    System(World* world);
+    explicit System(World* world);
 
     //! Destroy the System.
     virtual ~System();
@@ -117,6 +116,5 @@ private:
     std::set<Entity*> toAdd;    //!< Entities to be added to the System on the advance step.
     std::set<Entity*> toRemove; //!< Entities to be removed from the System on the advance step.
 };
-
 
 }

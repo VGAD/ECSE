@@ -41,5 +41,4 @@ private:
     std::map<std::string, Animation> anims;   //!< Map from names to animations
 };
 
-
 }

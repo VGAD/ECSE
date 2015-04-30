@@ -132,5 +132,4 @@ private:
     bool discreteAngle = false;                 //!< Whether the angle change in this timestep should be a discrete jump.
 };
 
-
 }

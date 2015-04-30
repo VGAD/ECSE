@@ -2,11 +2,11 @@
 
 #include <stack>
 #include <queue>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/System/Vector2.hpp>
 #include "State.h"
-#include "Common.h"
 #include "ResourceManager.h"
 #include "AnimationSet.h"
 
@@ -26,7 +26,7 @@ public:
     * \param name The window name.
     * \param fps The target FPS.
     */
-    Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60);
+    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60);
 
     //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
@@ -137,6 +137,7 @@ private:
     class StackOperation
     {
     public:
+        virtual ~StackOperation() {};
         virtual void execute(Engine* engine) = 0;
     };
 
@@ -144,15 +145,15 @@ private:
     class Pop : public StackOperation
     {
     public:
-        void execute(Engine* engine);
+        void execute(Engine* engine) override;
     };
 
     //! Pushes a State onto the stack.
     class Push : public StackOperation
     {
     public:
-        Push(std::unique_ptr<State> state);
-        void execute(Engine* engine);
+        explicit Push(std::unique_ptr<State> state);
+        void execute(Engine* engine) override;
 
     private:
         std::unique_ptr<State> state;

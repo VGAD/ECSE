@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-#include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -121,7 +119,7 @@ private:
     * \param target Render target to draw to
     * \param states Current render states
     */
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 
     // Data

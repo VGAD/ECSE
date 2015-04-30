@@ -1,7 +1,6 @@
 #include "AnimationSet.h"
-#include "Common.h"
+#include "Logging.h"
 
-#include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 

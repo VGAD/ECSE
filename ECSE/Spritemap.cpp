@@ -1,12 +1,12 @@
 #include "Spritemap.h"
-#include "Common.h"
+#include "Logging.h"
 
 namespace ECSE
 {
 
 Spritemap::Spritemap()
-    : m_texture(nullptr), m_currentAnim(nullptr), m_animSet(nullptr), callback(nullptr),
-    m_currentFrame(0), m_currentTime(sf::Time::Zero)
+    : callback(nullptr), m_texture(nullptr), m_animSet(nullptr), m_currentAnim(nullptr),
+    m_currentTime(sf::Time::Zero), m_currentFrame(0)
 {
 
 }

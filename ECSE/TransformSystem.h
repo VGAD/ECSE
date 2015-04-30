@@ -13,20 +13,20 @@ class TransformSystem :
 {
 public:
     //! Construct the TransformSystem.
-    TransformSystem(World* world) : SetSystem(world) {}
+    explicit TransformSystem(World* world) : SetSystem(world) {}
 
     //! Called on an advance step.
     /*!
     * Advances TransformComponents to their next states.
     */
-    void advance();
+    void advance() override;
 
     //! Check whether an Entity meets the requirements to be added to this System.
     /*!
     * \param e The Entity to check.
     * \return Whether the Entity matches this System's requirements.
     */
-    bool checkRequirements(const Entity& e) const;
+    bool checkRequirements(const Entity& e) const override;
 
     //! Get the current global position of a given Entity.
     /*!
@@ -90,6 +90,5 @@ public:
         return e.getComponent<TransformComponent>()->interpolateAngle(alpha);
     }
 };
-
 
 }

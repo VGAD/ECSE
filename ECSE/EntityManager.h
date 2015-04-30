@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <set>
 #include <unordered_map>
 #include <boost\pool\object_pool.hpp>
 #include "Entity.h"

@@ -1,11 +1,9 @@
 #pragma once
 
 #include <map>
-#include <vector>
 #include <typeinfo>
 #include <type_traits>
 #include <boost/pool/object_pool.hpp>
-#include "Common.h"
 #include "Component.h"
 #include "Pool.h"
 
@@ -21,7 +19,7 @@ class ComponentManager
 {
 public:
     //! Destroy the ComponentManager.
-    ~ComponentManager() {};
+    virtual ~ComponentManager() {};
 
     //! Create a new Component.
     /*!

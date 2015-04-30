@@ -42,10 +42,10 @@ public:
         world.registerEntity(test);
     }
 
-    virtual void activate() { LOG(TRACE) << getName() << " active"; }
-    virtual void deactivate() { LOG(TRACE) << getName() << " inactive"; }
+    virtual void activate() override { LOG(TRACE) << getName() << " active"; }
+    virtual void deactivate() override { LOG(TRACE) << getName() << " inactive"; }
 
-    virtual const std::string getName() { return "TestState"; }
+    virtual std::string getName() override { return "TestState"; }
 };
 
 }

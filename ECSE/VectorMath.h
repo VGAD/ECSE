@@ -1,5 +1,6 @@
+#pragma once
+
 #include <SFML/System/Vector2.hpp>
-#include <cstdlib>
 #include <cmath>
 
 //! Rotate a vector 90 degrees counter-clockwise.
@@ -81,9 +82,8 @@ inline float getDotProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
 /*!
 * \param v The vector.
 * \param angle The new angle.
-* \return The vector's new angle.
 */
-inline float setHeading(sf::Vector2f& v, float angle)
+inline void setHeading(sf::Vector2f& v, float angle)
 {
     v.x = getMagnitude(v);
     v.y = 0;
@@ -111,6 +111,41 @@ inline sf::Vector2f& setMagnitude(sf::Vector2f& v, float magnitude)
 {
     normalize(v);
     v *= magnitude;
+<<<<<<< HEAD:ECSE/ECSE/VectorMath.h
+
+    return v;
+}
+
+//! Project a vector onto another vector.
+/*!
+* \param v1 The first vector.
+* \param v2 The vector onto which to project it.
+* \return A reference to v1.
+*/
+inline sf::Vector2f& project(sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    v1 = (getDotProduct(v1, v2) / getDotProduct(v2, v2)) * v2;
+
+    return v1;
+}
+
+//! Reject a vector onto another vector.
+/*!
+* This is also known as the orthogonal projection.
+* \param v1 The first vector.
+* \param v2 The vector onto which to reject it.
+* \return A reference v1.
+*/
+inline sf::Vector2f& reject(sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    auto projection(v1);
+    project(projection, v2);
+
+    v1 -= projection;
+
+    return v1;
+=======
+>>>>>>> f2dbf8deed7a6453878b682095033387044098cc:ECSE/ECSE/VectorMath.h
 }
 
 }
