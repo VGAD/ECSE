@@ -10,7 +10,7 @@ namespace ECSE
 Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
 {
     sf::Uint32 style = sf::Style::Close;
-    window = std::unique_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(size.x, size.y), name, style));
+    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(size.x, size.y), name, style);
     LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
     if (!renderTarget.create(size.x, size.y))
@@ -103,7 +103,7 @@ void Engine::saveScreenshot()
 
 void Engine::popState()
 {
-    ops.push(std::unique_ptr<StackOperation>(new Pop()));
+    ops.push(std::make_unique<Pop>());
 }
 
 void Engine::pollEvents()

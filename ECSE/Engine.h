@@ -179,7 +179,7 @@ StateType* Engine::pushState()
 
     std::unique_ptr<StateType> state = std::unique_ptr<StateType>(new StateType(this));
 
-    ops.push(std::unique_ptr<StackOperation>(new Push(std::move(state))));
+    ops.push(std::make_unique<Push>(std::move(state)));
 
     return state.get();
 }
