@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ECSE", "ECSE\ECSE.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Documentation", "Documentation\Documentation.vcxproj", "{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ECSETest", "ECSETest\ECSETest.vcxproj", "{C4CED68D-9844-47BD-8D88-11066C6B4C13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E417687-094F-4865-AABE-CEBDCAB9E30F} = {8E417687-094F-4865-AABE-CEBDCAB9E30F}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +36,14 @@ Global
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Example (Release)|Win32.Build.0 = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Release|Win32.ActiveCfg = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Release|Win32.Build.0 = Doxygen|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug|Win32.Build.0 = Debug|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Debug)|Win32.ActiveCfg = Debug|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Debug)|Win32.Build.0 = Debug|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Release)|Win32.ActiveCfg = Release|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Release)|Win32.Build.0 = Release|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Release|Win32.ActiveCfg = Release|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
