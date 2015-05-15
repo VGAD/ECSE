@@ -184,11 +184,12 @@ StateType* Engine::pushState()
     static_assert(std::is_base_of<State, StateType>::value,
                   "StateType must be a descendant of State");
 
-    std::unique_ptr<StateType> state = std::unique_ptr<StateType>(new StateType(this));
+    std::unique_ptr<StateType> state = std::make_unique<StateType>(this);
+    StateType* ptr = state.get();
 
     ops.push(std::make_unique<Push>(std::move(state)));
 
-    return state.get();
+    return ptr;
 }
 
 }
