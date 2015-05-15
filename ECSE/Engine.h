@@ -91,6 +91,12 @@ public:
     template <typename StateType>
     StateType* pushState();
 
+    //! Get the current active State.
+    /*!
+    * \return A reference to the State on top of the stack.
+    */
+    State& getActiveState() const;
+
 
     ///////
     // Data
@@ -110,12 +116,6 @@ private:
     * \return A reference to the State on top of the stack.
     */
     State& updateStateStack();
-
-    //! Get the current active State.
-    /*!
-    * \return A reference to the State on top of the stac.
-    */
-    State& getActiveState() const;
 
 
     ///////
