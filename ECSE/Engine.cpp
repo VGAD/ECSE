@@ -115,11 +115,16 @@ void Engine::pollEvents()
         if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
         {
-            LOG(TRACE) << "Close event detected";
-            window->close();
+            toExit = true;
 
             break;
         }
+    }
+
+    if (toExit)
+    {
+        LOG(TRACE) << "Close event detected";
+        window->close();
     }
 
 #ifdef _WINDOWS

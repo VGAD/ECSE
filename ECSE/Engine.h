@@ -76,6 +76,12 @@ public:
         return ticks;
     }
 
+    //! Exit the game.
+    inline void exit()
+    {
+        toExit = true;
+    }
+
     //! Push a State onto the stack.
     /*!
     * The State stack will not be updated until the beginning of the next game loop iteration.
@@ -165,6 +171,7 @@ private:
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
     sf::Time deltaTime;                                 //!< The amount of time per sim update.
+    bool toExit;                                        //!< Whether exit has been triggered.
 };
 
 
