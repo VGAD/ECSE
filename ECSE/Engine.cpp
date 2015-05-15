@@ -77,6 +77,8 @@ void Engine::run()
         window->clear();
         window->draw(rtSprite);
         window->display();
+
+        ++frames;
     }
 }
 

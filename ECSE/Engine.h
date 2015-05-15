@@ -76,6 +76,12 @@ public:
         return ticks;
     }
 
+    //! Get the number of frames drawn since this started.
+    inline size_t getFrames() const
+    {
+        return frames;
+    }
+
     //! Exit the game.
     inline void exit()
     {
@@ -135,6 +141,9 @@ private:
 
     //! Number of advances since the engine was started.
     size_t ticks = 0;
+
+    //! Number of frames since the engine was started.
+    size_t frames = 0;
 
     //! A stack of States.
     typedef std::stack<std::unique_ptr<State>> StateStack;
