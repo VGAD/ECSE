@@ -31,7 +31,10 @@ public:
     //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
 
-    //! Run the game loop. This will not return until the game is finished running.
+    //! Perform a full frame step, including running update/advance pairs and one render step.
+    void frameStep();
+
+    //! Run the game loop, calling frameStep() repeatedly until the window is closed.
     void run();
 
     //! Save a screenshot.
@@ -114,6 +117,13 @@ private:
     ////////////
     // Functions
 
+    //! Call this once a state has been pushed to the stack with pushState().
+    /*!
+    * This activates the state and updates it so it is ready to be advanced in frameStep().
+    * This should only be called once!
+    */
+    void init();
+
     //! Poll events and handle them.
     void pollEvents();
 
@@ -132,6 +142,12 @@ private:
     * This helps to avoid a spiral of doom when simulation is expensive.
     */
     sf::Time maxElapsed = sf::seconds(0.25f);
+
+    //! Accumulator used to measure time elapsed in rendering.
+    sf::Time accumulator = sf::Time::Zero;
+
+    //! Clock used to measure frame time.
+    sf::Clock clock;
 
     //! Offscreen buffer used to update the window display.
     sf::RenderTexture renderTarget;
@@ -180,7 +196,8 @@ private:
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
     sf::Time deltaTime;                                 //!< The amount of time per sim update.
-    bool toExit;                                        //!< Whether exit has been triggered.
+    bool toExit = false;                                //!< Whether exit has been triggered.
+    bool initialized = false;                           //!< Whether the first state has been activated yet.
 };
 
 

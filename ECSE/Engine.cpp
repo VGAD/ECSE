@@ -31,54 +31,56 @@ Engine::~Engine()
     soundManager.clear();
 }
 
+void Engine::frameStep()
+{
+    if (!initialized)
+    {
+        init();
+    }
+
+    sf::Time elapsed = clock.restart();
+    if (elapsed > maxElapsed) elapsed = maxElapsed;
+
+    accumulator += elapsed;
+
+    State* state = &getActiveState();
+
+    while (accumulator >= deltaTime)
+    {
+        // Advance the state
+        state->advance();
+        ++ticks;
+
+        // We can now safely switch states because the state has advanced
+        state = &updateStateStack();
+
+        // Prepare for the next advance
+        pollEvents();
+        state->update(deltaTime);
+
+        accumulator -= deltaTime;
+    }
+
+    float alpha = accumulator / deltaTime;
+
+    // Draw to the render target
+    renderTarget.clear();
+    state->render(alpha);
+    renderTarget.display();
+
+    // Render scaled to screen
+    window->clear();
+    window->draw(rtSprite);
+    window->display();
+
+    ++frames;
+}
+
 void Engine::run()
 {
-    sf::Time accumulator = sf::Time::Zero;
-    sf::Clock clock;
-
-    // Do this to make sure we have an initial State which is ready to advance
-    updateStateStack();
-    states.top()->update(deltaTime);
-
-    // Run the main loop
     while (window->isOpen())
     {
-        sf::Time elapsed = clock.restart();
-        if (elapsed > maxElapsed) elapsed = maxElapsed;
-
-        accumulator += elapsed;
-
-        State* state = &getActiveState();
-
-        while (accumulator >= deltaTime)
-        {
-            // Advance the state
-            state->advance();
-            ++ticks;
-
-            // We can now safely switch states because the state has advanced
-            state = &updateStateStack();
-
-            // Prepare for the next advance
-            pollEvents();
-            state->update(deltaTime);
-
-            accumulator -= deltaTime;
-        }
-
-        float alpha = accumulator / deltaTime;
-
-        // Draw to the render target
-        renderTarget.clear();
-        state->render(alpha);
-        renderTarget.display();
-
-        // Render scaled to screen
-        window->clear();
-        window->draw(rtSprite);
-        window->display();
-
-        ++frames;
+        frameStep();
     }
 }
 
@@ -106,6 +108,15 @@ void Engine::saveScreenshot()
 void Engine::popState()
 {
     ops.push(std::make_unique<Pop>());
+}
+
+void Engine::init()
+{
+    assert(!initialized);
+
+    State& state = updateStateStack();
+    state.update(deltaTime);
+    initialized = true;
 }
 
 void Engine::pollEvents()
