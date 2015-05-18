@@ -23,12 +23,10 @@ void RenderSystem::update(sf::Time deltaTime)
     }
 }
 
-void RenderSystem::render(float alpha)
+void RenderSystem::render(float alpha, sf::RenderTarget& renderTarget)
 {
     // First, make sure entities are sorted
     sortLayers();
-
-    sf::RenderTarget& target = *world->getEngine()->getRenderTarget();
 
     // Iterate layers, which are already sorted from highest to lowest depth
     for (auto& pair : entities)
@@ -46,7 +44,7 @@ void RenderSystem::render(float alpha)
             sprite.setRotation(radToDeg(ts->interpolateAngle(*entity, alpha)));
 
             // Render it
-            target.draw(sprite);
+            renderTarget.draw(sprite);
         }
     }
 }

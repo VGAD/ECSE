@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <boost/unordered_map.hpp>
+#include <SFML/Graphics.hpp>
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "System.h"
@@ -37,8 +38,9 @@ public:
     //! Perform the render step for all Systems.
     /*!
     * \param alpha The amount of interpolation in this render.
+    * \param renderTarget The RenderTarget to draw to.
     */
-    virtual void render(float alpha);
+    virtual void render(float alpha, sf::RenderTarget& renderTarget);
 
     //! Destroy an Entity, removing it from the simulation.
     /*!

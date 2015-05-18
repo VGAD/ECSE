@@ -65,7 +65,7 @@ void Engine::frameStep()
 
     // Draw to the render target
     renderTarget.clear();
-    state->render(alpha);
+    state->render(alpha, renderTarget);
     renderTarget.display();
 
     // Render scaled to screen

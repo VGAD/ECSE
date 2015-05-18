@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 //! Handles a single game state.
 namespace ECSE
@@ -41,8 +42,9 @@ public:
     //! Perform the render step.
     /*!
     * \param alpha The amount of interpolation in this render.
+    * \param renderTarget The RenderTarget to draw to.
     */
-    virtual void render(float alpha) = 0;
+    virtual void render(float alpha, sf::RenderTarget& renderTarget) = 0;
 
     //! Get the name of this State class.
     /*!

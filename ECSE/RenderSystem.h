@@ -32,8 +32,9 @@ public:
     * Layers are sorted as necessary, then each Entity is drawn.
     *
     * \param alpha The amount of interpolation between the two states.
+    * \param renderTarget The RenderTarget to draw to.
     */
-    void render(float alpha) override;
+    void render(float alpha, sf::RenderTarget& renderTarget) override;
 
     //! Check whether an Entity meets the requirements to be added to this System.
     /*!

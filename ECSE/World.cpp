@@ -30,11 +30,11 @@ void World::advance()
     }
 }
 
-void World::render(float alpha)
+void World::render(float alpha, sf::RenderTarget& renderTarget)
 {
     for (auto& system : orderedSystems)
     {
-        system->render(alpha);
+        system->render(alpha, renderTarget);
     }
 }
 

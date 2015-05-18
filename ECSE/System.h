@@ -2,6 +2,7 @@
 
 #include <set>
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include "Entity.h"
 
 namespace ECSE
@@ -42,8 +43,9 @@ public:
     * Each Entity should be drawn, interpolated between its current and next state.
     * 
     * \param alpha The amount of interpolation between the two states.
+    * \param renderTarget The RenderTarget to draw to.
     */
-    virtual void render(float alpha);
+    virtual void render(float alpha, sf::RenderTarget& renderTarget);
 
     //! Called on an advance step.
     /*!

@@ -15,7 +15,7 @@ public:
     virtual void deactivate() override { ++deactivateCount; }
     virtual void update(sf::Time) override { ++updateCount; }
     virtual void advance() override { ++advanceCount; }
-    virtual void render(float) override {
+    virtual void render(float, sf::RenderTarget&) override {
         ++renderCount;
         
         // Let at least one advance occur

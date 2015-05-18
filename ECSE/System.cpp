@@ -20,7 +20,7 @@ void System::update(sf::Time)
 
 }
 
-void System::render(float)
+void System::render(float, sf::RenderTarget&)
 {
 
 }

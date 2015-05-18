@@ -27,9 +27,9 @@ void WorldState::advance()
     world.advance();
 }
 
-void WorldState::render(float alpha)
+void WorldState::render(float alpha, sf::RenderTarget& renderTarget)
 {
-    world.render(alpha);
+    world.render(alpha, renderTarget);
 }
 
 }

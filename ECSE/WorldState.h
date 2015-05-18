@@ -31,8 +31,9 @@ public:
     //! Perform the render step.
     /*!
     * \param alpha The amount of interpolation in this render.
+    * \param renderTarget The RenderTarget to draw to.
     */
-    virtual void render(float alpha) override;
+    virtual void render(float alpha, sf::RenderTarget& renderTarget) override;
 
     //! Get the name of this State class.
     /*!
