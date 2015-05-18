@@ -14,15 +14,13 @@ public:
     virtual void activate() override { ++activateCount; }
     virtual void deactivate() override { ++deactivateCount; }
     virtual void update(sf::Time) override { ++updateCount; }
-    virtual void advance() override { ++advanceCount; }
-    virtual void render(float, sf::RenderTarget&) override {
-        ++renderCount;
-        
-        // Let at least one advance occur
-        if (engine->getTicks() > 0)
-        {
-            engine->exit();
-        }
+    virtual void render(float, sf::RenderTarget&) override { ++renderCount; }
+    virtual void advance() override
+    {
+        ++advanceCount;
+
+        // Pause at the end of the frame
+        engine->pause();
     }
 
     virtual std::string getName() override { return "DummyState"; }
@@ -36,50 +34,62 @@ public:
 
 class EngineTest : public ::testing::Test
 {
-protected:
-    EngineTest() : engine(sf::Vector2i(800, 600)) {}
+public:
+    EngineTest()
+    {
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60);
+    }
 
     virtual void SetUp() override
     {
-        state = engine.pushState<DummyState>();
+        state = engine->pushState<DummyState>();
 
         ASSERT_FALSE(state == nullptr) << "State should be returned";
 
-        engine.run();
+        engine->run();
     }
 
-    ECSE::Engine engine;
+    ECSE::Engine* engine;
     DummyState* state;
 };
 
-TEST_F(EngineTest, ActivateTest)
+class NoRenderEngineTest : public EngineTest
+{
+public:
+    NoRenderEngineTest()
+    {
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, true);
+    }
+};
+
+TEST_F(NoRenderEngineTest, ActivateTest)
 {
     ASSERT_EQ(1, state->activateCount) << "Activation should only occur once";
 }
 
-TEST_F(EngineTest, DeactivateTest)
+TEST_F(NoRenderEngineTest, DeactivateTest)
 {
     ASSERT_EQ(0, state->deactivateCount) << "State is still on top, so should not be deactivated";
 }
 
-TEST_F(EngineTest, UpdateAdvanceTest)
+TEST_F(NoRenderEngineTest, UpdateAdvanceTest)
 {
     ASSERT_GT(state->updateCount, size_t(0)) << "State should update at least once";
     ASSERT_GT(state->advanceCount, size_t(0)) << "State should advance at least once";
     ASSERT_EQ(state->updateCount - 1, state->advanceCount) << "State should have advanced one less time than updated";
 }
 
-TEST_F(EngineTest, TickTest)
+TEST_F(NoRenderEngineTest, TickTest)
 {
-    ASSERT_EQ(state->advanceCount, engine.getTicks()) << "Tick count should equal advance count";
+    ASSERT_EQ(state->advanceCount, engine->getTicks()) << "Tick count should equal advance count";
+}
+
+TEST_F(EngineTest, FrameTest)
+{
+    ASSERT_EQ(state->renderCount, engine->getFrames()) << "Frame count should equal render count";
 }
 
 TEST_F(EngineTest, RenderTest)
 {
     ASSERT_GT(state->renderCount, size_t(0)) << "State should have rendered at least one frame";
-}
-
-TEST_F(EngineTest, FrameTest)
-{
-    ASSERT_EQ(state->renderCount, engine.getFrames()) << "Frame count should equal render count";
 }
