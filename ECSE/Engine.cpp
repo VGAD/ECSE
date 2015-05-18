@@ -7,7 +7,7 @@
 namespace ECSE
 {
 
-Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRender)
+Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRender, bool lockstep)
 {
     if (!noRender)
     {
@@ -26,6 +26,7 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRen
 
     deltaTime = sf::seconds(1.f / float(fps));
     this->noRender = noRender;
+    this->lockstep = lockstep;
 }
 
 Engine::~Engine()
@@ -42,27 +43,23 @@ void Engine::frameStep()
         init();
     }
 
-    sf::Time elapsed = clock.restart();
-    if (elapsed > maxElapsed) elapsed = maxElapsed;
-
-    accumulator += elapsed;
-
-    State* state = &getActiveState();
-
-    while (accumulator >= deltaTime)
+    if (lockstep)
     {
-        // Advance the state
-        state->advance();
-        ++ticks;
+        // Perform one time step per frame
+        timeStep();
+    }
+    else
+    {
+        sf::Time elapsed = clock.restart();
+        if (elapsed > maxElapsed) elapsed = maxElapsed;
 
-        // We can now safely switch states because the state has advanced
-        state = &updateStateStack();
+        accumulator += elapsed;
 
-        // Prepare for the next advance
-        pollEvents();
-        state->update(deltaTime);
-
-        accumulator -= deltaTime;
+        // Perform steps as necessary for delta time
+        while (accumulator >= deltaTime)
+        {
+            timeStep();
+        }
     }
 
     if (!noRender)
@@ -71,7 +68,7 @@ void Engine::frameStep()
 
         // Draw to the render target
         renderTarget.clear();
-        state->render(alpha, renderTarget);
+        getActiveState().render(alpha, renderTarget);
         renderTarget.display();
 
         // Render scaled to screen
@@ -170,6 +167,24 @@ State& Engine::updateStateStack()
     }
 
     return getActiveState();
+}
+
+void Engine::timeStep()
+{
+    State* state = &getActiveState();
+
+    // Advance the state
+    state->advance();
+    ++ticks;
+
+    // We can now safely switch states because the state has advanced
+    state = &updateStateStack();
+
+    // Prepare for the next advance
+    pollEvents();
+    state->update(deltaTime);
+
+    accumulator -= deltaTime;
 }
 
 State& Engine::getActiveState() const

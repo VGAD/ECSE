@@ -25,9 +25,11 @@ public:
     * \param size The window dimensions.
     * \param name The window name.
     * \param fps The target FPS.
-    * \param noRender If false, no window is created and rendering is not performed.
+    * \param noRender If true, no window is created and rendering is not performed.
+    * \param lockstep If true, one timestep is simulated per frame no matter what.
     */
-    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60, bool noRender = false);
+    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60,
+                    bool noRender = false, bool lockstep = false);
 
     //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
@@ -149,6 +151,9 @@ private:
     */
     State& updateStateStack();
 
+    //! Perform a single timestep (advance and then update).
+    void timeStep();
+
 
     ///////
     // Data
@@ -197,8 +202,9 @@ private:
 
     bool toExit = false;                                //!< Whether exit has been triggered.
     bool initialized = false;                           //!< Whether the first state has been activated yet.
+    bool running = false;                               //!< Whether the game loop is running.
     bool noRender = false;                              //!< If true, no window is created and rendering is not performed.
-    bool running = false;                               //!< Whether the game loop is running
+    bool lockstep = false;                              //!< If true, one timestep is simulated per frame no matter what.
 
     sf::Sprite rtSprite;                                //!< Sprite which is used to update the window display.
     sf::RenderTexture renderTarget;                     //!< Offscreen buffer used to update the window display.
