@@ -137,30 +137,6 @@ private:
     ///////
     // Data
 
-    //! Maximum amount of time to be simulated before rendering.
-    /*!
-    * This helps to avoid a spiral of doom when simulation is expensive.
-    */
-    sf::Time maxElapsed = sf::seconds(0.25f);
-
-    //! Accumulator used to measure time elapsed in rendering.
-    sf::Time accumulator = sf::Time::Zero;
-
-    //! Clock used to measure frame time.
-    sf::Clock clock;
-
-    //! Offscreen buffer used to update the window display.
-    sf::RenderTexture renderTarget;
-
-    //! Sprite which is used to update the window display.
-    sf::Sprite rtSprite;
-
-    //! Number of advances since the engine was started.
-    size_t ticks = 0;
-
-    //! Number of frames since the engine was started.
-    size_t frames = 0;
-
     //! A stack of States.
     typedef std::stack<std::unique_ptr<State>> StateStack;
 
@@ -192,12 +168,19 @@ private:
 
     friend StackOperation;
 
+    sf::Clock clock;                                    //!< Clock used to measure frame time.
+    sf::Time accumulator = sf::Time::Zero;              //!< Accumulator used to measure time elapsed in rendering.
+    sf::Time maxElapsed = sf::seconds(0.25f);           //!< Maximum amount of time to be simulated before rendering (to avoid spiral of doom for expensive simulation).
+    sf::Time deltaTime;                                 //!< The amount of time per sim update.
     StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
-    sf::Time deltaTime;                                 //!< The amount of time per sim update.
     bool toExit = false;                                //!< Whether exit has been triggered.
     bool initialized = false;                           //!< Whether the first state has been activated yet.
+    size_t frames = 0;                                  //!< Number of frames since the engine was started.
+    size_t ticks = 0;                                   //!< Number of advances since the engine was started.
+    sf::Sprite rtSprite;                                //!< Sprite which is used to update the window display.
+    sf::RenderTexture renderTarget;                     //!< Offscreen buffer used to update the window display.
 };
 
 
