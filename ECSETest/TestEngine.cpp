@@ -43,3 +43,11 @@ TEST_F(EngineStateTest, MultiFrameStepTest)
     ASSERT_EQ(stepCount, engine->getFrames()) << "Engine should simulate " << stepCount << " frames";
     ASSERT_EQ(stepCount, engine->getTimeSteps()) << "Engine should simulate " << stepCount << " time steps";
 }
+
+TEST_F(EngineTest, RunTest)
+{
+    engine->pushState<DummyExitState>();
+    engine->run();
+
+    ASSERT_EQ(10, engine->getTimeSteps()) << "Engine should simulate 10 time steps";
+}

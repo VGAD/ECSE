@@ -42,8 +42,11 @@ public:
     {
         DummyState::advance();
 
-        // Stop running at the end of the frame
-        engine->stop();
+        // Stop running after 9 time steps (plus the current step == 10).
+        if (engine->getTimeSteps() >= 9)
+        {
+            engine->stop();
+        }
     }
 
     virtual std::string getName() override { return "DummyExitState"; }
