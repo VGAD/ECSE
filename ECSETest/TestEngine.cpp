@@ -81,7 +81,7 @@ TEST_F(NoRenderEngineTest, UpdateAdvanceTest)
 
 TEST_F(NoRenderEngineTest, TickTest)
 {
-    ASSERT_EQ(state->advanceCount, engine->getTicks()) << "Tick count should equal advance count";
+    ASSERT_EQ(state->advanceCount, engine->getTimeSteps()) << "Time step count should equal advance count";
 }
 
 TEST_F(EngineTest, FrameTest)

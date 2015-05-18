@@ -175,7 +175,7 @@ void Engine::timeStep()
 
     // Advance the state
     state->advance();
-    ++ticks;
+    ++timeSteps;
 
     // We can now safely switch states because the state has advanced
     state = &updateStateStack();

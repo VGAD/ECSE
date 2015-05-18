@@ -76,10 +76,10 @@ public:
         return rtSprite.getScale().x;
     }
 
-    //! Get the number of advances since this started.
-    inline size_t getTicks() const
+    //! Get the number of update/advance time step pairs since this started.
+    inline size_t getTimeSteps() const
     {
-        return ticks;
+        return timeSteps;
     }
 
     //! Get the number of frames drawn since this started.
@@ -195,7 +195,7 @@ private:
     sf::Time deltaTime;                                 //!< The amount of time per sim update.
 
     size_t frames = 0;                                  //!< Number of frames since the engine was started.
-    size_t ticks = 0;                                   //!< Number of advances since the engine was started.
+    size_t timeSteps = 0;                               //!< Number of update/advance time step pairs since the engine was started.
 
     StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
