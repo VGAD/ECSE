@@ -53,7 +53,7 @@ void EntityManager::destroyEntity(Entity::ID id)
     }
 
     idMap[id] = nullptr;
-    std::remove(entities.begin(), entities.end(), e);
+    entities.erase(find(entities.begin(), entities.end(), e));
     entityPool.destroy(e);
 }
 
