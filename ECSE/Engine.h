@@ -88,14 +88,8 @@ public:
         return frames;
     }
 
-    //! Exit the game.
-    inline void exit()
-    {
-        toExit = true;
-    }
-
-    //! Pause the game loop at the end of this iteration if it is running.
-    inline void pause()
+    //! Stop the game loop at the end of this iteration if it is running.
+    inline void stop()
     {
         running = false;
     }
@@ -200,7 +194,6 @@ private:
     StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
     std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
 
-    bool toExit = false;                                //!< Whether exit has been triggered.
     bool initialized = false;                           //!< Whether the first state has been activated yet.
     bool running = false;                               //!< Whether the game loop is running.
     bool noRender = false;                              //!< If true, no window is created and rendering is not performed.

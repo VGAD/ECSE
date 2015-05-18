@@ -19,8 +19,8 @@ public:
     {
         ++advanceCount;
 
-        // Pause at the end of the frame
-        engine->pause();
+        // Stop running at the end of the frame
+        engine->stop();
     }
 
     virtual std::string getName() override { return "DummyState"; }
