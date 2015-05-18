@@ -51,3 +51,55 @@ TEST_F(EngineTest, RunTest)
 
     ASSERT_EQ(10, engine->getTimeSteps()) << "Engine should simulate 10 time steps";
 }
+
+TEST_F(EngineTest, NoStateTest)
+{
+    ASSERT_THROW(engine->getActiveState(), std::runtime_error) << "Stateless engine should throw exception";
+}
+
+TEST_F(EngineTest, PushStateTest)
+{
+    DummyState* a = engine->pushState<DummyState>();
+
+    ASSERT_THROW(engine->getActiveState(), std::runtime_error) << "Engine should still have no active state";
+
+    engine->frameStep();
+
+    ASSERT_EQ(&engine->getActiveState(), a) << "State should be added";
+}
+
+TEST_F(EngineTest, ChangeStateTest)
+{
+    DummyState* a = engine->pushState<DummyState>();
+    engine->frameStep();
+
+    ASSERT_EQ(1, a->advanceCount) << "First state should have advanced once";
+    ASSERT_EQ(2, a->updateCount) << "First state should have updated once";
+
+    DummyState* b = engine->pushState<DummyExitState>();
+    engine->run();
+
+    ASSERT_EQ(2, a->advanceCount) << "First state should have advanced one more time";
+    ASSERT_EQ(2, a->updateCount) << "First state should not have updated again";
+
+    ASSERT_EQ(10, b->advanceCount) << "Second state should have advanced 10 times";
+    ASSERT_EQ(11, b->updateCount) << "Second state should have updated one extra time to be ready for next time step";
+}
+
+TEST_F(EngineTest, PopStateTest)
+{
+    DummyState* a = engine->pushState<DummyExitState>();
+    engine->frameStep();
+
+    DummyState* b = engine->pushState<DummyExitState>();
+    engine->run();
+
+    ASSERT_EQ(10, b->advanceCount) << "Second state should have advanced 10 times";
+    ASSERT_EQ(11, b->updateCount) << "Second state should have updated one extra time to be ready for next time step";
+
+    engine->popState();
+    engine->run();
+
+    ASSERT_EQ(2, a->advanceCount) << "First state should have advanced twice";
+    ASSERT_EQ(3, a->updateCount) << "First state should have updated one extra time to be ready for next time step";
+}

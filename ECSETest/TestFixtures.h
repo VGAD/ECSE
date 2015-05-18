@@ -43,7 +43,7 @@ public:
         DummyState::advance();
 
         // Stop running after 9 time steps (plus the current step == 10).
-        if (engine->getTimeSteps() >= 9)
+        if (advanceCount >= 10)
         {
             engine->stop();
         }
