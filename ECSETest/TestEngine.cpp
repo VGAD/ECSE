@@ -37,7 +37,7 @@ class EngineTest : public ::testing::Test
 public:
     EngineTest()
     {
-        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60);
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, false, true);
     }
 
     virtual void SetUp() override
@@ -58,7 +58,7 @@ class NoRenderEngineTest : public EngineTest
 public:
     NoRenderEngineTest()
     {
-        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, true);
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, true, true);
     }
 };
 
