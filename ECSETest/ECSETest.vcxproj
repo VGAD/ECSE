@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestEngine.cpp" />
+    <ClCompile Include="TestEntityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtures.h" />
