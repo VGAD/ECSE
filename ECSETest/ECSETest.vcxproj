@@ -14,6 +14,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestEngine.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestFixtures.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C4CED68D-9844-47BD-8D88-11066C6B4C13}</ProjectGuid>
     <RootNamespace>ECSETest</RootNamespace>
