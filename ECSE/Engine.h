@@ -25,8 +25,9 @@ public:
     * \param size The window dimensions.
     * \param name The window name.
     * \param fps The target FPS.
+    * \param noRender If false, no window is created and rendering is not performed.
     */
-    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60);
+    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60, bool noRender = false);
 
     //! Destroy all game objects, clean up resources and stop the game.
     ~Engine();
@@ -34,7 +35,7 @@ public:
     //! Perform a full frame step, including running update/advance pairs and one render step.
     void frameStep();
 
-    //! Run the game loop, calling frameStep() repeatedly until the window is closed.
+    //! Run the game loop, calling frameStep() repeatedly until stopped.
     void run();
 
     //! Save a screenshot.
@@ -89,6 +90,21 @@ public:
     inline void exit()
     {
         toExit = true;
+    }
+
+    //! Pause the game loop at the end of this iteration if it is running.
+    inline void pause()
+    {
+        running = false;
+    }
+
+    //! Check if the game loop is running.
+    /*!
+    * \return Whether the loop is running.
+    */
+    inline bool isRunning()
+    {
+        return running;
     }
 
     //! Push a State onto the stack.
@@ -172,15 +188,21 @@ private:
     sf::Time accumulator = sf::Time::Zero;              //!< Accumulator used to measure time elapsed in rendering.
     sf::Time maxElapsed = sf::seconds(0.25f);           //!< Maximum amount of time to be simulated before rendering (to avoid spiral of doom for expensive simulation).
     sf::Time deltaTime;                                 //!< The amount of time per sim update.
-    StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
-    std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
-    std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
-    bool toExit = false;                                //!< Whether exit has been triggered.
-    bool initialized = false;                           //!< Whether the first state has been activated yet.
+
     size_t frames = 0;                                  //!< Number of frames since the engine was started.
     size_t ticks = 0;                                   //!< Number of advances since the engine was started.
+
+    StateStack states;                                  //!< The stack of game States. The one at the top is updated in the run loop.
+    std::queue<std::unique_ptr<StackOperation>> ops;    //!< The operations to perform on the State stack at the beginning of the next iteration.
+
+    bool toExit = false;                                //!< Whether exit has been triggered.
+    bool initialized = false;                           //!< Whether the first state has been activated yet.
+    bool noRender = false;                              //!< If true, no window is created and rendering is not performed.
+    bool running = false;                               //!< Whether the game loop is running
+
     sf::Sprite rtSprite;                                //!< Sprite which is used to update the window display.
     sf::RenderTexture renderTarget;                     //!< Offscreen buffer used to update the window display.
+    std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
 };
 
 

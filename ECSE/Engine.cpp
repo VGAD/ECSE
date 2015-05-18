@@ -7,21 +7,25 @@
 namespace ECSE
 {
 
-Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps)
+Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRender)
 {
-    sf::Uint32 style = sf::Style::Close;
-    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(size.x, size.y), name, style);
-    LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
-
-    if (!renderTarget.create(size.x, size.y))
+    if (!noRender)
     {
-        throw new std::runtime_error("Failed to create render target!");
+        sf::Uint32 style = sf::Style::Close;
+        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(size.x, size.y), name, style);
+        LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
+
+        if (!renderTarget.create(size.x, size.y))
+        {
+            throw new std::runtime_error("Failed to create render target!");
+        }
+
+        window->setFramerateLimit(fps);
+        rtSprite.setTexture(renderTarget.getTexture());
     }
 
-    window->setFramerateLimit(fps);
-    rtSprite.setTexture(renderTarget.getTexture());
-
     deltaTime = sf::seconds(1.f / float(fps));
+    this->noRender = noRender;
 }
 
 Engine::~Engine()
@@ -61,24 +65,29 @@ void Engine::frameStep()
         accumulator -= deltaTime;
     }
 
-    float alpha = accumulator / deltaTime;
+    if (!noRender)
+    {
+        float alpha = accumulator / deltaTime;
 
-    // Draw to the render target
-    renderTarget.clear();
-    state->render(alpha, renderTarget);
-    renderTarget.display();
+        // Draw to the render target
+        renderTarget.clear();
+        state->render(alpha, renderTarget);
+        renderTarget.display();
 
-    // Render scaled to screen
-    window->clear();
-    window->draw(rtSprite);
-    window->display();
+        // Render scaled to screen
+        window->clear();
+        window->draw(rtSprite);
+        window->display();
+    }
 
     ++frames;
 }
 
 void Engine::run()
 {
-    while (window->isOpen())
+    running = true;
+
+    while (running)
     {
         frameStep();
     }
@@ -121,6 +130,8 @@ void Engine::init()
 
 void Engine::pollEvents()
 {
+    if (noRender) return;
+
     sf::Event event;
 
     while (window->pollEvent(event))
