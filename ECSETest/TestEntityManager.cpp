@@ -68,3 +68,32 @@ TEST_F(EntityManagerTest, TestGetEntities)
         ASSERT_TRUE(std::find(added.begin(), added.end(), e) != added.end()) << "Entity was not added, but is in vector anyway";
     }
 }
+
+TEST_F(EntityManagerTest, TestNewID)
+{
+    manager.createEntity();
+    ECSE::Entity::ID eID = manager.createEntity();
+    manager.createEntity();
+
+    manager.destroyEntity(eID);
+
+    ECSE::Entity::ID newID = manager.createEntity();
+
+    ASSERT_NE(eID, newID) << "Entity limit not exceeded, so fresh IDs should be used";
+}
+
+TEST_F(EntityManagerTest, TestReplaceMemory)
+{
+    manager.createEntity();
+    ECSE::Entity::ID eID = manager.createEntity();
+    manager.createEntity();
+
+    ECSE::Entity* entityA = manager.getEntity(eID);
+
+    manager.destroyEntity(eID);
+
+    ECSE::Entity::ID newID = manager.createEntity();
+    ECSE::Entity* entityB = manager.getEntity(newID);
+
+    ASSERT_EQ(entityA, entityB) << "Entities should backfill unused memory";
+}
