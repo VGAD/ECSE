@@ -103,3 +103,33 @@ TEST_F(EngineTest, PopStateTest)
     ASSERT_EQ(2, a->advanceCount) << "First state should have advanced twice";
     ASSERT_EQ(3, a->updateCount) << "First state should have updated one extra time to be ready for next time step";
 }
+
+TEST_F(EngineTest, PopStateEmptyTest)
+{
+    engine->popState();
+    ASSERT_THROW(engine->frameStep(), std::runtime_error) << "Pop should fail with no states";
+}
+
+TEST_F(EngineTest, PopStateEmptyAfterTest)
+{
+    engine->pushState<DummyState>();
+    engine->popState();
+    ASSERT_THROW(engine->frameStep(), std::runtime_error) << "Pop should fail when last state is popped";
+}
+
+TEST_F(EngineTest, MultiOperationStateTest)
+{
+    DummyState* a = engine->pushState<DummyState>();
+    DummyState* b = engine->pushState<DummyState>();
+    engine->popState();
+    DummyState* c = engine->pushState<DummyState>();
+
+    engine->frameStep();
+
+    ASSERT_EQ(c, &engine->getActiveState()) << "State C should be on top";
+
+    engine->popState();
+    engine->frameStep();
+
+    ASSERT_EQ(a, &engine->getActiveState()) << "State A should be on top, as B was popped";
+}
