@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "ECSE/SetSystem.h"
+#include "TestUtils.h"
 
 // Test SetSystem because System is lacking features for a reasonable test
 class DummySystem : public ECSE::SetSystem
@@ -78,7 +79,7 @@ TEST_F(SystemTest, TestAddMultiple)
     auto entities = system.getEntities();
     for (ECSE::Entity &e : added)
     {
-        ASSERT_TRUE(std::find(entities.begin(), entities.end(), &e) != entities.end()) << "Entity should have been added";
+        ASSERT_TRUE(contains(entities, &e)) << "Entity should have been added";
     }
 }
 
@@ -152,9 +153,9 @@ TEST_F(SystemTest, TestRemoveMultiple)
     system.advance();
 
     auto entities = system.getEntities();
-    ASSERT_TRUE(std::find(entities.begin(), entities.end(), &added[0]) != entities.end()) << "Entity should not have been removed";
-    ASSERT_FALSE(std::find(entities.begin(), entities.end(), &added[1]) != entities.end()) << "Entity should have been removed";
-    ASSERT_TRUE(std::find(entities.begin(), entities.end(), &added[2]) != entities.end()) << "Entity should not have been removed";
-    ASSERT_TRUE(std::find(entities.begin(), entities.end(), &added[3]) != entities.end()) << "Entity should not have been removed";
-    ASSERT_FALSE(std::find(entities.begin(), entities.end(), &added[4]) != entities.end()) << "Entity should have been removed";
+    ASSERT_TRUE(contains(entities, &added[0])) << "Entity should not have been removed";
+    ASSERT_FALSE(contains(entities, &added[1])) << "Entity should have been removed";
+    ASSERT_TRUE(contains(entities, &added[2])) << "Entity should not have been removed";
+    ASSERT_TRUE(contains(entities, &added[3])) << "Entity should not have been removed";
+    ASSERT_FALSE(contains(entities, &added[4])) << "Entity should have been removed";
 }

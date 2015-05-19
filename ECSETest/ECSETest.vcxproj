@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtures.h" />
+    <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C4CED68D-9844-47BD-8D88-11066C6B4C13}</ProjectGuid>

@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "ECSE/EntityManager.h"
+#include "TestUtils.h"
 
 class EntityManagerTest : public ::testing::Test
 {
@@ -60,12 +61,12 @@ TEST_F(EntityManagerTest, TestGetEntities)
     auto entities = manager.getEntities();
     for (ECSE::Entity* e : added)
     {
-        ASSERT_TRUE(std::find(entities.begin(), entities.end(), e) != entities.end()) << "Entity should have been in vector";
+        ASSERT_TRUE(contains(entities, e)) << "Entity should have been in vector";
     }
 
     for (ECSE::Entity* e : entities)
     {
-        ASSERT_TRUE(std::find(added.begin(), added.end(), e) != added.end()) << "Entity was not added, but is in vector anyway";
+        ASSERT_TRUE(contains(entities, e)) << "Entity was not added, but is in vector anyway";
     }
 }
 
