@@ -97,3 +97,40 @@ TEST_F(EntityManagerTest, TestReplaceMemory)
 
     ASSERT_EQ(entityA, entityB) << "Entities should backfill unused memory";
 }
+
+class SmallMaxIDEntityManager : public ECSE::EntityManager
+{
+public:
+    ECSE::Entity::ID getMaxIDCount() const override
+    {
+        return 4;
+    }
+};
+
+class SmallMaxIDEntityManagerTest : public ::testing::Test
+{
+public:
+    SmallMaxIDEntityManager manager;
+};
+
+TEST_F(SmallMaxIDEntityManagerTest, TestTooManyIDs)
+{
+    manager.createEntity();
+    manager.createEntity();
+    manager.createEntity();
+
+    ASSERT_THROW(manager.createEntity(), std::runtime_error) << "Should complain about too many IDs";
+}
+
+TEST_F(SmallMaxIDEntityManagerTest, TestReuseID)
+{
+    manager.createEntity();
+    ECSE::Entity::ID eID = manager.createEntity();
+    manager.createEntity();
+
+    manager.destroyEntity(eID);
+
+    ECSE::Entity::ID newID = manager.createEntity();
+
+    ASSERT_EQ(eID, newID) << "ID should be reused";
+}

@@ -46,7 +46,7 @@ public:
     /*!
     * \param entity A pointer to the Entity to remove.
     */
-    void destroyEntity(Entity* entity);
+    virtual void destroyEntity(Entity* entity);
 
     //! Get a vector of all the Entities.
     /*!
@@ -55,6 +55,15 @@ public:
     virtual inline const std::vector<Entity*>& getEntities() const
     {
         return entities;
+    }
+
+    //! Get the maximum number of IDs, including Entity::invalidID.
+    /*!
+    * \return The maximum number of IDs.
+    */
+    virtual Entity::ID getMaxIDCount() const
+    {
+        return std::numeric_limits<Entity::ID>::max();
     }
 
 private:

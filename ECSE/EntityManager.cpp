@@ -5,14 +5,18 @@ namespace ECSE
 
 Entity::ID EntityManager::createEntity()
 {
-    Entity::ID newID = nextID++;
+    Entity::ID newID = (++nextID) % getMaxIDCount();
+    if (newID == Entity::invalidID)
+    {
+        ++newID;
+    }
 
     if (idMap[newID])
     {
         bool found = false;
 
         // This ID is taken; try to find a new one
-        for (Entity::ID i = Entity::invalidID + 1; i < std::numeric_limits<Entity::ID>::max(); ++i)
+        for (Entity::ID i = Entity::invalidID + 1; i < getMaxIDCount(); ++i)
         {
             if (!idMap[i])
             {
