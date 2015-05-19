@@ -1,4 +1,4 @@
-#include "TestFixtures.h"
+#include "gtest/gtest.h"
 #include "ECSE/EntityManager.h"
 
 class EntityManagerTest : public ::testing::Test
