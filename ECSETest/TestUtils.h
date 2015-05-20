@@ -1,5 +1,3 @@
-#include <algorithm>
-
 template <typename ContainerType, typename ItemType>
 bool contains(ContainerType& container, ItemType item)
 {
