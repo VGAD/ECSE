@@ -35,7 +35,21 @@ TEST_F(SystemTest, TestInspect)
     auto entities = system.getEntities();
 
     ASSERT_EQ(1, entities.size()) << "One entity should be added";
-    ASSERT_TRUE(entities.find(&e) != entities.end()) << "Same entity should be added";
+    ASSERT_TRUE(system.hasEntity(e)) << "Same entity should be added";
+}
+
+TEST_F(SystemTest, TestInspectFailRequirements)
+{
+    ECSE::Entity e;
+
+    system.passChecks = false;
+    system.inspectEntity(e);
+    system.advance();
+
+    auto entities = system.getEntities();
+
+    ASSERT_TRUE(entities.empty()) << "Entity should not be added";
+    ASSERT_FALSE(system.hasEntity(e)) << "Same entity should not be added";
 }
 
 TEST_F(SystemTest, TestInspectTwice)
@@ -49,6 +63,7 @@ TEST_F(SystemTest, TestInspectTwice)
     auto entities = system.getEntities();
 
     ASSERT_EQ(1, entities.size()) << "Entity should only be added once";
+    ASSERT_TRUE(system.hasEntity(e)) << "Same entity should be added";
 }
 
 TEST_F(SystemTest, TestAddTwice)
@@ -64,6 +79,7 @@ TEST_F(SystemTest, TestAddTwice)
     auto entities = system.getEntities();
 
     ASSERT_EQ(1, entities.size()) << "Entity should only be added once";
+    ASSERT_TRUE(system.hasEntity(e)) << "Same entity should be added";
 }
 
 TEST_F(SystemTest, TestAddMultiple)
@@ -77,10 +93,29 @@ TEST_F(SystemTest, TestAddMultiple)
     system.advance();
 
     auto entities = system.getEntities();
+    ASSERT_EQ(5, entities.size()) << "Entities should be added";
+
     for (ECSE::Entity &e : added)
     {
-        ASSERT_TRUE(contains(entities, &e)) << "Entity should have been added";
+        ASSERT_TRUE(system.hasEntity(e)) << "Entity should have been added";
     }
+}
+
+TEST_F(SystemTest, TestHasEntity)
+{
+    ECSE::Entity e;
+
+    system.inspectEntity(e);
+    system.advance();
+
+    ASSERT_TRUE(system.hasEntity(e)) << "Entity was added but hasEntity returned false";
+}
+
+TEST_F(SystemTest, TestHasEntityFalse)
+{
+    ECSE::Entity e;
+
+    ASSERT_FALSE(system.hasEntity(e)) << "Entity was not added but hasEntity returned true";
 }
 
 TEST_F(SystemTest, TestRemove)
@@ -114,7 +149,7 @@ TEST_F(SystemTest, TestMarkToRemoveTwice)
     auto entities = system.getEntities();
 
     ASSERT_EQ(1, entities.size()) << "Only one entity should be removed";
-    ASSERT_EQ(&e2, *entities.begin()) << "Only first entity should be removed";
+    ASSERT_TRUE(system.hasEntity(e2)) << "Only first entity should be removed";
 }
 
 TEST_F(SystemTest, TestRemoveTwice)
@@ -135,7 +170,7 @@ TEST_F(SystemTest, TestRemoveTwice)
     auto entities = system.getEntities();
 
     ASSERT_EQ(1, entities.size()) << "Only one entity should be removed";
-    ASSERT_EQ(&e2, *entities.begin()) << "Only first entity should be removed";
+    ASSERT_TRUE(system.hasEntity(e2)) << "Only first entity should be removed";
 }
 
 TEST_F(SystemTest, TestRemoveMultiple)
@@ -153,9 +188,9 @@ TEST_F(SystemTest, TestRemoveMultiple)
     system.advance();
 
     auto entities = system.getEntities();
-    ASSERT_TRUE(contains(entities, &added[0])) << "Entity should not have been removed";
-    ASSERT_FALSE(contains(entities, &added[1])) << "Entity should have been removed";
-    ASSERT_TRUE(contains(entities, &added[2])) << "Entity should not have been removed";
-    ASSERT_TRUE(contains(entities, &added[3])) << "Entity should not have been removed";
-    ASSERT_FALSE(contains(entities, &added[4])) << "Entity should have been removed";
+    ASSERT_TRUE(system.hasEntity(added[0])) << "Entity should not have been removed";
+    ASSERT_FALSE(system.hasEntity(added[1])) << "Entity should have been removed";
+    ASSERT_TRUE(system.hasEntity(added[2])) << "Entity should not have been removed";
+    ASSERT_TRUE(system.hasEntity(added[3])) << "Entity should not have been removed";
+    ASSERT_FALSE(system.hasEntity(added[4])) << "Entity should have been removed";
 }
