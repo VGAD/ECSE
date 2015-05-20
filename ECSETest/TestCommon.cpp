@@ -65,3 +65,13 @@ TEST(WrapDifferenceTest, NegativeRightTest)
 {
     ASSERT_EQ(-1.f, ECSE::wrapDifference(-2.5f, -0.5f, -3.f));
 }
+
+TEST(WrapDifferenceTest, BothLeftTest)
+{
+    ASSERT_EQ(1.f, ECSE::wrapDifference(-2.5f, 1.5f, -3.f));
+}
+
+TEST(WrapDifferenceTest, BothRightTest)
+{
+    ASSERT_EQ(-1.f, ECSE::wrapDifference(1.5f, -2.5f, -3.f));
+}
