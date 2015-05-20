@@ -9,7 +9,10 @@
 namespace ECSE
 {
 
-const float pi = 3.14159265359f;    //!< The value of pi.
+const float pi = 3.14159265358979323846f;   //!< The value of pi.
+const float two_pi = pi * 2.f;              //!< The value of pi * 2.
+const float half_pi = pi * 0.5f;            //!< The value of pi * 0.5.
+const float quarter_pi = pi * 0.25f;        //!< The value of pi * 0.25.
 
 //! Pops up an OS-specific error message.
 /*!
@@ -184,7 +187,7 @@ inline T angularLerp(T from, T to, float amount)
 {
     static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
 
-    return wrapLerp(from, to, T(2.f * pi), amount);
+    return wrapLerp(from, to, T(two_pi), amount);
 }
 
 }
