@@ -184,7 +184,7 @@ inline T angularLerp(T from, T to, float amount)
 {
     static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
 
-    return wrapLerp(from, to, T(pi), amount);
+    return wrapLerp(from, to, T(2.f * pi), amount);
 }
 
 }
