@@ -54,7 +54,7 @@ T intervalMod(T x, T y)
     if (0. == y)
         return x;
 
-    double m = x - y * floor(x/y);
+    T m = x - y * floor(x/y);
 
     // handle boundary cases resulted from floating-point cut off:
 
@@ -128,7 +128,7 @@ inline T clamp(T min, T max, T value)
     return std::max(min, std::min(max, value));
 }
 
-//! Find the smallest difference between two values given that they "wrap" around a third value.
+//! Find the smallest difference between two values given that they "wrap" around a third value back to zero.
 /*!
 * E.g. from = 0.5, to = 2.5, wrap = 3.0 -> the shortest distance is -0.5.
 *
@@ -142,11 +142,16 @@ T wrapDifference(T from, T to, T wrap)
 {
     static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
 
-    from = fmod(from, wrap);
-    to = fmod(to, wrap);
+    from = intervalMod(from, wrap);
+    to = intervalMod(to, wrap);
 
-    T diffA = (to - from);
-    T diffB = (abs(diffA) - wrap) * (diffA > T(0) ? T(-1) : T(1));
+    T diffA = to - from;
+    T diffB = abs(abs(diffA) - abs(wrap));
+
+    if (diffA > 0)
+    {
+        diffB = -diffB;
+    }
 
     return (abs(diffA) < abs(diffB)) ? diffA : diffB;
 }
