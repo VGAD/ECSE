@@ -1,6 +1,26 @@
 #include "gtest/gtest.h"
 #include "ECSE/Common.h"
 
+TEST(IntervalModTest, PositivePositiveTest)
+{
+    ASSERT_FLOAT_EQ(2.0f, ECSE::intervalMod(6.0f, 4.0f));
+}
+
+TEST(IntervalModTest, PositiveNegativeTest)
+{
+    ASSERT_FLOAT_EQ(-2.0f, ECSE::intervalMod(6.0f, -4.0f));
+}
+
+TEST(IntervalModTest, NegativePositiveTest)
+{
+    ASSERT_FLOAT_EQ(2.0f, ECSE::intervalMod(-6.0f, 4.0f));
+}
+
+TEST(IntervalModTest, NegativeNegativeTest)
+{
+    ASSERT_FLOAT_EQ(-2.0f, ECSE::intervalMod(-6.0f, -4.0f));
+}
+
 TEST(LerpTest, GeneralTest)
 {
     ASSERT_EQ(5.0f, ECSE::lerp(0.f, 10.f, 0.5f));
