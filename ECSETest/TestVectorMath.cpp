@@ -38,7 +38,7 @@ TEST(Rotate90Test, FortyFiveTest)
 TEST(RotateTest, Right90Test)
 {
     sf::Vector2f v(3.f, 0.f);
-    ECSE::rotate(v, ECSE::half_pi);
+    ECSE::rotate(v, ECSE::halfPi);
 
     ASSERT_NEAR_VECMATH(0.f, v.x);
     ASSERT_NEAR_VECMATH(3.f, v.y);
@@ -47,7 +47,7 @@ TEST(RotateTest, Right90Test)
 TEST(RotateTest, Up90Test)
 {
     sf::Vector2f v(0.f, 3.f);
-    ECSE::rotate(v, ECSE::half_pi);
+    ECSE::rotate(v, ECSE::halfPi);
 
     ASSERT_NEAR_VECMATH(-3.f, v.x);
     ASSERT_NEAR_VECMATH(0.f, v.y);
@@ -56,7 +56,7 @@ TEST(RotateTest, Up90Test)
 TEST(RotateTest, FortyFive90Test)
 {
     sf::Vector2f v(3.f, 3.f);
-    ECSE::rotate(v, ECSE::half_pi);
+    ECSE::rotate(v, ECSE::halfPi);
 
     ASSERT_NEAR_VECMATH(-3.f, v.x);
     ASSERT_NEAR_VECMATH(3.f, v.y);
@@ -65,10 +65,10 @@ TEST(RotateTest, FortyFive90Test)
 TEST(RotateTest, Right45Test)
 {
     sf::Vector2f v(10.f, 0.f);
-    ECSE::rotate(v, ECSE::quarter_pi);
+    ECSE::rotate(v, ECSE::quarterPi);
 
-    ASSERT_NEAR_VECMATH(cos(ECSE::quarter_pi) * 10.f, v.x);
-    ASSERT_NEAR_VECMATH(sin(ECSE::quarter_pi) * 10.f, v.y);
+    ASSERT_NEAR_VECMATH(cos(ECSE::quarterPi) * 10.f, v.x);
+    ASSERT_NEAR_VECMATH(sin(ECSE::quarterPi) * 10.f, v.y);
 }
 
 TEST(RotateTest, Up180Test)
@@ -83,7 +83,7 @@ TEST(RotateTest, Up180Test)
 TEST(RotateTest, Left360Test)
 {
     sf::Vector2f v(-200.f, 0.f);
-    ECSE::rotate(v, ECSE::two_pi);
+    ECSE::rotate(v, ECSE::twoPi);
 
     ASSERT_NEAR_VECMATH(-200.f, v.x);
     ASSERT_NEAR_VECMATH(0.f, v.y);
