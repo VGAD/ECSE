@@ -126,6 +126,9 @@ ComponentType* World::attachComponent(Entity::ID id)
 template <typename SystemType>
 void World::addSystem()
 {
+    static_assert(std::is_base_of<System, SystemType>::value,
+                  "SystemType must be a descendant of System!");
+
     if (systemsAdded)
     {
         throw std::runtime_error("Tried to add a system after World has already started updating");
