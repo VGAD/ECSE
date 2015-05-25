@@ -95,3 +95,23 @@ TEST(WrapDifferenceTest, BothRightTest)
 {
     ASSERT_EQ(-1.f, ECSE::wrapDifference(1.5f, -2.5f, -3.f));
 }
+
+TEST(WrapLerp, LeftTest)
+{
+    ASSERT_EQ(1.f, ECSE::wrapLerp(1.5f, 0.5f, 3.f, 0.5f));
+}
+
+TEST(WrapLerp, RightTest)
+{
+    ASSERT_EQ(1.f, ECSE::wrapLerp(0.5f, 1.5f, 3.f, 0.5f));
+}
+
+TEST(WrapLerp, WrapLeftTest)
+{
+    ASSERT_EQ(0.f, ECSE::wrapLerp(0.5f, 2.5f, 3.f, 0.5f));
+}
+
+TEST(WrapLerp, WrapRightTest)
+{
+    ASSERT_EQ(3.f, ECSE::wrapLerp(2.5f, 0.5f, 3.f, 0.5f));
+}
