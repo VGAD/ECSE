@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 #include "SFML/System.hpp"
 #include "ECSE/Engine.h"
-#include "ECSE/Logging.h"
+#include "ECSE/SetSystem.h"
 
 //! A dummy state which does nothing other than to track each call.
 class DummyState : public ECSE::State
@@ -116,4 +116,22 @@ public:
     }
 
     DummyState* state;
+};
+
+// Test SetSystem because System is lacking features for a reasonable test
+class DummySystem : public ECSE::SetSystem
+{
+public:
+    explicit DummySystem()
+        : SetSystem(nullptr)
+    {
+    }
+
+    bool passChecks = true;
+
+protected:
+    bool checkRequirements(const ECSE::Entity&) const override
+    {
+        return passChecks;
+    }
 };

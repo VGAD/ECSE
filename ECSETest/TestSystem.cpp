@@ -1,23 +1,6 @@
 #include "gtest/gtest.h"
 #include "ECSE/SetSystem.h"
-#include "TestUtils.h"
-
-// Test SetSystem because System is lacking features for a reasonable test
-class DummySystem : public ECSE::SetSystem
-{
-public:
-    explicit DummySystem()
-        : SetSystem(nullptr)
-    { }
-
-    bool passChecks = true;
-
-protected:
-    bool checkRequirements(const ECSE::Entity&) const override
-    {
-        return passChecks;
-    }
-};
+#include "TestFixtures.h"
 
 class SystemTest : public ::testing::Test
 {
