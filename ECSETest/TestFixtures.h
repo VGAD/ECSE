@@ -119,19 +119,34 @@ public:
 };
 
 // Test SetSystem because System is lacking features for a reasonable test
-class DummySystem : public ECSE::SetSystem
+class DummyWorldSystem : public ECSE::SetSystem
 {
 public:
-    explicit DummySystem()
-        : SetSystem(nullptr)
+    explicit DummyWorldSystem(ECSE::World* world)
+        : SetSystem(world)
     {
     }
 
+    void added() override
+    {
+        isAdded = true;
+    }
+
+    bool isAdded = false;
     bool passChecks = true;
 
 protected:
     bool checkRequirements(const ECSE::Entity&) const override
     {
         return passChecks;
+    }
+};
+
+class DummySystem : public DummyWorldSystem
+{
+public:
+    explicit DummySystem()
+        : DummyWorldSystem(nullptr)
+    {
     }
 };

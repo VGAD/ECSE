@@ -17,6 +17,7 @@
     <ClCompile Include="TestEngine.cpp" />
     <ClCompile Include="TestEntityManager.cpp" />
     <ClCompile Include="TestVectorMath.cpp" />
+    <ClCompile Include="TestWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtures.h" />
