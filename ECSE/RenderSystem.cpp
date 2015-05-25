@@ -4,7 +4,6 @@
 #include "TransformComponent.h"
 #include "TransformSystem.h"
 #include "World.h"
-#include "Engine.h"
 
 namespace ECSE
 {
@@ -12,6 +11,16 @@ namespace ECSE
 bool RenderSystem::hasEntity(const Entity& e) const
 {
     return layers.find(const_cast<Entity*>(&e)) != layers.end();
+}
+
+void RenderSystem::added()
+{
+    ts = world->getSystem<TransformSystem>();
+
+    if (ts == nullptr)
+    {
+        throw std::runtime_error("RenderSystem requires a TransformSystem");
+    }
 }
 
 void RenderSystem::update(sf::Time deltaTime)
@@ -39,7 +48,6 @@ void RenderSystem::render(float alpha, sf::RenderTarget& renderTarget)
             Spritemap& sprite = sc->sprite;
 
             // Update sprite transform
-            TransformSystem* ts = world->getSystem<TransformSystem>();
             sprite.setPosition(ts->interpolatePosition(*entity, alpha));
             sprite.setRotation(radToDeg(ts->interpolateAngle(*entity, alpha)));
 

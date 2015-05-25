@@ -15,6 +15,11 @@ System::~System()
 
 }
 
+void System::added()
+{
+    
+}
+
 void System::update(sf::Time)
 {
 

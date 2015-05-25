@@ -16,6 +16,17 @@ World::~World()
 
 void World::update(sf::Time deltaTime)
 {
+    // Notify systems they've been added on first update
+    if (!systemsAdded)
+    {
+        for (auto& system : orderedSystems)
+        {
+            system->added();
+        }
+
+        systemsAdded = true;
+    }
+
     for (auto& system : orderedSystems)
     {
         system->update(deltaTime);

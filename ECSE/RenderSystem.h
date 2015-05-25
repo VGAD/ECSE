@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.h"
+#include "TransformSystem.h"
 #include <map>
 
 //! A system which renders entities to the screen.
@@ -20,6 +21,9 @@ public:
     * \return Whether the Entity is already in the RenderSystem's internal structure.
     */
     bool hasEntity(const Entity& e) const override;
+
+    //! Called when all Systems have been added to the world.
+    void added() override;
 
     //! Called on an update step.
     /*!
@@ -70,6 +74,9 @@ private:
 
     //! Map from Entity to layer index.
     std::map<Entity*, int> layers;
+
+    //! The World's TransformSystem.
+    TransformSystem* ts;
 };
 
 }

@@ -90,6 +90,7 @@ private:
     // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
     boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
     std::vector<System*> orderedSystems;                            //!< Vector of Systems in preferred call order.
+    bool systemsAdded = false;                                      //!< Whether Systems are finished being added.
 };
 
 /////////////////
@@ -125,10 +126,15 @@ ComponentType* World::attachComponent(Entity::ID id)
 template <typename SystemType>
 void World::addSystem()
 {
+    if (systemsAdded)
+    {
+        throw std::runtime_error("Tried to add a system after World has already started updating");
+    }
+
     if (getSystem<SystemType>() != nullptr)
     {
         std::stringstream ss;
-        ss << "Tried to add a \"" << typeid(SystemType).name() << "\" system more than once!";
+        ss << "Tried to add a \"" << typeid(SystemType).name() << "\" system more than once";
 
         throw std::runtime_error(ss.str());
     }
@@ -140,7 +146,6 @@ void World::addSystem()
     orderedSystems.push_back(ptr.get());
     systems[hashCode] = std::move(ptr);
 }
-
 
 template <typename SystemType>
 SystemType* World::getSystem()

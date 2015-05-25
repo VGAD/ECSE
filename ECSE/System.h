@@ -30,6 +30,12 @@ public:
     */
     virtual bool hasEntity(const Entity& e) const = 0;
 
+    //! Called when all Systems have been added to the world.
+    /*!
+    * Override this to get references to other Systems.
+    */
+    virtual void added();
+
     //! Called on an update step.
     /*!
     * Each Entity should react to its current states, then prepare its next state.
