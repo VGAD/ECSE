@@ -68,7 +68,7 @@ public:
 
     //! Add a System of this type to the World.
     template <typename SystemType>
-    void addSystem();
+    SystemType* addSystem();
 
     //! Get the System of this type.
     /*!
@@ -124,7 +124,7 @@ ComponentType* World::attachComponent(Entity::ID id)
 }
 
 template <typename SystemType>
-void World::addSystem()
+SystemType* World::addSystem()
 {
     static_assert(std::is_base_of<System, SystemType>::value,
                   "SystemType must be a descendant of System!");
@@ -148,6 +148,8 @@ void World::addSystem()
     // Add pointer to map and the vector. Map owns the system while vector has just the pointer
     orderedSystems.push_back(ptr.get());
     systems[hashCode] = std::move(ptr);
+
+    return static_cast<SystemType*>(systems[hashCode].get());
 }
 
 template <typename SystemType>
