@@ -80,9 +80,25 @@ Entity* World::registerEntity(Entity::ID id)
 void World::destroyEntity(Entity::ID id)
 {
     Entity* e = getEntity(id);
+
+    if (!e)
+    {
+        std::stringstream ss;
+        ss << "Tried to destroy an Entity with an invalid ID (" << id << ")";
+        throw std::runtime_error(ss.str());
+    }
+
     for (const auto& pair : e->getComponents())
     {
         destroyComponent(pair.second);
+    }
+
+    for (auto system : orderedSystems)
+    {
+        if (system->hasEntity(*e))
+        {
+            system->markToRemove(*e);
+        }
     }
 
     EntityManager::destroyEntity(id);
