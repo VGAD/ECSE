@@ -150,3 +150,12 @@ public:
     {
     }
 };
+
+class DummyComponent : public ECSE::Component
+{
+public:
+    explicit DummyComponent()
+        : Component()
+    {
+    }
+};
