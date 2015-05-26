@@ -49,7 +49,7 @@ void World::render(float alpha, sf::RenderTarget& renderTarget)
     }
 }
 
-void World::registerEntity(Entity::ID id)
+Entity* World::registerEntity(Entity::ID id)
 {
     Entity* entity = getEntity(id);
 
@@ -73,6 +73,8 @@ void World::registerEntity(Entity::ID id)
     }
 
     entity->registered = true;
+
+    return entity;
 }
 
 void World::destroyEntity(Entity::ID id)

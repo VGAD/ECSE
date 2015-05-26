@@ -55,8 +55,9 @@ public:
     * Must be called after the Entity has been created for it to actually do anything.
     *
     * \param id The ID of the Entity to be registered.
+    * \return The Entity that was registered.
     */
-    virtual void registerEntity(Entity::ID id);
+    virtual Entity* registerEntity(Entity::ID id);
 
     //! Attach a Component to an Entity.
     /*!
@@ -67,6 +68,9 @@ public:
     ComponentType* attachComponent(Entity::ID id);
 
     //! Add a System of this type to the World.
+    /*!
+    * \return The System that was added.
+    */
     template <typename SystemType>
     SystemType* addSystem();
 
