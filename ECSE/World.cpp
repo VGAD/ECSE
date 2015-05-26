@@ -53,9 +53,18 @@ void World::registerEntity(Entity::ID id)
 {
     Entity* entity = getEntity(id);
 
+    if (entity->registered)
+    {
+        std::stringstream ss;
+        ss << "Entity already registered (id " << id << ")";
+        throw std::runtime_error(ss.str());
+    }
+
     if (!entity)
     {
-        throw std::runtime_error("Tried to register an Entity with an invalid ID!");
+        std::stringstream ss;
+        ss << "Tried to register an Entity with an invalid ID (" << id << ")";
+        throw std::runtime_error(ss.str());
     }
 
     for (auto& pair : systems)
