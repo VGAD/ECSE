@@ -183,6 +183,22 @@ TEST_F(WorldTest, TestUpdateOrder)
     ASSERT_EQ("WorldTest_SysB", updateOrder[2]);
 }
 
+TEST_F(WorldTest, TestSystemPosition)
+{
+    world.addSystem<WorldTest_SysA>();
+    world.addSystem<WorldTest_SysB>();
+    world.addSystem<WorldTest_SysC>();
+
+    ASSERT_EQ(0, world.getSystemPosition<WorldTest_SysA>());
+    ASSERT_EQ(1, world.getSystemPosition<WorldTest_SysB>());
+    ASSERT_EQ(2, world.getSystemPosition<WorldTest_SysC>());
+}
+
+TEST_F(WorldTest, TestInvalidSystemPosition)
+{
+    ASSERT_EQ(-1, world.getSystemPosition<WorldTest_SysA>());
+}
+
 TEST_F(WorldTest, TestRegisterEntity)
 {
     DummyWorldSystem* sys = world.addSystem<DummyWorldSystem>();
