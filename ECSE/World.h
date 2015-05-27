@@ -69,6 +69,7 @@ public:
 
     //! Add a System of this type to the World.
     /*!
+    * Note that the order in which Systems are added also determines the order in which they are updated.
     * \return The System that was added.
     */
     template <typename SystemType>
@@ -80,6 +81,18 @@ public:
     */
     template <typename SystemType>
     SystemType* getSystem();
+
+    //! Get the position of the SystemType in the ordered list.
+    /*!
+    * e.g. The first System to update will be at position 0, and the third will be at
+    * position 2.
+    *
+    * This is useful to check when a System is added that it will update after a specific system.
+    *
+    * \return The System's update position, or -1 if it doesn't exist in the World.
+    */
+    template <typename SystemType>
+    int getSystemPosition();
 
     //! Get the Engine to which this belongs.
     /*!
@@ -172,6 +185,21 @@ SystemType* World::getSystem()
 
     // We should be safe to do a static cast since we know exactly what type this is.
     return static_cast<SystemType*>(it->second.get());
+}
+
+template <typename SystemType>
+int World::getSystemPosition()
+{
+    System* system = getSystem<SystemType>();
+
+    if (system == nullptr)
+    {
+        return -1;
+    }
+
+    auto iterator = find(orderedSystems.begin(), orderedSystems.end(), system);
+
+    return iterator - orderedSystems.begin();
 }
 
 }
