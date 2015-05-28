@@ -2,10 +2,10 @@
 
 #include "Component.h"
 
-//! A Component which stores the Entity's depth.
 namespace ECSE
 {
 
+//! A Component which stores the Entity's depth.
 class DepthComponent : public Component
 {
 public:

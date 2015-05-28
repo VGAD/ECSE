@@ -4,10 +4,10 @@
 #include <boost/unordered_map.hpp>
 #include <cstdint>
 
-//! A container for Components.
 namespace ECSE
 {
 
+//! A container for Components.
 /*!
 * Components can only be attached through the public World function attachComponent. This
 * is because Components should only be attached before the Entity is registered with any

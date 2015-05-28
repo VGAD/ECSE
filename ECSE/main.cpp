@@ -23,9 +23,11 @@
 namespace ECSE
 {
 
+//! Adds some text to the screen to test rendering.
 class TestState : public WorldState
 {
 public:
+    //! Construct the TestState and add the text.
     TestState(Engine* engine)
         : WorldState(engine)
     {

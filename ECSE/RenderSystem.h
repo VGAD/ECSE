@@ -4,10 +4,10 @@
 #include "TransformSystem.h"
 #include <map>
 
-//! A system which renders entities to the screen.
 namespace ECSE
 {
 
+//! A system which renders entities to the screen.
 class RenderSystem :
     public System
 {

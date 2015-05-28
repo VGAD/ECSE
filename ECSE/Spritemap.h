@@ -8,12 +8,13 @@
 namespace ECSE
 {
 
-typedef std::vector<size_t> FrameVector;
-
 //! A class used to draw animated sprites.
 class Spritemap : public sf::Drawable, public sf::Transformable
 {
 public:
+    //! A vector of frame indices.
+    typedef std::vector<size_t> FrameVector;
+
     //! Create a Spritemap with no texture.
     explicit Spritemap();
 

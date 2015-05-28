@@ -2,10 +2,10 @@
 
 #include <map>
 
-//! A data store intended for use with SFML Texture and SoundBuffer types.
 namespace ECSE
 {
 
+//! A data store intended for use with SFML Texture and SoundBuffer types.
 /*! Allows loading and storing based on filenames so data can be re-used. */
 template <typename T>
 class ResourceManager

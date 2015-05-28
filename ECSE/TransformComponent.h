@@ -4,10 +4,10 @@
 #include "Component.h"
 #include "Common.h"
 
-//! A Component which stores local transform data (e.g. local position and angle).
 namespace ECSE
 {
 
+//! A Component which stores local transform data (e.g. local position and angle).
 class TransformComponent : public Component
 {
 public:

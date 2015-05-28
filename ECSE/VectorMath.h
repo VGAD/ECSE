@@ -1,3 +1,5 @@
+//! \file VectorMath.h Contains functions for doing math on sf::Vector2f.
+
 #pragma once
 
 #include <SFML/System/Vector2.hpp>

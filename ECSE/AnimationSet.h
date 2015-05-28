@@ -4,10 +4,10 @@
 #include <vector>
 #include <SFML/System.hpp>
 
-//! Used to store animation data
 namespace ECSE
 {
 
+//! Used to store animation data.
 struct Animation
 {
     //! Type for vector of animation frames indices.

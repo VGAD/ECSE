@@ -3,11 +3,11 @@
 #include "SetSystem.h"
 #include "TransformComponent.h"
 
-//! A System that handles updating TransformComponents as well as determining an Entity's global (not relative/local) transform data.
-// TODO: add a Component allowing Entities to attach to a parent.
 namespace ECSE
 {
 
+//! A System that handles updating TransformComponents as well as determining an Entity's global (not relative/local) transform data.
+// TODO: add a Component allowing Entities to attach to a parent.
 class TransformSystem :
     public SetSystem
 {

@@ -3,10 +3,10 @@
 #include "State.h"
 #include "World.h"
 
-//! A State which maintains a single World.
 namespace ECSE
 {
 
+//! A State which maintains a single World.
 class WorldState : public State
 {
 public:

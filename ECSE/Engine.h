@@ -10,10 +10,10 @@
 #include "ResourceManager.h"
 #include "AnimationSet.h"
 
-//! Contains the base game information and procedures, such as the game loop and resource management.
 namespace ECSE
 {
 
+//! Contains the base game information and procedures, such as the game loop and resource management.
 class Engine
 {
 public:

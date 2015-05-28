@@ -3,10 +3,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-//! Handles a single game state.
 namespace ECSE
 {
 
+//! Handles a single game state.
 class State
 {
     friend class Engine;

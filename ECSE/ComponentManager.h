@@ -7,10 +7,10 @@
 #include "Component.h"
 #include "Pool.h"
 
-//! Handles allocation and deallocation for all component types.
 namespace ECSE
 {
 
+//! Handles allocation and deallocation for all component types.
 /*!
 * This class allows Components of the same type to remain more or less tightly-packed. Ownership of
 * the allocated Components will always remain within the ComponentManager.

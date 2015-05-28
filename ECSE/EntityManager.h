@@ -4,10 +4,10 @@
 #include <boost\pool\object_pool.hpp>
 #include "Entity.h"
 
-//! Handles allocation and deallocation of Entities, as well as distribution of IDs.
 namespace ECSE
 {
 
+//! Handles allocation and deallocation of Entities, as well as distribution of IDs.
 /*!
 * This class allows Entities to remain more or less tightly-packed. Ownership of the allocated
 * Entities will always remain within the EntityManager.

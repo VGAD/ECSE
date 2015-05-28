@@ -4,10 +4,10 @@
 #include "System.h"
 #include "Logging.h"
 
-//! A System which maintains a set of Entities as its internal structure.
 namespace ECSE
 {
 
+//! A System which maintains a set of Entities as its internal structure.
 class SetSystem :
     public System
 {

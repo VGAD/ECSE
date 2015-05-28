@@ -3,10 +3,10 @@
 #include "Component.h"
 #include "Spritemap.h"
 
-//! A Component which stores Sprite data.
 namespace ECSE
 {
 
+//! A Component which stores Sprite data.
 class SpriteComponent : public Component
 {
 public:
