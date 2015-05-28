@@ -23,8 +23,8 @@ If you want to run the example make sure the ECSE project setting for
 
 Contribution Conventions
 ========================
-* Pull request everything, even if it's a simple change.
-* Confirm with other contributors before accepting a PR (check implementation, style, build). This can be verbally or in PR discussion.
+* Unless you're a repo admin, pull request everything, even if it's a simple change.
+* Before submitting a PR, run the unit tests and confirm that they're passing.
 
 Coding Conventions
 ==================
