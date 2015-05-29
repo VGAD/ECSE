@@ -3,6 +3,7 @@
 #include <vector>
 #include <boost/unordered_map.hpp>
 #include <SFML/Graphics.hpp>
+#include <sstream>
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "System.h"
