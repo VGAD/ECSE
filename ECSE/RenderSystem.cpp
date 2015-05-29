@@ -21,6 +21,11 @@ void RenderSystem::added()
     {
         throw std::runtime_error("RenderSystem requires a TransformSystem");
     }
+
+    if (world->getSystemPosition<TransformSystem>() < world->getSystemPosition<RenderSystem>())
+    {
+        throw std::runtime_error("RenderSystem should be added before TransformSystem");
+    }
 }
 
 void RenderSystem::update(sf::Time deltaTime)
