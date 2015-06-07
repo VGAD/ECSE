@@ -80,6 +80,19 @@ inline float getDotProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
     return v1.x * v2.x + v1.y * v2.y;
 }
 
+//! Get the 2D cross product of two vectors.
+/*!
+* This returns the magnitude of the 3D cross product where Z=0 for both vectors.
+
+* \param v1 The first vector.
+* \param v2 The second vector.
+* \return The cross product.
+*/
+inline float get2DCrossProduct(const sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    return v1.x * v2.y - v1.y * v2.x;
+}
+
 //! Set a vector's angle of rotation, maintaining its magnitude.
 /*!
 * \param v The vector.

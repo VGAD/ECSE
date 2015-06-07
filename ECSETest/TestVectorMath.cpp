@@ -150,6 +150,22 @@ TEST(GetDotProductTest, ParallelTest)
     ASSERT_FLOAT_EQ(25.f, ECSE::getDotProduct(a, b));
 }
 
+TEST(Get2DCrossProductTest, PerpendicularTest)
+{
+    sf::Vector2f a(5.f, 0.f);
+    sf::Vector2f b(0.f, 5.f);
+
+    ASSERT_FLOAT_EQ(25.f, ECSE::get2DCrossProduct(a, b));
+}
+
+TEST(Get2DCrossProductTest, ParallelTest)
+{
+    sf::Vector2f a(1.f, 0.f);
+    sf::Vector2f b(1.f, 0.f);
+
+    ASSERT_FLOAT_EQ(0.f, ECSE::get2DCrossProduct(a, b));
+}
+
 TEST(SetHeadingTest, DifferentTest)
 {
     sf::Vector2f v(15.f, 0.f);
