@@ -8,10 +8,10 @@
 // in other files for logging
 #include "easylogging++.h"
 
-//! Initialize everything required for logging.
 namespace ECSE
 {
 
+//! Initialize everything required for logging.
 /*!
 * Sets up easylogging++ and redirects stdout to a separate log file.
 */

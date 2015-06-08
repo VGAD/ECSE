@@ -5,10 +5,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 
-//! Rotate a vector 90 degrees counter-clockwise.
 namespace ECSE
 {
 
+//! Rotate a vector 90 degrees counter-clockwise.
 /*!
 * This is faster than using rotate(v, pi * 0.5).
 * \param v The vector.

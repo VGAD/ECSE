@@ -20,6 +20,7 @@
     #endif
 #endif
 
+//! Contains all ECSE-related code.
 namespace ECSE
 {
 
