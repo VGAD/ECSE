@@ -32,8 +32,8 @@ public:
     TestState(Engine* engine)
         : WorldState(engine)
     {
-        world.addSystem<TransformSystem>();
         world.addSystem<RenderSystem>();
+        world.addSystem<TransformSystem>();
 
         Entity::ID test = world.createEntity();
         world.attachComponent<TransformComponent>(test)->setNextPosition(sf::Vector2f(240.f, 180.f), true);
