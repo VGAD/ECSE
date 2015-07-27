@@ -95,6 +95,18 @@ unsigned InputManager::getInputMode() const
     return inputMode;
 }
 
+std::vector<unsigned> InputManager::getConnectedJoysticks() const
+{
+    std::vector<unsigned> result;
+
+    for (unsigned i = 0; i < sf::Joystick::Count; ++i)
+    {
+        if (sf::Joystick::isConnected(i)) result.push_back(i);
+    }
+
+    return result;
+}
+
 const InputManager::InputSource& InputManager::getSource(unsigned bindingId, unsigned mode) const
 {
     auto modeBindings = bindings.find(mode);

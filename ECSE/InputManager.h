@@ -128,6 +128,12 @@ public:
     */
     unsigned getInputMode() const;
 
+    //! Get a vector of all available joystick ids.
+    /*!
+    * \return A vector containing the ids of the available joysticks.
+    */
+    std::vector<unsigned> getConnectedJoysticks() const;
+
 private:
     //! A generic class to get data from an input source.
     class InputSource
