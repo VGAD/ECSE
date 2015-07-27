@@ -15,14 +15,6 @@ public:
     //! Construct the input manager.
     explicit InputManager();
 
-    //! Check if an id is already bound.
-    /*!
-    * \param bindingId The id to check.
-    * \param mode The input mode.
-    * \return Whether the id is bound already.
-    */
-    bool isBound(unsigned bindingId, unsigned mode) const;
-
     //! Bind a function to an id.
     /*!
     * \param bindingId The id used to refer to this input source.
@@ -32,6 +24,21 @@ public:
     template <typename T>
     void bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn);
 
+    //! Check if an id is already bound.
+    /*!
+    * \param bindingId The id to check.
+    * \param mode The input mode.
+    * \return Whether the id is bound already.
+    */
+    bool isBound(unsigned bindingId, unsigned mode) const;
+
+    //! Check if an id is already bound in the current input mode.
+    /*!
+    * \param bindingId The id to check.
+    * \return Whether the id is bound already.
+    */
+    bool isBound(unsigned bindingId) const;
+
     //! Get an input source's value as a float.
     /*!
     * \param bindingId The id of the input source.
@@ -40,6 +47,13 @@ public:
     */
     float getFloatValue(unsigned bindingId, unsigned mode) const;
 
+    //! Get an input source's value as a float in the current input mode.
+    /*!
+    * \param bindingId The id of the input source.
+    * \return The input source's value.
+    */
+    float getFloatValue(unsigned bindingId) const;
+
     //! Get an input source's value as an int.
     /*!
     * \param bindingId The id of the input source.
@@ -47,6 +61,25 @@ public:
     * \return The input source's value.
     */
     int getIntValue(unsigned bindingId, unsigned mode) const;
+
+    //! Get an input source's value as an int in the current input mode.
+    /*!
+    * \param bindingId The id of the input source.
+    * \return The input source's value.
+    */
+    int getIntValue(unsigned bindingId) const;
+
+    //! Set the input mode.
+    /*!
+    * \param The new input mode.
+    */
+    void setInputMode(unsigned mode);
+
+    //! Get the current input mode.
+    /*!
+    * \return The current input mode.
+    */
+    unsigned getInputMode() const;
 
 private:
     //! A generic class to get data from an input source.
@@ -145,6 +178,8 @@ private:
     * \return The InputSource.
     */
     const InputSource& getSource(unsigned bindingId, unsigned mode) const;
+
+    unsigned inputMode = 0; //!< Current input mode.
 
     //! Map from mode to bindings, which map from binding id to input source.
     std::unordered_map<unsigned, std::unordered_map<unsigned, std::unique_ptr<InputSource>>> bindings;

@@ -18,6 +18,11 @@ bool InputManager::isBound(unsigned bindingId, unsigned mode) const
     return true;
 }
 
+bool InputManager::isBound(unsigned bindingId) const
+{
+    return isBound(bindingId, inputMode);
+}
+
 float InputManager::getFloatValue(unsigned bindingId, unsigned mode) const
 {
     const InputSource& source = getSource(bindingId, mode);
@@ -25,11 +30,31 @@ float InputManager::getFloatValue(unsigned bindingId, unsigned mode) const
     return source.getFloatValue();
 }
 
+float InputManager::getFloatValue(unsigned bindingId) const
+{
+    return getFloatValue(bindingId, inputMode);
+}
+
 int InputManager::getIntValue(unsigned bindingId, unsigned mode) const
 {
     const InputSource& source = getSource(bindingId, mode);
 
     return source.getIntValue();
+}
+
+int InputManager::getIntValue(unsigned bindingId) const
+{
+    return getIntValue(bindingId, inputMode);
+}
+
+void InputManager::setInputMode(unsigned mode)
+{
+    inputMode = mode;
+}
+
+unsigned InputManager::getInputMode() const
+{
+    return inputMode;
 }
 
 const InputManager::InputSource& InputManager::getSource(unsigned bindingId, unsigned mode) const
