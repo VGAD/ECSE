@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
+#include <SFML/Window.hpp>
 
 namespace ECSE
 {
@@ -23,6 +24,46 @@ public:
     */
     template <typename T>
     void bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn);
+
+    //! Bind a keyboard key to an id.
+    /*!
+    * \param bindingId The id used to refer to this input source.
+    * \param mode The input mode in which this binding is active.
+    * \param key The key value to check.
+    */
+    void bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key);
+
+    //! Bind a pair of keys to an id.
+    /*!
+    * The keys "push and pull" the value as if they are two directions in an axis.
+    * key1 will decrease the value by 1 and key2 will increase the value by 1, e.g.
+    * both pressed or neither pressed returns 0, only key1 pressed returns -1, and
+    * only key2 pressed returns 1.
+    *
+    * \param bindingId The id used to refer to this input source.
+    * \param mode The input mode in which this binding is active.
+    * \param key1 The first key value to check.
+    * \param key2 The second key value to check.
+    */
+    void bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
+
+    //! Bind a joystick axis to an id.
+    /*!
+    * \param bindingId The id used to refer to this input source.
+    * \param mode The input mode in which this binding is active.
+    * \param joystick The joystick to check.
+    * \param axis The axis to check.
+    */
+    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis);
+
+    //! Bind a joystick button to an id.
+    /*!
+    * \param bindingId The id used to refer to this input source.
+    * \param mode The input mode in which this binding is active.
+    * \param joystick The joystick to check.
+    * \param button The button to check.
+    */
+    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, unsigned button);
 
     //! Check if an id is already bound.
     /*!

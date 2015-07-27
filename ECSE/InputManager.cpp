@@ -7,6 +7,44 @@ InputManager::InputManager()
 {
 }
 
+void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key)
+{
+    std::function<bool()> poll = [key]() { return sf::Keyboard::isKeyPressed(key); };
+    bindInput(bindingId, mode, poll);
+}
+
+void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
+{
+    std::function<int()> poll = [key1, key2]()
+    {
+        auto pull = sf::Keyboard::isKeyPressed(key1) ? 1 : 0;
+        auto push = sf::Keyboard::isKeyPressed(key2) ? 1 : 0;
+
+        return push - pull;
+    };
+    bindInput(bindingId, mode, poll);
+}
+
+
+void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis)
+{
+    std::function<float()> poll = [joystick, axis]()
+    {
+        return sf::Joystick::getAxisPosition(joystick, axis);
+    };
+    bindInput(bindingId, mode, poll);
+}
+
+
+void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, unsigned button)
+{
+    std::function<int()> poll = [joystick, button]()
+    {
+        return sf::Joystick::isButtonPressed(joystick, button);
+    };
+    bindInput(bindingId, mode, poll);
+}
+
 bool InputManager::isBound(unsigned bindingId, unsigned mode) const
 {
     auto modeBindings = bindings.find(mode);
