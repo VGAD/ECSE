@@ -47,7 +47,7 @@ public:
     */
     void bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
 
-    //! Bind a joystick axis to an id.
+    //! Bind a joystick axis to an id (scaled to [-1 .. 1] instead of [-100 .. 100]).
     /*!
     * \param bindingId The id used to refer to this input source.
     * \param mode The input mode in which this binding is active.

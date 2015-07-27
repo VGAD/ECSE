@@ -30,7 +30,7 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystic
 {
     std::function<float()> poll = [joystick, axis]()
     {
-        return sf::Joystick::getAxisPosition(joystick, axis);
+        return sf::Joystick::getAxisPosition(joystick, axis) / 100.f;
     };
     bindInput(bindingId, mode, poll);
 }
