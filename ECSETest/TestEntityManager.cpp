@@ -8,25 +8,25 @@ public:
     ECSE::EntityManager manager;
 };
 
-TEST_F(EntityManagerTest, TestEmpty)
+TEST_F(EntityManagerTest, EmptyTest)
 {
     ASSERT_TRUE(manager.getEntities().empty()) << "No entities should be returned";
 }
 
-TEST_F(EntityManagerTest, TestCreateEntity)
+TEST_F(EntityManagerTest, CreateEntityTest)
 {
     ECSE::Entity::ID eID = manager.createEntity();
     ASSERT_NE(ECSE::Entity::invalidID, eID) << "Entity should have a valid ID";
 }
 
-TEST_F(EntityManagerTest, TestGetEntity)
+TEST_F(EntityManagerTest, GetEntityTest)
 {
     ECSE::Entity::ID eID = manager.createEntity();
 
     ASSERT_NE(nullptr, manager.getEntity(eID)) << "Entity should have a valid pointer";
 }
 
-TEST_F(EntityManagerTest, TestDestroyEntity)
+TEST_F(EntityManagerTest, DestroyEntityTest)
 {
     manager.createEntity();
     ECSE::Entity::ID eID = manager.createEntity();
@@ -37,7 +37,7 @@ TEST_F(EntityManagerTest, TestDestroyEntity)
     ASSERT_EQ(2, manager.getEntities().size()) << "One entity should have been removed";
 }
 
-TEST_F(EntityManagerTest, TestDestroyEntityByPointer)
+TEST_F(EntityManagerTest, DestroyEntityByPointerTest)
 {
     manager.createEntity();
     ECSE::Entity::ID eID = manager.createEntity();
@@ -49,7 +49,7 @@ TEST_F(EntityManagerTest, TestDestroyEntityByPointer)
     ASSERT_EQ(2, manager.getEntities().size()) << "One entity should have been removed";
 }
 
-TEST_F(EntityManagerTest, TestGetEntities)
+TEST_F(EntityManagerTest, GetEntitiesTest)
 {
     std::vector<ECSE::Entity*> added;
     for (size_t i = 0; i < 5; ++i)
@@ -70,7 +70,7 @@ TEST_F(EntityManagerTest, TestGetEntities)
     }
 }
 
-TEST_F(EntityManagerTest, TestNewID)
+TEST_F(EntityManagerTest, NewIDTest)
 {
     manager.createEntity();
     ECSE::Entity::ID eID = manager.createEntity();
@@ -83,7 +83,7 @@ TEST_F(EntityManagerTest, TestNewID)
     ASSERT_NE(eID, newID) << "Entity limit not exceeded, so fresh IDs should be used";
 }
 
-TEST_F(EntityManagerTest, TestReplaceMemory)
+TEST_F(EntityManagerTest, ReplaceMemoryTest)
 {
     manager.createEntity();
     ECSE::Entity::ID eID = manager.createEntity();
@@ -114,7 +114,7 @@ public:
     SmallMaxIDEntityManager manager;
 };
 
-TEST_F(SmallMaxIDEntityManagerTest, TestTooManyIDs)
+TEST_F(SmallMaxIDEntityManagerTest, TooManyIDsTest)
 {
     manager.createEntity();
     manager.createEntity();
@@ -123,7 +123,7 @@ TEST_F(SmallMaxIDEntityManagerTest, TestTooManyIDs)
     ASSERT_THROW(manager.createEntity(), std::runtime_error) << "Should complain about too many IDs";
 }
 
-TEST_F(SmallMaxIDEntityManagerTest, TestReuseID)
+TEST_F(SmallMaxIDEntityManagerTest, ReuseIDTest)
 {
     manager.createEntity();
     ECSE::Entity::ID eID = manager.createEntity();
