@@ -26,13 +26,13 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Ke
 }
 
 
-void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis)
+void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity)
 {
     std::function<float()> poll = [joystick, axis]()
     {
         return sf::Joystick::getAxisPosition(joystick, axis) / 100.f;
     };
-    bindInput(bindingId, mode, poll);
+    bindInput(bindingId, mode, poll, sensitivity);
 }
 
 

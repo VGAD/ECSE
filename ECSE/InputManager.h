@@ -21,9 +21,12 @@ public:
     * \param bindingId The id used to refer to this input source.
     * \param mode The input mode in which this binding is active.
     * \param fn The function to poll the input source's value.
+    * \param sensitivity The minimum absolute float value above which the input is returned as non-zero.
+    *                    If <= 0, all values are considered non-zero.
+    *                    If the input type is non-floating-point, this is ignored.
     */
     template <typename T>
-    void bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn);
+    void bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn, float sensitivity = 0.f);
 
     //! Bind a keyboard key to an id.
     /*!
@@ -53,8 +56,11 @@ public:
     * \param mode The input mode in which this binding is active.
     * \param joystick The joystick to check.
     * \param axis The axis to check.
+    * \param sensitivity The minimum absolute float value above which the input is returned as non-zero.
+    *                    If <= 0, all values are considered non-zero.
+    *                    If the input type is non-floating-point, this is ignored.
     */
-    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis);
+    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
 
     //! Bind a joystick button to an id.
     /*!
@@ -151,12 +157,13 @@ private:
         /*!
         * \param fn The function to poll the input source's value.
         */
-        explicit TypedInputSource(const std::function<T()>& fn)
-            : fn(fn)
+        explicit TypedInputSource(const std::function<T()>& fn, float sensitivity)
+            : fn(fn), sensitivity(sensitivity)
         { }
 
     protected:
         std::function<T()> fn;  //!< The function to get the source's value.
+        float sensitivity;      //!< The sensitivity level above which a non-zero value is reported.
     };
 
     //! Input source with implementation of functions.
@@ -164,7 +171,7 @@ private:
     class TypedInputSourceImpl
     {
     public:
-        explicit TypedInputSourceImpl<T>(const std::function<float()>&)
+        explicit TypedInputSourceImpl<T>(const std::function<float()>&, float)
         {
             throw std::runtime_error("Input type not supported");
         }
@@ -175,14 +182,28 @@ private:
     class TypedInputSourceImpl<float> : public TypedInputSource<float>
     {
     public:
-        explicit TypedInputSourceImpl<float>(const std::function<float()>& fn)
-            : TypedInputSource<float>(fn)
+        explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
+            : TypedInputSource<float>(fn, sensitivity)
         { }
 
         virtual ~TypedInputSourceImpl<float>() {}
 
-        inline virtual float getFloatValue() const override { return fn(); }
-        inline virtual int getIntValue() const override { return static_cast<int>(fn()); }
+        inline virtual float getFloatValue() const override {
+            float value = fn();
+
+            if (fabs(value) > sensitivity) return value;
+
+            return 0.f;
+        }
+
+        inline virtual int getIntValue() const override {
+            float value = getFloatValue();
+
+            if (value == 0.f) return 0;
+            if (value > 0.f) return 1;
+
+            return -1;
+        }
     };
 
     //! Integer input source.
@@ -190,8 +211,8 @@ private:
     class TypedInputSourceImpl<int> : public TypedInputSource<int>
     {
     public:
-        explicit TypedInputSourceImpl(const std::function<int()>& fn)
-            : TypedInputSource<int>(fn)
+        explicit TypedInputSourceImpl(const std::function<int()>& fn, float sensitivity)
+            : TypedInputSource<int>(fn, sensitivity)
         { }
 
         inline virtual float getFloatValue() const override { return static_cast<float>(fn()); }
@@ -203,8 +224,8 @@ private:
     class TypedInputSourceImpl<bool> : public TypedInputSource<bool>
     {
     public:
-        explicit TypedInputSourceImpl(const std::function<bool()>& fn)
-            : TypedInputSource<bool>(fn)
+        explicit TypedInputSourceImpl(const std::function<bool()>& fn, float sensitivity)
+            : TypedInputSource<bool>(fn, sensitivity)
         {
         }
 
@@ -231,7 +252,7 @@ private:
 // Implementation
 
 template <typename T>
-void InputManager::bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn)
+void InputManager::bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn, float sensitivity)
 {
     if (isBound(bindingId, mode))
     {
@@ -239,7 +260,7 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, const std::funct
     }
 
     auto& modeBindings = bindings[mode];
-    modeBindings[bindingId] = std::make_unique<TypedInputSourceImpl<T>>(fn);
+    modeBindings[bindingId] = std::make_unique<TypedInputSourceImpl<T>>(fn, sensitivity);
 }
 
 }
