@@ -27,9 +27,6 @@
     <Filter Include="Source Files\Engine\Util">
       <UniqueIdentifier>{d9b1a7dc-bb1d-411c-a871-9d874205bc50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\State">
-      <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Resource">
       <UniqueIdentifier>{457795f4-07fc-43b1-9341-ddb843768948}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,12 @@
     </Filter>
     <Filter Include="Source Files\Engine\Logging">
       <UniqueIdentifier>{77f1e9fc-6ab3-4aa0-8444-006c12418fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{6894ef7c-9b07-448b-a257-0f8f03e0ea70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\State">
+      <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="DepthComponent.h">
       <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Source Files\Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

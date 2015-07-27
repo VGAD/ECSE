@@ -176,6 +176,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="easylogging++.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
