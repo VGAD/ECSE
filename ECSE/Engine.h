@@ -9,6 +9,7 @@
 #include "State.h"
 #include "ResourceManager.h"
 #include "AnimationSet.h"
+#include "InputManager.h"
 
 namespace ECSE
 {
@@ -121,6 +122,7 @@ public:
 
     ///////
     // Data
+    InputManager inputManager;
     ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.
     ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
     ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.
