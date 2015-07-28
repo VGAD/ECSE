@@ -14,26 +14,37 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ECSETest", "ECSETest\ECSETe
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (No Iterator Debugging)|Win32 = Debug (No Iterator Debugging)|Win32
 		Debug|Win32 = Debug|Win32
+		Example (Debug + No Iterator Debugging)|Win32 = Example (Debug + No Iterator Debugging)|Win32
 		Example (Debug)|Win32 = Example (Debug)|Win32
 		Example (Release)|Win32 = Example (Release)|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Debug (No Iterator Debugging)|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Debug (No Iterator Debugging)|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Debug|Win32.Build.0 = Debug|Win32
+		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Debug + No Iterator Debugging)|Win32.ActiveCfg = Example (Debug + No Iterator Debugging)|Win32
+		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Debug + No Iterator Debugging)|Win32.Build.0 = Example (Debug + No Iterator Debugging)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Debug)|Win32.ActiveCfg = Example (Debug)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Debug)|Win32.Build.0 = Example (Debug)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Release)|Win32.ActiveCfg = Example (Release)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Example (Release)|Win32.Build.0 = Example (Release)|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Release|Win32.ActiveCfg = Release|Win32
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F}.Release|Win32.Build.0 = Release|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Debug (No Iterator Debugging)|Win32.ActiveCfg = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Debug|Win32.ActiveCfg = Doxygen|Win32
+		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Example (Debug + No Iterator Debugging)|Win32.ActiveCfg = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Example (Debug)|Win32.ActiveCfg = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Example (Release)|Win32.ActiveCfg = Doxygen|Win32
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A}.Release|Win32.ActiveCfg = Doxygen|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug (No Iterator Debugging)|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug (No Iterator Debugging)|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Debug|Win32.Build.0 = Debug|Win32
+		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Debug + No Iterator Debugging)|Win32.ActiveCfg = Debug|Win32
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Debug)|Win32.ActiveCfg = Debug|Win32
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Example (Release)|Win32.ActiveCfg = Release|Win32
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13}.Release|Win32.ActiveCfg = Release|Win32

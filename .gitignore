@@ -16,8 +16,10 @@ Documentation/Doxygen/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+Debug (No Iterator Debugging)/
 Example (Release)/
 Example (Debug)/
+Example (Debug + No Iterator Debugging)/
 x64/
 x86/
 build/
