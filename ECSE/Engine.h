@@ -77,6 +77,29 @@ public:
         return rtSprite.getScale().x;
     }
 
+    //! Get the size of the displayed area.
+    /*!
+    * \return The size.
+    */
+    inline sf::Vector2i getSize() const
+    {
+        return size;
+    }
+
+    //! Get the size of the displayed area, taking scaling into account.
+    /*!
+    * E.g. if the size is 640x480 and the scale is 2, then this will return 320x240.
+    * The result is rounded up to the nearest pixel.
+    *
+    * \return The unscaled size.
+    */
+    inline sf::Vector2i getUnscaledSize() const
+    {
+        auto scale = getScale();
+        return sf::Vector2i(static_cast<int>(ceil(size.x / scale)),
+                            static_cast<int>(ceil(size.y / scale)));
+    }
+
     //! Get the number of update/advance time step pairs since this started.
     inline size_t getTimeSteps() const
     {
@@ -215,6 +238,7 @@ private:
     bool noRender = false;                              //!< If true, no window is created and rendering is not performed.
     bool lockstep = false;                              //!< If true, one timestep is simulated per frame no matter what.
 
+    sf::Vector2i size;                                  //!< The size of the display area.
     sf::Sprite rtSprite;                                //!< Sprite which is used to update the window display.
     sf::RenderTexture renderTarget;                     //!< Offscreen buffer used to update the window display.
     std::unique_ptr<sf::RenderWindow> window;           //!< The display window.
