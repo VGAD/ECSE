@@ -33,10 +33,10 @@ public:
                     bool noRender = false, bool lockstep = false);
 
     //! Destroy all game objects, clean up resources and stop the game.
-    ~Engine();
+    virtual ~Engine();
 
     //! Perform a full frame step, including running update/advance pairs and one render step.
-    void frameStep();
+    virtual void frameStep();
 
     //! Run the game loop, calling frameStep() repeatedly until stopped.
     void run();
@@ -127,6 +127,14 @@ public:
     ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
     ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.
 
+
+protected:
+    //! Perform a single timestep (advance and then update).
+    virtual void timeStep();
+
+    //! Handle an event.
+    virtual void handleEvent(const sf::Event& e);
+
 private:
     ////////////
     // Functions
@@ -146,9 +154,6 @@ private:
     * \return A reference to the State on top of the stack.
     */
     State& updateStateStack();
-
-    //! Perform a single timestep (advance and then update).
-    void timeStep();
 
 
     ///////

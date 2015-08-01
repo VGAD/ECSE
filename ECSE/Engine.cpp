@@ -133,13 +133,7 @@ void Engine::pollEvents()
 
     while (window->pollEvent(event))
     {
-        if (event.type == sf::Event::Closed ||
-            (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
-        {
-            running = false;
-
-            break;
-        }
+        handleEvent(event);
     }
 
 #ifdef _WINDOWS
@@ -151,16 +145,13 @@ void Engine::pollEvents()
 #endif
 }
 
-State& Engine::updateStateStack()
+void Engine::handleEvent(const sf::Event& e)
 {
-    while (!ops.empty())
+    if (e.type == sf::Event::Closed ||
+        (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape))
     {
-        StackOperation* op = ops.front().get();
-        op->execute(this);
-        ops.pop();
+        running = false;
     }
-
-    return getActiveState();
 }
 
 void Engine::timeStep()
@@ -179,6 +170,19 @@ void Engine::timeStep()
     state->update(deltaTime);
 
     accumulator -= deltaTime;
+}
+
+
+State& Engine::updateStateStack()
+{
+    while (!ops.empty())
+    {
+        StackOperation* op = ops.front().get();
+        op->execute(this);
+        ops.pop();
+    }
+
+    return getActiveState();
 }
 
 State& Engine::getActiveState() const
