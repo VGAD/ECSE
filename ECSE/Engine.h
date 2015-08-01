@@ -104,6 +104,15 @@ public:
         return running;
     }
 
+    //! Check if the game window has focus.
+    /*!
+    * \return True if the game window has focus.
+    */
+    inline bool hasFocus()
+    {
+        return window->hasFocus();
+    }
+
     //! Push a State onto the stack.
     /*!
     * The State stack will not be updated until the beginning of the next game loop iteration.

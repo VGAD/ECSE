@@ -5,6 +5,11 @@ class InputManagerTest : public ::testing::Test
 {
 public:
     ECSE::InputManager manager;
+
+    InputManagerTest()
+    {
+        manager.setRequireFocus(false);
+    }
 };
 
 TEST_F(InputManagerTest, TestIsBound)

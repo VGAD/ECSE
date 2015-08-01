@@ -22,6 +22,8 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRen
 
         window->setFramerateLimit(fps);
         rtSprite.setTexture(renderTarget.getTexture());
+
+        inputManager.setWindow(window.get());
     }
 
     deltaTime = sf::seconds(1.f / float(fps));

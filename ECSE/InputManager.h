@@ -16,6 +16,28 @@ public:
     //! Construct the input manager.
     explicit InputManager();
 
+    //! Set the game window.
+    /*!
+    * If the game window is not set, certain features will not work.
+    *
+    * \param window The game window.
+    */
+    inline void setWindow(const sf::Window* window)
+    {
+        this->window = window;
+    }
+
+    //! Change whether the input requires window focus.
+    /*!
+    * \param value If true, input will be ignore unless the window has focus.
+    *              If false, input will always be considered.
+    *              Note: if no window has been set and this is true, input will be ignored.
+    */
+    inline void setRequireFocus(bool value)
+    {
+        this->requireFocus = value;
+    }
+
     //! Bind a function to an id.
     /*!
     * \param bindingId The id used to refer to this input source.
@@ -247,7 +269,18 @@ private:
     */
     const InputSource& getSource(unsigned bindingId, unsigned mode) const;
 
-    unsigned inputMode = 0; //!< Current input mode.
+    //! Determine whether to ignore input.
+    /*!
+    * \return True if input should be ignored.
+    */
+    inline bool ignoreInput() const
+    {
+        return requireFocus && (window == nullptr || !window->hasFocus());
+    }
+
+    unsigned inputMode = 0;                 //!< Current input mode.
+    const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
+    bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
 
     //! Map from mode to bindings, which map from binding id to input source.
     std::unordered_map<unsigned, std::unordered_map<unsigned, std::unique_ptr<InputSource>>> bindings;

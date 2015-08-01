@@ -63,6 +63,8 @@ bool InputManager::isBound(unsigned bindingId) const
 
 float InputManager::getFloatValue(unsigned bindingId, unsigned mode) const
 {
+    if (ignoreInput()) return 0.f;
+
     const InputSource& source = getSource(bindingId, mode);
 
     return source.getFloatValue();
@@ -75,6 +77,8 @@ float InputManager::getFloatValue(unsigned bindingId) const
 
 int InputManager::getIntValue(unsigned bindingId, unsigned mode) const
 {
+    if (ignoreInput()) return 0;
+
     const InputSource& source = getSource(bindingId, mode);
 
     return source.getIntValue();
