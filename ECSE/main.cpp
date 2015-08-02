@@ -1,6 +1,4 @@
 #include "Engine.h"
-#include <cstdio>
-
 #include "Common.h"
 #include "WorldState.h"
 #include "TransformSystem.h"
