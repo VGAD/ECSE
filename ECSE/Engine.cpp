@@ -32,7 +32,7 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRen
     this->size = size;
 }
 
-Engine::Engine(sf::Vector2i size, float scale, std::string name, unsigned fps, bool noRender, bool lockstep)
+Engine::Engine(sf::Vector2i size, float scale, std::string name, unsigned int fps, bool noRender, bool lockstep)
     : Engine(sf::Vector2i(static_cast<int>(size.x * scale), static_cast<int>(size.y * scale)), name, fps, noRender, lockstep)
 {
     setScale(scale);

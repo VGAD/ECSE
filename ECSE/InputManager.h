@@ -140,7 +140,7 @@ public:
 
     //! Set the input mode.
     /*!
-    * \param The new input mode.
+    * \param mode The new input mode.
     */
     void setInputMode(unsigned mode);
 
