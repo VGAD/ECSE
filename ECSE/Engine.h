@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "AnimationSet.h"
 #include "InputManager.h"
+#include "PrefabManager.h"
 
 namespace ECSE
 {
@@ -166,11 +167,12 @@ public:
 
     ///////
     // Data
+
+    PrefabManager prefabManager;                    //!< Keeps track of prefabs.
     InputManager inputManager;                      //!< Keeps track of user input.
     ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.
     ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
     ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.
-
 
 protected:
     //! Perform a single timestep (advance and then update).

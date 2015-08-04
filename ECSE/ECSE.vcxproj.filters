@@ -3,7 +3,7 @@
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>hpp;h;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -54,6 +54,9 @@
     <Filter Include="Source Files\Engine\State">
       <UniqueIdentifier>{f203a9c1-74f2-4ffb-bf69-4388b1239516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Prefab">
+      <UniqueIdentifier>{777654dc-9430-4d6e-9768-03475a985743}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabManager.cpp">
+      <Filter>Source Files\Engine\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Source Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabManager.h">
+      <Filter>Source Files\Engine\Prefab</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

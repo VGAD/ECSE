@@ -251,6 +251,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="PrefabManager.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />

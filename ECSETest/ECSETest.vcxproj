@@ -18,6 +18,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCommon.cpp" />
     <ClCompile Include="TestInputManager.cpp" />
+    <ClCompile Include="TestPrefabManager.cpp" />
     <ClCompile Include="TestSystem.cpp" />
     <ClCompile Include="TestEngine.cpp" />
     <ClCompile Include="TestEntityManager.cpp" />
