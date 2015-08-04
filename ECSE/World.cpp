@@ -104,6 +104,11 @@ void World::destroyEntity(Entity::ID id)
     EntityManager::destroyEntity(id);
 }
 
+int World::getSystemCount()
+{
+    return static_cast<int>(systems.size());
+}
+
 Engine* World::getEngine() const
 {
     return worldState->getEngine();

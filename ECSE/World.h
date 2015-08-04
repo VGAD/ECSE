@@ -95,6 +95,12 @@ public:
     template <typename SystemType>
     int getSystemPosition();
 
+    //! Get the number of Systems in the World.
+    /*!
+    * \return The number of Systems.
+    */
+    int getSystemCount();
+
     //! Get the Engine to which this belongs.
     /*!
     * \return A pointer to the Engine to which this belongs.
