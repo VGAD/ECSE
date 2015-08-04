@@ -104,6 +104,9 @@
     <ClCompile Include="PrefabManager.cpp">
       <Filter>Source Files\Engine\Prefab</Filter>
     </ClCompile>
+    <ClCompile Include="SpecializationSystem.cpp">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
@@ -180,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="PrefabManager.h">
       <Filter>Source Files\Engine\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecializationComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecializationSystem.h">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

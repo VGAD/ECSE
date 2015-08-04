@@ -255,6 +255,7 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpecializationSystem.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
@@ -273,6 +274,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SpecializationComponent.h" />
+    <ClInclude Include="SpecializationSystem.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Logging.h" />
