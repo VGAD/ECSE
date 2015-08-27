@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SFML/System/Time.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "Entity.h"
