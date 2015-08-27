@@ -48,7 +48,7 @@ public:
     *                    If the input type is non-floating-point, this is ignored.
     */
     template <typename T>
-    void bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn, float sensitivity = 0.f);
+    void bindInput(char bindingId, char mode, const std::function<T()>& fn, float sensitivity = 0.f);
 
     //! Bind a keyboard key to an id.
     /*!
@@ -56,7 +56,7 @@ public:
     * \param mode The input mode in which this binding is active.
     * \param key The key value to check.
     */
-    void bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key);
+    void bindInput(char bindingId, char mode, sf::Keyboard::Key key);
 
     //! Bind a pair of keys to an id.
     /*!
@@ -70,7 +70,7 @@ public:
     * \param key1 The first key value to check.
     * \param key2 The second key value to check.
     */
-    void bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
+    void bindInput(char bindingId, char mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
 
     //! Bind a joystick axis to an id (scaled to [-1 .. 1] instead of [-100 .. 100]).
     /*!
@@ -82,7 +82,7 @@ public:
     *                    If <= 0, all values are considered non-zero.
     *                    If the input type is non-floating-point, this is ignored.
     */
-    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
+    void bindInput(char bindingId, char mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
 
     //! Bind a joystick button to an id.
     /*!
@@ -91,7 +91,7 @@ public:
     * \param joystick The joystick to check.
     * \param button The button to check.
     */
-    void bindInput(unsigned bindingId, unsigned mode, unsigned joystick, unsigned button);
+    void bindInput(char bindingId, char mode, unsigned joystick, unsigned button);
 
     //! Check if an id is already bound.
     /*!
@@ -99,14 +99,14 @@ public:
     * \param mode The input mode.
     * \return Whether the id is bound already.
     */
-    bool isBound(unsigned bindingId, unsigned mode) const;
+    bool isBound(char bindingId, char mode) const;
 
     //! Check if an id is already bound in the current input mode.
     /*!
     * \param bindingId The id to check.
     * \return Whether the id is bound already.
     */
-    bool isBound(unsigned bindingId) const;
+    bool isBound(char bindingId) const;
 
     //! Get an input source's value as a float.
     /*!
@@ -114,14 +114,14 @@ public:
     * \param mode The input mode.
     * \return The input source's value.
     */
-    float getFloatValue(unsigned bindingId, unsigned mode) const;
+    float getFloatValue(char bindingId, char mode) const;
 
     //! Get an input source's value as a float in the current input mode.
     /*!
     * \param bindingId The id of the input source.
     * \return The input source's value.
     */
-    float getFloatValue(unsigned bindingId) const;
+    float getFloatValue(char bindingId) const;
 
     //! Get an input source's value as an int.
     /*!
@@ -129,20 +129,20 @@ public:
     * \param mode The input mode.
     * \return The input source's value.
     */
-    int getIntValue(unsigned bindingId, unsigned mode) const;
+    int getIntValue(char bindingId, char mode) const;
 
     //! Get an input source's value as an int in the current input mode.
     /*!
     * \param bindingId The id of the input source.
     * \return The input source's value.
     */
-    int getIntValue(unsigned bindingId) const;
+    int getIntValue(char bindingId) const;
 
     //! Set the input mode.
     /*!
     * \param mode The new input mode.
     */
-    void setInputMode(unsigned mode);
+    void setInputMode(char mode);
 
     //! Get the current input mode.
     /*!
@@ -267,7 +267,7 @@ private:
     * \param mode The input mode.
     * \return The InputSource.
     */
-    const InputSource& getSource(unsigned bindingId, unsigned mode) const;
+    const InputSource& getSource(char bindingId, char mode) const;
 
     //! Determine whether to ignore input.
     /*!
@@ -278,12 +278,12 @@ private:
         return requireFocus && (window == nullptr || !window->hasFocus());
     }
 
-    unsigned inputMode = 0;                 //!< Current input mode.
+    char inputMode = 0;                     //!< Current input mode.
     const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
 
     //! Map from mode to bindings, which map from binding id to input source.
-    std::unordered_map<unsigned, std::unordered_map<unsigned, std::unique_ptr<InputSource>>> bindings;
+    std::unordered_map<char, std::unordered_map<char, std::unique_ptr<InputSource>>> bindings;
 };
 
 
@@ -291,7 +291,7 @@ private:
 // Implementation
 
 template <typename T>
-void InputManager::bindInput(unsigned bindingId, unsigned mode, const std::function<T()>& fn, float sensitivity)
+void InputManager::bindInput(char bindingId, char mode, const std::function<T()>& fn, float sensitivity)
 {
     if (isBound(bindingId, mode))
     {

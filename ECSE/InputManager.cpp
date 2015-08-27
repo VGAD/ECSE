@@ -7,13 +7,13 @@ InputManager::InputManager()
 {
 }
 
-void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key)
+void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key)
 {
     std::function<bool()> poll = [key]() { return sf::Keyboard::isKeyPressed(key); };
     bindInput(bindingId, mode, poll);
 }
 
-void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
+void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
 {
     std::function<int()> poll = [key1, key2]()
     {
@@ -26,7 +26,7 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, sf::Keyboard::Ke
 }
 
 
-void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity)
+void InputManager::bindInput(char bindingId, char mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity)
 {
     std::function<float()> poll = [joystick, axis]()
     {
@@ -36,7 +36,7 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystic
 }
 
 
-void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystick, unsigned button)
+void InputManager::bindInput(char bindingId, char mode, unsigned joystick, unsigned button)
 {
     std::function<int()> poll = [joystick, button]()
     {
@@ -45,7 +45,7 @@ void InputManager::bindInput(unsigned bindingId, unsigned mode, unsigned joystic
     bindInput(bindingId, mode, poll);
 }
 
-bool InputManager::isBound(unsigned bindingId, unsigned mode) const
+bool InputManager::isBound(char bindingId, char mode) const
 {
     auto modeBindings = bindings.find(mode);
     if (modeBindings == bindings.end()) return false;
@@ -56,12 +56,12 @@ bool InputManager::isBound(unsigned bindingId, unsigned mode) const
     return true;
 }
 
-bool InputManager::isBound(unsigned bindingId) const
+bool InputManager::isBound(char bindingId) const
 {
     return isBound(bindingId, inputMode);
 }
 
-float InputManager::getFloatValue(unsigned bindingId, unsigned mode) const
+float InputManager::getFloatValue(char bindingId, char mode) const
 {
     if (ignoreInput()) return 0.f;
 
@@ -70,12 +70,12 @@ float InputManager::getFloatValue(unsigned bindingId, unsigned mode) const
     return source.getFloatValue();
 }
 
-float InputManager::getFloatValue(unsigned bindingId) const
+float InputManager::getFloatValue(char bindingId) const
 {
     return getFloatValue(bindingId, inputMode);
 }
 
-int InputManager::getIntValue(unsigned bindingId, unsigned mode) const
+int InputManager::getIntValue(char bindingId, char mode) const
 {
     if (ignoreInput()) return 0;
 
@@ -84,12 +84,12 @@ int InputManager::getIntValue(unsigned bindingId, unsigned mode) const
     return source.getIntValue();
 }
 
-int InputManager::getIntValue(unsigned bindingId) const
+int InputManager::getIntValue(char bindingId) const
 {
     return getIntValue(bindingId, inputMode);
 }
 
-void InputManager::setInputMode(unsigned mode)
+void InputManager::setInputMode(char mode)
 {
     inputMode = mode;
 }
@@ -111,7 +111,7 @@ std::vector<unsigned> InputManager::getConnectedJoysticks() const
     return result;
 }
 
-const InputManager::InputSource& InputManager::getSource(unsigned bindingId, unsigned mode) const
+const InputManager::InputSource& InputManager::getSource(char bindingId, char mode) const
 {
     auto modeBindings = bindings.find(mode);
 
