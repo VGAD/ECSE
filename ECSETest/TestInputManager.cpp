@@ -87,7 +87,7 @@ TEST_F(InputManagerTest, TestFloatInput)
 TEST_F(InputManagerTest, TestSensitivity)
 {
     float value;
-    float precision = 2.f / 256.f;
+    float precision = 1 << INPUT_PRECISION;
 
     std::function<float()> fn = [&value]() { return value; };
     manager.bindInput(0, 0, fn, 0.3f);

@@ -1,8 +1,15 @@
 #pragma once
 
-// This can be switched out for a larger type to improve input precision.
+// This can be switched out for a larger type to improve input precision, but this will increase the size of replays.
+// This type should always be a signed integer type.
 #ifndef INPUT_INTERNAL_TYPE
 #define INPUT_INTERNAL_TYPE int8_t
+#endif
+
+// The lower this is, the more precise input will be, but the larger replays will be.
+// The input will be sorted into "chunks" of size 1 << INPUT_PRECISION.
+#ifndef INPUT_PRECISION
+#define INPUT_PRECISION 5
 #endif
 
 #include <functional>
@@ -222,7 +229,8 @@ private:
     {
     public:
         //! Half of the number of possible values for the internal value.
-        const INPUT_INTERNAL_TYPE halfPrecision = static_cast<size_t>((1 << sizeof(INPUT_INTERNAL_TYPE) * 7) - 1);
+        const INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(INPUT_INTERNAL_TYPE) * 7) - 1);
+        const INPUT_INTERNAL_TYPE precision = 1 << INPUT_PRECISION;
 
         explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
             : TypedInputSource<float>(fn, sensitivity)
@@ -236,7 +244,13 @@ private:
 
             if (fabs(value) < sensitivity) return 0;
 
-            return static_cast<INPUT_INTERNAL_TYPE>(value * halfPrecision);
+            auto reduced = static_cast<INPUT_INTERNAL_TYPE>(value * halfValue);
+            if (abs(reduced) != halfValue)
+            {
+                reduced = (reduced / precision) * precision;
+            }
+
+            return reduced;
         }
 
         inline virtual float getFloatValue() const override {
@@ -244,7 +258,7 @@ private:
 
             if (value == 0) return 0.f;
 
-            return static_cast<float>(value) / static_cast<float>(halfPrecision);
+            return static_cast<float>(value) / static_cast<float>(halfValue);
         }
 
         inline virtual int getIntValue() const override {
