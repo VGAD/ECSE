@@ -57,6 +57,9 @@
     <Filter Include="Source Files\Engine\Prefab">
       <UniqueIdentifier>{777654dc-9430-4d6e-9768-03475a985743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Specialization">
+      <UniqueIdentifier>{6847a933-fddd-469e-abd2-6352672245d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="SpecializationSystem.h">
       <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Specialization.h">
+      <Filter>Source Files\Engine\Specialization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -274,6 +274,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Specialization.h" />
     <ClInclude Include="SpecializationComponent.h" />
     <ClInclude Include="SpecializationSystem.h" />
     <ClInclude Include="SpriteComponent.h" />
