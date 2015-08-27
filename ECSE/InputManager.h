@@ -2,14 +2,14 @@
 
 // This can be switched out for a larger type to improve input precision, but this will increase the size of replays.
 // This type should always be a signed integer type.
-#ifndef INPUT_INTERNAL_TYPE
-#define INPUT_INTERNAL_TYPE int8_t
+#ifndef ECSE_INPUT_INTERNAL_TYPE
+#define ECSE_INPUT_INTERNAL_TYPE int8_t
 #endif
 
 // The lower this is, the more precise input will be, but the larger replays will be.
-// The input will be sorted into "chunks" of size 1 << INPUT_PRECISION.
-#ifndef INPUT_PRECISION
-#define INPUT_PRECISION 5
+// The input will be sorted into "chunks" of size 1 << ECSE_INPUT_PRECISION.
+#ifndef ECSE_INPUT_PRECISION
+#define ECSE_INPUT_PRECISION 5
 #endif
 
 #include <functional>
@@ -179,7 +179,7 @@ private:
         /*!
         * \return The value converted to an integer, e.g. floats between -1.f and 1.f become integers from -128 to 127.
         */
-        virtual INPUT_INTERNAL_TYPE getInternalValue() const = 0;
+        virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const = 0;
 
         //! Get the input source's floating-point value.
         /*!
@@ -229,8 +229,8 @@ private:
     {
     public:
         //! Half of the number of possible values for the internal value.
-        const INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(INPUT_INTERNAL_TYPE) * 7) - 1);
-        const INPUT_INTERNAL_TYPE precision = 1 << INPUT_PRECISION;
+        const ECSE_INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(ECSE_INPUT_INTERNAL_TYPE) * 7) - 1);
+        const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
 
         explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
             : TypedInputSource<float>(fn, sensitivity)
@@ -238,13 +238,13 @@ private:
 
         virtual ~TypedInputSourceImpl<float>() {}
 
-        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override
         {
             float value = fn();
 
             if (fabs(value) < sensitivity) return 0;
 
-            auto reduced = static_cast<INPUT_INTERNAL_TYPE>(value * halfValue);
+            auto reduced = static_cast<ECSE_INPUT_INTERNAL_TYPE>(value * halfValue);
             if (abs(reduced) != halfValue)
             {
                 reduced = (reduced / precision) * precision;
@@ -280,7 +280,7 @@ private:
             : TypedInputSource<int>(fn, sensitivity)
         { }
 
-        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override { return static_cast<INPUT_INTERNAL_TYPE>(fn()); }
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return static_cast<ECSE_INPUT_INTERNAL_TYPE>(fn()); }
         inline virtual int getIntValue() const override { return getInternalValue(); }
         inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
     };
@@ -295,7 +295,7 @@ private:
         {
         }
 
-        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? 1 : 0; }
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? 1 : 0; }
         inline virtual int getIntValue() const override { return getInternalValue(); }
         inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
     };
