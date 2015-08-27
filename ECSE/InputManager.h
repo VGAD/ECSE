@@ -1,5 +1,10 @@
 #pragma once
 
+// This can be switched out for a larger type to improve input precision.
+#ifndef INPUT_INTERNAL_TYPE
+#define INPUT_INTERNAL_TYPE int8_t
+#endif
+
 #include <functional>
 #include <unordered_map>
 #include <memory>
@@ -163,6 +168,12 @@ private:
     public:
         virtual ~InputSource() {}
 
+        //! Get the input source's internal value.
+        /*!
+        * \return The value converted to an integer, e.g. floats between -1.f and 1.f become integers from -128 to 127.
+        */
+        virtual INPUT_INTERNAL_TYPE getInternalValue() const = 0;
+
         //! Get the input source's floating-point value.
         /*!
         * \return The value converted to a float.
@@ -210,25 +221,37 @@ private:
     class TypedInputSourceImpl<float> : public TypedInputSource<float>
     {
     public:
+        //! Half of the number of possible values for the internal value.
+        const INPUT_INTERNAL_TYPE halfPrecision = static_cast<size_t>((1 << sizeof(INPUT_INTERNAL_TYPE) * 7) - 1);
+
         explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
             : TypedInputSource<float>(fn, sensitivity)
         { }
 
         virtual ~TypedInputSourceImpl<float>() {}
 
-        inline virtual float getFloatValue() const override {
+        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override
+        {
             float value = fn();
 
-            if (fabs(value) > sensitivity) return value;
+            if (fabs(value) < sensitivity) return 0;
 
-            return 0.f;
+            return static_cast<INPUT_INTERNAL_TYPE>(value * halfPrecision);
+        }
+
+        inline virtual float getFloatValue() const override {
+            auto value = getInternalValue();
+
+            if (value == 0) return 0.f;
+
+            return static_cast<float>(value) / static_cast<float>(halfPrecision);
         }
 
         inline virtual int getIntValue() const override {
-            float value = getFloatValue();
+            auto value = getInternalValue();
 
-            if (value == 0.f) return 0;
-            if (value > 0.f) return 1;
+            if (value == 0) return 0;
+            if (value > 0) return 1;
 
             return -1;
         }
@@ -243,8 +266,9 @@ private:
             : TypedInputSource<int>(fn, sensitivity)
         { }
 
-        inline virtual float getFloatValue() const override { return static_cast<float>(fn()); }
-        inline virtual int getIntValue() const override { return fn(); }
+        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override { return static_cast<INPUT_INTERNAL_TYPE>(fn()); }
+        inline virtual int getIntValue() const override { return getInternalValue(); }
+        inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
     };
 
     //! Boolean input source.
@@ -257,8 +281,9 @@ private:
         {
         }
 
+        inline virtual INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? 1 : 0; }
+        inline virtual int getIntValue() const override { return getInternalValue(); }
         inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
-        inline virtual int getIntValue() const override { return fn() ? 1 : 0; }
     };
 
     //! Get the input source associated with a binding id.

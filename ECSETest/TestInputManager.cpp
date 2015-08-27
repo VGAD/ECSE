@@ -87,6 +87,7 @@ TEST_F(InputManagerTest, TestFloatInput)
 TEST_F(InputManagerTest, TestSensitivity)
 {
     float value;
+    float precision = 2.f / 256.f;
 
     std::function<float()> fn = [&value]() { return value; };
     manager.bindInput(0, 0, fn, 0.3f);
@@ -94,17 +95,17 @@ TEST_F(InputManagerTest, TestSensitivity)
     value = 0.1f;
 
     ASSERT_EQ(0, manager.getIntValue(0));
-    ASSERT_FLOAT_EQ(0.f, manager.getFloatValue(0));
+    ASSERT_NEAR(0.f, manager.getFloatValue(0), precision);
 
     value = 0.4f;
 
     ASSERT_EQ(1, manager.getIntValue(0));
-    ASSERT_FLOAT_EQ(0.4f, manager.getFloatValue(0));
+    ASSERT_NEAR(0.4f, manager.getFloatValue(0), precision);
 
     value = -0.4f;
 
     ASSERT_EQ(-1, manager.getIntValue(0));
-    ASSERT_FLOAT_EQ(-0.4f, manager.getFloatValue(0));
+    ASSERT_NEAR(-0.4f, manager.getFloatValue(0), precision);
 }
 
 TEST_F(InputManagerTest, TestMultipleInputs)
