@@ -112,7 +112,10 @@ inline void setHeading(sf::Vector2f& v, float angle)
 */
 inline sf::Vector2f& normalize(sf::Vector2f& v)
 {
-    v /= getMagnitude(v);
+    auto magnitude = getMagnitude(v);
+
+    if (magnitude > 0.f) v /= getMagnitude(v);
+    
     return v;
 }
 

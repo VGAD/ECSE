@@ -197,6 +197,16 @@ TEST(NormalizeTest, GeneralTest)
     ASSERT_NEAR_TRANS(1.f, ECSE::getSqrMagnitude(v));
 }
 
+TEST(NormalizeTest, ZeroTest)
+{
+    sf::Vector2f v(0.f, 0.f);
+    float heading = ECSE::getHeading(v);
+
+    ECSE::normalize(v);
+
+    ASSERT_NEAR_TRANS(0.f, ECSE::getSqrMagnitude(v));
+}
+
 TEST(SetMagnitudeTest, GeneralTest)
 {
     sf::Vector2f v(11.f, 4.f);
