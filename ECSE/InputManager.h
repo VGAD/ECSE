@@ -7,7 +7,7 @@
 #endif
 
 // The lower this is, the more precise input will be, but the larger replays will be.
-// The input will be sorted into "chunks" of size 1 << ECSE_INPUT_PRECISION.
+// The input will be rounded into "chunks" of size 1 << ECSE_INPUT_PRECISION.
 #ifndef ECSE_INPUT_PRECISION
 #define ECSE_INPUT_PRECISION 5
 #endif
@@ -54,7 +54,7 @@ public:
     /*!
     * \param bindingId The id used to refer to this input source.
     * \param mode The input mode in which this binding is active.
-    * \param fn The function to poll the input source's value.
+    * \param fn The function to poll the input source's value. This should always return values in [-1, 1].
     * \param sensitivity The minimum absolute float value above which the input is returned as non-zero.
     *                    If <= 0, all values are considered non-zero.
     *                    If the input type is non-floating-point, this is ignored.
@@ -173,11 +173,17 @@ private:
     class InputSource
     {
     public:
+        //! Half of the number of possible values for the internal value.
+        const ECSE_INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(ECSE_INPUT_INTERNAL_TYPE) * 7) - 1);
+
+        //! Input should be rounded into "chunks" of this size.
+        const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
+
         virtual ~InputSource() {}
 
         //! Get the input source's internal value.
         /*!
-        * \return The value converted to an integer, e.g. floats between -1.f and 1.f become integers from -128 to 127.
+        * \return The value converted to an integer for external storage.
         */
         virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const = 0;
 
@@ -185,13 +191,28 @@ private:
         /*!
         * \return The value converted to a float.
         */
-        virtual float getFloatValue() const = 0;
+        inline float getFloatValue() const
+        {
+            auto value = getInternalValue();
+
+            if (value == 0) return 0.f;
+
+            return static_cast<float>(value) / static_cast<float>(halfValue);
+        }
 
         //! Get the input source's integer value.
         /*!
-        * \return The value converted to an integer, usually based on sensitivity.
+        * \return The value converted to an integer.
         */
-        virtual int getIntValue() const = 0;
+        inline int getIntValue() const
+        {
+            auto value = getInternalValue();
+
+            if (value == 0) return 0;
+            if (value > 0) return 1;
+
+            return -1;
+        }
     };
 
     //! Templated InputSource subclass that holds the actual polling function.
@@ -228,10 +249,6 @@ private:
     class TypedInputSourceImpl<float> : public TypedInputSource<float>
     {
     public:
-        //! Half of the number of possible values for the internal value.
-        const ECSE_INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(ECSE_INPUT_INTERNAL_TYPE) * 7) - 1);
-        const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
-
         explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
             : TypedInputSource<float>(fn, sensitivity)
         { }
@@ -252,23 +269,6 @@ private:
 
             return reduced;
         }
-
-        inline virtual float getFloatValue() const override {
-            auto value = getInternalValue();
-
-            if (value == 0) return 0.f;
-
-            return static_cast<float>(value) / static_cast<float>(halfValue);
-        }
-
-        inline virtual int getIntValue() const override {
-            auto value = getInternalValue();
-
-            if (value == 0) return 0;
-            if (value > 0) return 1;
-
-            return -1;
-        }
     };
 
     //! Integer input source.
@@ -280,9 +280,15 @@ private:
             : TypedInputSource<int>(fn, sensitivity)
         { }
 
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return static_cast<ECSE_INPUT_INTERNAL_TYPE>(fn()); }
-        inline virtual int getIntValue() const override { return getInternalValue(); }
-        inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override
+        {
+            auto value = fn();
+
+            if (value == 0) return 0;
+            if (value > 0) return halfValue;
+
+            return -halfValue;
+        }
     };
 
     //! Boolean input source.
@@ -295,9 +301,16 @@ private:
         {
         }
 
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? 1 : 0; }
-        inline virtual int getIntValue() const override { return getInternalValue(); }
-        inline virtual float getFloatValue() const override { return static_cast<float>(getIntValue()); }
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? halfValue : 0; }
+    };
+
+    //! Input source which just has an internal value that can be updated by another class.
+    class InternalInputSource : public InputSource
+    {
+    public:
+        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return value; }
+
+        ECSE_INPUT_INTERNAL_TYPE value;     //!< The internal value.
     };
 
     //! Get the input source associated with a binding id.
