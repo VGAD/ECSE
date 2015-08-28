@@ -1,5 +1,14 @@
 #pragma once
 
+#include <functional>
+#include <unordered_map>
+#include <memory>
+#include <string>
+#include <ostream>
+#include <set>
+#include <utility>
+#include <SFML/Window.hpp>
+
 // This can be switched out for a larger type to improve input precision, but this will increase the size of replays.
 // This type should always be a signed integer type.
 #ifndef ECSE_INPUT_INTERNAL_TYPE
@@ -11,12 +20,6 @@
 #ifndef ECSE_INPUT_PRECISION
 #define ECSE_INPUT_PRECISION 5
 #endif
-
-#include <functional>
-#include <unordered_map>
-#include <memory>
-#include <string>
-#include <SFML/Window.hpp>
 
 namespace ECSE
 {
@@ -63,7 +66,7 @@ public:
     *                    If the input type is non-floating-point, this is ignored.
     */
     template <typename T>
-    void bindInput(char bindingId, char mode, const std::function<T()>& fn, float sensitivity = 0.f);
+    void bindInput(uint8_t bindingId, uint8_t mode, const std::function<T()>& fn, float sensitivity = 0.f);
 
     //! Bind a keyboard key to an id.
     /*!
@@ -71,7 +74,7 @@ public:
     * \param mode The input mode in which this binding is active.
     * \param key The key value to check.
     */
-    void bindInput(char bindingId, char mode, sf::Keyboard::Key key);
+    void bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key);
 
     //! Bind a pair of keys to an id.
     /*!
@@ -85,7 +88,7 @@ public:
     * \param key1 The first key value to check.
     * \param key2 The second key value to check.
     */
-    void bindInput(char bindingId, char mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
+    void bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2);
 
     //! Bind a joystick axis to an id (scaled to [-1 .. 1] instead of [-100 .. 100]).
     /*!
@@ -97,7 +100,7 @@ public:
     *                    If <= 0, all values are considered non-zero.
     *                    If the input type is non-floating-point, this is ignored.
     */
-    void bindInput(char bindingId, char mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
+    void bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
 
     //! Bind a joystick button to an id.
     /*!
@@ -106,7 +109,7 @@ public:
     * \param joystick The joystick to check.
     * \param button The button to check.
     */
-    void bindInput(char bindingId, char mode, unsigned joystick, unsigned button);
+    void bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, unsigned button);
 
     //! Check if an id is already bound.
     /*!
@@ -114,14 +117,14 @@ public:
     * \param mode The input mode.
     * \return Whether the id is bound already.
     */
-    bool isBound(char bindingId, char mode) const;
+    bool isBound(uint8_t bindingId, uint8_t mode) const;
 
     //! Check if an id is already bound in the current input mode.
     /*!
     * \param bindingId The id to check.
     * \return Whether the id is bound already.
     */
-    bool isBound(char bindingId) const;
+    bool isBound(uint8_t bindingId) const;
 
     //! Get an input source's value as a float.
     /*!
@@ -129,14 +132,14 @@ public:
     * \param mode The input mode.
     * \return The input source's value.
     */
-    float getFloatValue(char bindingId, char mode) const;
+    float getFloatValue(uint8_t bindingId, uint8_t mode) const;
 
     //! Get an input source's value as a float in the current input mode.
     /*!
     * \param bindingId The id of the input source.
     * \return The input source's value.
     */
-    float getFloatValue(char bindingId) const;
+    float getFloatValue(uint8_t bindingId) const;
 
     //! Get an input source's value as an int.
     /*!
@@ -144,20 +147,20 @@ public:
     * \param mode The input mode.
     * \return The input source's value.
     */
-    int getIntValue(char bindingId, char mode) const;
+    int getIntValue(uint8_t bindingId, uint8_t mode) const;
 
     //! Get an input source's value as an int in the current input mode.
     /*!
     * \param bindingId The id of the input source.
     * \return The input source's value.
     */
-    int getIntValue(char bindingId) const;
+    int getIntValue(uint8_t bindingId) const;
 
     //! Set the input mode.
     /*!
     * \param mode The new input mode.
     */
-    void setInputMode(char mode);
+    void setInputMode(uint8_t mode);
 
     //! Get the current input mode.
     /*!
@@ -170,6 +173,36 @@ public:
     * \return A vector containing the ids of the available joysticks.
     */
     std::vector<unsigned> getConnectedJoysticks() const;
+
+    //! Start recording a demo.
+    /*!
+    * \param stream The object to which demo data will be streamed.
+    */
+    void startRecording(std::ostream& stream);
+
+    //! Stop recording the demo.
+    void stopRecording();
+
+    //! Start playing back a demo.
+    /*!
+    * \param stream The object from which demo data will be streamed.
+    */
+    void playDemo(std::istream& stream);
+
+    //! Stop playing back the demo.
+    void stopDemo();
+
+    //! Check if this is recording a demo.
+    /*!
+    * \return True if this is recording a demo.
+    */
+    inline bool isRecording() { return recording; }
+
+    //! Check if this is playing a demo.
+    /*!
+    * \return True if this is playing a demo.
+    */
+    inline bool isPlayingDemo() { return playingDemo; }
 
 private:
     //! A generic class to get data from an input source.
@@ -348,7 +381,10 @@ private:
     * \param mode The input mode.
     * \return The InputSource.
     */
-    const InputSource& getSource(char bindingId, char mode) const;
+    const InputSource& getSource(uint8_t bindingId, uint8_t mode) const;
+
+    //! Write out data for changes in the current frame to the demo stream.
+    void writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes);
 
     //! Determine whether to ignore input.
     /*!
@@ -359,12 +395,21 @@ private:
         return requireFocus && (window == nullptr || !window->hasFocus());
     }
 
-    char inputMode = 0;                     //!< Current input mode.
+    uint8_t inputMode = 0;                  //!< Current input mode.
     const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
+    bool recording = false;                 //!< Whether a demo is being recorded.
+    bool playingDemo = false;               //!< Whether a demo is being played.
+    bool firstRecordedFrame = false;        //!< Whether this is the first frame to be recorded.
+
+    std::ostream* demoOut = nullptr;        //!< Output stream for the demo.
+    std::istream* demoIn = nullptr;         //!< Input stream for the demo.
 
     //! Map from mode to bindings, which map from binding id to input source.
-    std::unordered_map<char, std::unordered_map<char, std::unique_ptr<InputSource>>> bindings;
+    std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unique_ptr<InputSource>>> bindings;
+
+    //! Map from mode to demo sources, which map from binding id to input source.
+    std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unique_ptr<InputSource>>> demoSources;
 };
 
 
@@ -372,7 +417,7 @@ private:
 // Implementation
 
 template <typename T>
-void InputManager::bindInput(char bindingId, char mode, const std::function<T()>& fn, float sensitivity)
+void InputManager::bindInput(uint8_t bindingId, uint8_t mode, const std::function<T()>& fn, float sensitivity)
 {
     if (isBound(bindingId, mode))
     {

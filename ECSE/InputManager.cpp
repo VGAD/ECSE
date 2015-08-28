@@ -9,22 +9,85 @@ InputManager::InputManager()
 
 void InputManager::update()
 {
-    for (auto& modePair : bindings)
+    if (playingDemo)
     {
-        for (auto& bindingPair : modePair.second)
+        uint8_t newInputMode;
+        demoIn->read(reinterpret_cast<char*>(&newInputMode), sizeof(inputMode));
+        if (newInputMode != inputMode) setInputMode(newInputMode);
+
+        uint8_t changeCount;
+        demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
+
+        for (uint8_t i = 0; i < changeCount; ++i)
         {
-            bindingPair.second->updateInternalValue();
+            uint8_t mode;
+            uint8_t bindingId;
+            ECSE_INPUT_INTERNAL_TYPE value;
+
+            demoIn->read(reinterpret_cast<char*>(&mode), sizeof(mode));
+            demoIn->read(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
+            demoIn->read(reinterpret_cast<char*>(&value), sizeof(value));
+
+            auto& bindings = demoSources[mode];
+            auto sourceIt = bindings.find(bindingId);
+            InputSource* source;
+
+            if (sourceIt == bindings.end())
+            {
+                bindings[bindingId] = std::make_unique<InternalInputSource>();
+                source = bindings[bindingId].get();
+            }
+            else
+            {
+                source = sourceIt->second.get();
+            }
+
+            InternalInputSource* internalSource = dynamic_cast<InternalInputSource*>(source);
+            internalSource->setInternalValue(value);
+        }
+
+        if (demoIn->peek() == EOF)
+        {
+            stopDemo();
+        }
+    }
+    else
+    {
+        auto changes = std::set<std::pair<uint8_t, uint8_t>>();
+
+        for (auto& modePair : bindings)
+        {
+            for (auto& bindingPair : modePair.second)
+            {
+                auto& source = bindingPair.second;
+                ECSE_INPUT_INTERNAL_TYPE oldValue = source->getInternalValue();
+
+                source->updateInternalValue();
+
+                if (source->getInternalValue() != oldValue || firstRecordedFrame)
+                {
+                    changes.insert(std::pair<uint8_t, uint8_t>(modePair.first, bindingPair.first));
+                }
+            }
+        }
+
+        // Write out recording data
+        if (recording)
+        {
+            writeChanges(changes);
+
+            firstRecordedFrame = false;
         }
     }
 }
 
-void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key)
+void InputManager::bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key)
 {
     std::function<bool()> poll = [key]() { return sf::Keyboard::isKeyPressed(key); };
     bindInput(bindingId, mode, poll);
 }
 
-void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
+void InputManager::bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
 {
     std::function<int()> poll = [key1, key2]()
     {
@@ -36,8 +99,7 @@ void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key1, 
     bindInput(bindingId, mode, poll);
 }
 
-
-void InputManager::bindInput(char bindingId, char mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity)
+void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity)
 {
     std::function<float()> poll = [joystick, axis]()
     {
@@ -46,8 +108,7 @@ void InputManager::bindInput(char bindingId, char mode, unsigned joystick, sf::J
     bindInput(bindingId, mode, poll, sensitivity);
 }
 
-
-void InputManager::bindInput(char bindingId, char mode, unsigned joystick, unsigned button)
+void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, unsigned button)
 {
     std::function<int()> poll = [joystick, button]()
     {
@@ -56,7 +117,7 @@ void InputManager::bindInput(char bindingId, char mode, unsigned joystick, unsig
     bindInput(bindingId, mode, poll);
 }
 
-bool InputManager::isBound(char bindingId, char mode) const
+bool InputManager::isBound(uint8_t bindingId, uint8_t mode) const
 {
     auto modeBindings = bindings.find(mode);
     if (modeBindings == bindings.end()) return false;
@@ -67,12 +128,12 @@ bool InputManager::isBound(char bindingId, char mode) const
     return true;
 }
 
-bool InputManager::isBound(char bindingId) const
+bool InputManager::isBound(uint8_t bindingId) const
 {
     return isBound(bindingId, inputMode);
 }
 
-float InputManager::getFloatValue(char bindingId, char mode) const
+float InputManager::getFloatValue(uint8_t bindingId, uint8_t mode) const
 {
     if (ignoreInput()) return 0.f;
 
@@ -81,12 +142,12 @@ float InputManager::getFloatValue(char bindingId, char mode) const
     return source.getFloatValue();
 }
 
-float InputManager::getFloatValue(char bindingId) const
+float InputManager::getFloatValue(uint8_t bindingId) const
 {
     return getFloatValue(bindingId, inputMode);
 }
 
-int InputManager::getIntValue(char bindingId, char mode) const
+int InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
 {
     if (ignoreInput()) return 0;
 
@@ -95,12 +156,12 @@ int InputManager::getIntValue(char bindingId, char mode) const
     return source.getIntValue();
 }
 
-int InputManager::getIntValue(char bindingId) const
+int InputManager::getIntValue(uint8_t bindingId) const
 {
     return getIntValue(bindingId, inputMode);
 }
 
-void InputManager::setInputMode(char mode)
+void InputManager::setInputMode(uint8_t mode)
 {
     inputMode = mode;
 }
@@ -122,11 +183,57 @@ std::vector<unsigned> InputManager::getConnectedJoysticks() const
     return result;
 }
 
-const InputManager::InputSource& InputManager::getSource(char bindingId, char mode) const
+void InputManager::startRecording(std::ostream& stream)
 {
-    auto modeBindings = bindings.find(mode);
+    if (playingDemo)
+    {
+        throw std::runtime_error("Can't record and play a demo at the same time");
+    }
 
-    if (modeBindings == bindings.end())
+    if (recording)
+    {
+        stopRecording();
+    }
+
+    demoOut = &stream;
+    recording = true;
+    firstRecordedFrame = true;
+}
+
+void InputManager::stopRecording()
+{
+    recording = false;
+}
+
+void InputManager::playDemo(std::istream& stream)
+{
+    if (recording)
+    {
+        throw std::runtime_error("Can't record and play a demo at the same time");
+    }
+
+    if (playingDemo)
+    {
+        stopDemo();
+    }
+
+    demoIn = &stream;
+    playingDemo = true;
+
+    demoSources.clear();
+}
+
+void InputManager::stopDemo()
+{
+    playingDemo = false;
+}
+
+const InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint8_t mode) const
+{
+    auto& bindingMap = playingDemo ? demoSources : bindings;
+    auto modeBindings = bindingMap.find(mode);
+
+    if (modeBindings == bindingMap.end())
     {
         throw std::runtime_error("No bindings for input mode " + std::to_string(mode));
     }
@@ -139,6 +246,37 @@ const InputManager::InputSource& InputManager::getSource(char bindingId, char mo
     }
 
     return *source->second;
+}
+
+void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes)
+{
+    if (demoOut == nullptr || !demoOut->good())
+    {
+        throw std::runtime_error("Demo output stream cannot be written to");
+    }
+
+    // This is kind of crappy, but hitting the limit would be very difficult
+    if (changes.size() >= std::numeric_limits<uint8_t>::max())
+    {
+        throw std::runtime_error("More than " + std::to_string(std::numeric_limits<uint8_t>::max()) + " input changes per frame not supported");
+    }
+
+    demoOut->write(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
+
+    auto changeCount = static_cast<uint8_t>(changes.size());
+
+    demoOut->write(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
+
+    for (auto& pair : changes)
+    {
+        auto mode = pair.first;
+        auto bindingId = pair.second;
+        auto value = getSource(bindingId, mode).getInternalValue();
+
+        demoOut->write(reinterpret_cast<char*>(&mode), sizeof(mode));
+        demoOut->write(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
+        demoOut->write(reinterpret_cast<char*>(&value), sizeof(value));
+    }
 }
 
 }
