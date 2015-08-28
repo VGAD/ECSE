@@ -146,6 +146,8 @@ void Engine::pollEvents()
         handleEvent(event);
     }
 
+    inputManager.update();
+
 #ifdef _WINDOWS
     // SFML doesn't have the PrintScreen button. Wut.
     if (GetKeyState(VK_SNAPSHOT) & 0x8000)

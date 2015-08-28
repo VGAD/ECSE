@@ -7,6 +7,17 @@ InputManager::InputManager()
 {
 }
 
+void InputManager::update()
+{
+    for (auto& modePair : bindings)
+    {
+        for (auto& bindingPair : modePair.second)
+        {
+            bindingPair.second->updateInternalValue();
+        }
+    }
+}
+
 void InputManager::bindInput(char bindingId, char mode, sf::Keyboard::Key key)
 {
     std::function<bool()> poll = [key]() { return sf::Keyboard::isKeyPressed(key); };

@@ -50,6 +50,9 @@ public:
         this->requireFocus = value;
     }
 
+    //! Update the values of the inputs.
+    void update();
+
     //! Bind a function to an id.
     /*!
     * \param bindingId The id used to refer to this input source.
@@ -179,13 +182,20 @@ private:
         //! Input should be rounded into "chunks" of this size.
         const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
 
+        //! Destroy the input source.
         virtual ~InputSource() {}
+
+        //! Update the input source's internal value.
+        /*!
+        * \return The value converted to an integer for external storage.
+        */
+        virtual void updateInternalValue() = 0;
 
         //! Get the input source's internal value.
         /*!
         * \return The value converted to an integer for external storage.
         */
-        virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const = 0;
+        inline ECSE_INPUT_INTERNAL_TYPE getInternalValue() const { return internalVal; }
 
         //! Get the input source's floating-point value.
         /*!
@@ -213,6 +223,9 @@ private:
 
             return -1;
         }
+
+    protected:
+        ECSE_INPUT_INTERNAL_TYPE internalVal;   //!< The internal value.
     };
 
     //! Templated InputSource subclass that holds the actual polling function.
@@ -255,19 +268,23 @@ private:
 
         virtual ~TypedInputSourceImpl<float>() {}
 
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override
+        inline virtual void updateInternalValue() override
         {
-            float value = fn();
+            float newValue = fn();
 
-            if (fabs(value) < sensitivity) return 0;
+            if (fabs(newValue) < sensitivity)
+            {
+                internalVal = 0;
+                return;
+            }
 
-            auto reduced = static_cast<ECSE_INPUT_INTERNAL_TYPE>(value * halfValue);
+            auto reduced = static_cast<ECSE_INPUT_INTERNAL_TYPE>(newValue * halfValue);
             if (abs(reduced) != halfValue)
             {
                 reduced = (reduced / precision) * precision;
             }
 
-            return reduced;
+            internalVal = reduced;
         }
     };
 
@@ -280,14 +297,22 @@ private:
             : TypedInputSource<int>(fn, sensitivity)
         { }
 
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override
+        inline virtual void updateInternalValue() override
         {
-            auto value = fn();
+            auto newValue = fn();
 
-            if (value == 0) return 0;
-            if (value > 0) return halfValue;
-
-            return -halfValue;
+            if (newValue == 0)
+            {
+                internalVal = 0;
+            }
+            else if (newValue > 0)
+            {
+                internalVal = halfValue;
+            }
+            else
+            {
+                internalVal = -halfValue;
+            }
         }
     };
 
@@ -301,16 +326,20 @@ private:
         {
         }
 
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return fn() ? halfValue : 0; }
+        inline virtual void updateInternalValue() override { internalVal = fn() ? halfValue : 0; }
     };
 
     //! Input source which just has an internal value that can be updated by another class.
     class InternalInputSource : public InputSource
     {
     public:
-        inline virtual ECSE_INPUT_INTERNAL_TYPE getInternalValue() const override { return value; }
+        inline virtual void updateInternalValue() override { }
 
-        ECSE_INPUT_INTERNAL_TYPE value;     //!< The internal value.
+        //! Set the internal value.
+        /*!
+        * \param value The new value.
+        */
+        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value) { internalVal = value; }
     };
 
     //! Get the input source associated with a binding id.
