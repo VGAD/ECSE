@@ -34,7 +34,7 @@ void InputManager::update()
 
             if (sourceIt == bindings.end())
             {
-                bindings[bindingId] = std::make_unique<InternalInputSource>();
+                bindings[bindingId] = std::make_unique<ManualInputSource>();
                 source = bindings[bindingId].get();
             }
             else
@@ -42,8 +42,7 @@ void InputManager::update()
                 source = sourceIt->second.get();
             }
 
-            InternalInputSource* internalSource = dynamic_cast<InternalInputSource*>(source);
-            internalSource->setInternalValue(value);
+            source->setInternalValue(value);
         }
 
         if (demoIn->peek() == EOF)

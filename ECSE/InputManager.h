@@ -230,6 +230,12 @@ private:
         */
         inline ECSE_INPUT_INTERNAL_TYPE getInternalValue() const { return internalVal; }
 
+        //! Set the internal value.
+        /*!
+        * \param value The new value.
+        */
+        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value) { internalVal = value; }
+
         //! Get the input source's floating-point value.
         /*!
         * \return The value converted to a float.
@@ -362,17 +368,11 @@ private:
         inline virtual void updateInternalValue() override { internalVal = fn() ? halfValue : 0; }
     };
 
-    //! Input source which just has an internal value that can be updated by another class.
-    class InternalInputSource : public InputSource
+    //! Input source which is intended to be updated by antoher class using setInternalValue().
+    class ManualInputSource : public InputSource
     {
     public:
         inline virtual void updateInternalValue() override { }
-
-        //! Set the internal value.
-        /*!
-        * \param value The new value.
-        */
-        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value) { internalVal = value; }
     };
 
     //! Get the input source associated with a binding id.
