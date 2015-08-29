@@ -192,6 +192,12 @@ public:
     //! Stop playing back the demo.
     void stopDemo();
 
+    //! Start monkey testing mode, which generates random input values.
+    void startMonkeyMode();
+
+    //! Stop monkey testing mode.
+    void stopMonkeyMode();
+
     //! Check if this is recording a demo.
     /*!
     * \return True if this is recording a demo.
@@ -203,6 +209,12 @@ public:
     * \return True if this is playing a demo.
     */
     inline bool isPlayingDemo() { return playingDemo; }
+
+    //! Check if this is in monkey testing mode.
+    /*!
+    * \return True if this is in monkey testing mode.
+    */
+    inline bool isInMonkeyMode() { return monkeyMode; }
 
 private:
     //! A generic class to get data from an input source.
@@ -396,12 +408,13 @@ private:
     }
 
     uint8_t inputMode = 0;                  //!< Current input mode.
-    const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
     bool recording = false;                 //!< Whether a demo is being recorded.
     bool playingDemo = false;               //!< Whether a demo is being played.
     bool firstRecordedFrame = false;        //!< Whether this is the first frame to be recorded.
+    bool monkeyMode = false;                //!< Whether this is in monkey testing mode (random input).
 
+    const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     std::ostream* demoOut = nullptr;        //!< Output stream for the demo.
     std::istream* demoIn = nullptr;         //!< Input stream for the demo.
 

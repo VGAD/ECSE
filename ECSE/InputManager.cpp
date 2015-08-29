@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "Logging.h"
 
 namespace ECSE
 {
@@ -61,7 +62,14 @@ void InputManager::update()
                 auto& source = bindingPair.second;
                 ECSE_INPUT_INTERNAL_TYPE oldValue = source->getInternalValue();
 
-                source->updateInternalValue();
+                if (monkeyMode)
+                {
+                    source->setInternalValue(rand());
+                }
+                else
+                {
+                    source->updateInternalValue();
+                }
 
                 if (source->getInternalValue() != oldValue || firstRecordedFrame)
                 {
@@ -225,6 +233,18 @@ void InputManager::playDemo(std::istream& stream)
 void InputManager::stopDemo()
 {
     playingDemo = false;
+}
+
+void InputManager::startMonkeyMode()
+{
+    monkeyMode = true;
+    LOG(TRACE) << "Monkey mode enabled";
+}
+
+void InputManager::stopMonkeyMode()
+{
+    monkeyMode = false;
+    LOG(TRACE) << "Monkey mode disabled";
 }
 
 const InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint8_t mode) const
