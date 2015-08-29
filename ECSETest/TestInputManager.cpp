@@ -12,6 +12,64 @@ public:
     }
 };
 
+class InputManagerRunTest : public InputManagerTest
+{
+public:
+    ECSE::InputManager manager;
+
+    InputManagerRunTest()
+    {
+        std::function<bool()> boolfn = []() { return false; };
+        std::function<int()> intfn = []() { return 0; };
+        std::function<float()> floatfn = []() { return 0.0f; };
+
+        manager.bindInput(0, 0, boolfn);
+        manager.bindInput(1, 0, intfn);
+        manager.bindInput(2, 0, floatfn, 0.2f);
+
+        manager.bindInput(0, 1, boolfn);
+        manager.bindInput(1, 1, intfn);
+        manager.bindInput(2, 1, floatfn, 0.4f);
+    }
+
+    void runLoop()
+    {
+        a = 0;
+        b = 0;
+        c = 0;
+
+        for (int i = 0; i < 1000; ++i)
+        {
+            manager.update();
+
+            if (rand() % 100 > 10)
+            {
+                manager.setInputMode(manager.getInputMode() == 0 ? 1 : 0);
+            }
+
+            if (manager.getIntValue(0) > 0)
+            {
+                a += 2;
+                b -= 1;
+            }
+
+            if (manager.getFloatValue(1) >= 0.7)
+            {
+                b += 3;
+                c -= 2;
+            }
+
+            if (manager.getIntValue(2) < 1)
+            {
+                a += 1;
+                c += 4;
+            }
+        }
+    }
+
+    int a, b, c;
+};
+
 TEST_F(InputManagerTest, TestIsBound)
 {
     std::function<bool()> fn = []() { return false; };
@@ -242,4 +300,39 @@ TEST_F(InputManagerTest, TestMultipleModes)
 
     ASSERT_EQ(0, manager.getIntValue(0, 0));
     ASSERT_EQ(1, manager.getIntValue(0, 1));
+}
+
+TEST_F(InputManagerRunTest, TestMonkey)
+{
+    manager.startMonkeyMode();
+    runLoop();
+
+    // a always increases, so if the monkey is at all good at pressing buttons this should work
+    ASSERT_FALSE(a == 0, "Monkey may not be pressing buttons");
+
+    // This should be pretty unlikely
+    ASSERT_FALSE(a == b && b == c);
+}
+
+TEST_F(InputManagerRunTest, TestDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream);
+    runLoop();
+    manager.stopRecording();
+
+    int prevA = a;
+    int prevB = b;
+    int prevC = c;
+
+    manager.playDemo(stream);
+    runLoop();
+
+    ASSERT_EQ(prevA, a);
+    ASSERT_EQ(prevB, b);
+    ASSERT_EQ(prevC, c);
+
+    ASSERT_FALSE(manager.isPlayingDemo());
 }
