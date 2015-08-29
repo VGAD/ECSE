@@ -12,6 +12,64 @@ public:
     }
 };
 
+class InputManagerRunTest : public InputManagerTest
+{
+public:
+    InputManagerRunTest()
+    {
+        std::function<bool()> boolfn = []() { return false; };
+        std::function<int()> intfn = []() { return 0; };
+        std::function<float()> floatfn = []() { return 0.0f; };
+
+        manager.bindInput(0, 0, boolfn);
+        manager.bindInput(1, 0, intfn);
+        manager.bindInput(2, 0, floatfn, 0.2f);
+
+        manager.bindInput(0, 1, boolfn);
+        manager.bindInput(1, 1, intfn);
+        manager.bindInput(2, 1, floatfn, 0.4f);
+    }
+
+    void runLoop(int length)
+    {
+        a = 0;
+        b = 0;
+        c = 0;
+        d = 0;
+
+        for (int i = 0; i < length; ++i)
+        {
+            manager.update();
+
+            bool anyPressed = false;
+            if (manager.getIntValue(0) > 0)
+            {
+                a += 1;
+                anyPressed = true;
+            }
+
+            if (manager.getFloatValue(1) >= 0.7)
+            {
+                b += 1;
+                anyPressed = true;
+            }
+
+            if (manager.getIntValue(2) < 1)
+            {
+                c += 1;
+                anyPressed = true;
+            }
+
+            if (!anyPressed)
+            {
+                d += 1;
+            }
+        }
+    }
+
+    int a, b, c, d;
+};
+
 TEST_F(InputManagerTest, TestIsBound)
 {
     std::function<bool()> fn = []() { return false; };
@@ -242,4 +300,78 @@ TEST_F(InputManagerTest, TestMultipleModes)
 
     ASSERT_EQ(0, manager.getIntValue(0, 0));
     ASSERT_EQ(1, manager.getIntValue(0, 1));
+}
+
+TEST_F(InputManagerRunTest, TestMonkey)
+{
+    manager.startMonkeyMode();
+    runLoop(1000);
+
+    // These always increase, so if the monkey is at all good at pressing buttons this should work
+    ASSERT_FALSE(a == 0) << "Monkey may not be pressing buttons";
+    ASSERT_FALSE(b == 0) << "Monkey may not be pressing buttons";
+    ASSERT_FALSE(c == 0) << "Monkey may not be pressing buttons";
+
+    // This should be pretty unlikely
+    ASSERT_FALSE(a == b && b == c);
+}
+
+TEST_F(InputManagerRunTest, TestDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream);
+    runLoop(1000);
+    manager.stopRecording();
+    manager.stopMonkeyMode();
+
+    int prevA = a;
+    int prevB = b;
+    int prevC = c;
+    int prevD = d;
+
+    manager.playDemo(stream);
+    runLoop(1000);
+
+    ASSERT_EQ(prevA, a);
+    ASSERT_EQ(prevB, b);
+    ASSERT_EQ(prevC, c);
+    ASSERT_EQ(prevD, d);
+
+    ASSERT_FALSE(manager.isPlayingDemo());
+}
+
+TEST_F(InputManagerRunTest, TestModeSwitchDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream);
+
+    for (int i = 0; i < 100; ++i)
+    {
+        runLoop(10);
+
+        if (rand() % 10 > 10)
+        {
+            manager.setInputMode(manager.getInputMode() == 0 ? 1 : 0);
+        }
+    }
+
+    manager.stopRecording();
+    manager.stopMonkeyMode();
+
+    int prevA = a;
+    int prevB = b;
+    int prevC = c;
+    int prevD = d;
+
+    manager.playDemo(stream);
+    runLoop(1000);
+
+    ASSERT_EQ(prevA, a);
+    ASSERT_EQ(prevB, b);
+    ASSERT_EQ(prevC, c);
+    ASSERT_EQ(prevD, d);
 }
