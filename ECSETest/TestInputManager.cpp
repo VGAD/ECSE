@@ -17,6 +17,8 @@ class InputManagerRunTest : public InputManagerTest
 public:
     InputManagerRunTest()
     {
+        resetValues();
+
         std::function<bool()> boolfn = []() { return false; };
         std::function<int()> intfn = []() { return 0; };
         std::function<float()> floatfn = []() { return 0.0f; };
@@ -30,13 +32,16 @@ public:
         manager.bindInput(2, 1, floatfn, 0.4f);
     }
 
-    void runLoop(int length)
+    void resetValues()
     {
         a = 0;
         b = 0;
         c = 0;
         d = 0;
+    }
 
+    void runLoop(int length)
+    {
         for (int i = 0; i < length; ++i)
         {
             manager.update();
@@ -331,6 +336,7 @@ TEST_F(InputManagerRunTest, TestDemo)
     int prevC = c;
     int prevD = d;
 
+    resetValues();
     manager.playDemo(stream);
     runLoop(1000);
 
@@ -367,6 +373,7 @@ TEST_F(InputManagerRunTest, TestModeSwitchDemo)
     int prevC = c;
     int prevD = d;
 
+    resetValues();
     manager.playDemo(stream);
     runLoop(1000);
 
