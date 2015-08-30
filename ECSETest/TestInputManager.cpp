@@ -359,7 +359,7 @@ TEST_F(InputManagerRunTest, TestModeSwitchDemo)
     {
         runLoop(10);
 
-        if (rand() % 10 > 10)
+        if (rand() % 100 > 90)
         {
             manager.setInputMode(manager.getInputMode() == 0 ? 1 : 0);
         }
