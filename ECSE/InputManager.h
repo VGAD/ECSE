@@ -158,9 +158,12 @@ public:
 
     //! Set the input mode.
     /*!
+    * The input mode will not be changed in demo playback mode.
+    *
     * \param mode The new input mode.
+    * \return True if the input mode was changed.
     */
-    void setInputMode(uint8_t mode);
+    bool setInputMode(uint8_t mode);
 
     //! Get the current input mode.
     /*!

@@ -12,9 +12,7 @@ void InputManager::update()
 {
     if (playingDemo)
     {
-        uint8_t newInputMode;
-        demoIn->read(reinterpret_cast<char*>(&newInputMode), sizeof(inputMode));
-        if (newInputMode != inputMode) setInputMode(newInputMode);
+        demoIn->read(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
 
         uint8_t changeCount;
         demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
@@ -168,9 +166,12 @@ int InputManager::getIntValue(uint8_t bindingId) const
     return getIntValue(bindingId, inputMode);
 }
 
-void InputManager::setInputMode(uint8_t mode)
+bool InputManager::setInputMode(uint8_t mode)
 {
+    if (playingDemo) return false;
+
     inputMode = mode;
+    return true;
 }
 
 unsigned InputManager::getInputMode() const
