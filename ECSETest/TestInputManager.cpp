@@ -368,6 +368,82 @@ TEST_F(InputManagerRunTest, TestModeSwitchDemo)
     manager.stopRecording();
     manager.stopMonkeyMode();
 
+    auto str = stream.str();
+
+    int prevA = a;
+    int prevB = b;
+    int prevC = c;
+    int prevD = d;
+
+    resetValues();
+    manager.playDemo(stream);
+    runLoop(1000);
+
+    ASSERT_EQ(prevA, a);
+    ASSERT_EQ(prevB, b);
+    ASSERT_EQ(prevC, c);
+    ASSERT_EQ(prevD, d);
+}
+
+TEST_F(InputManagerRunTest, TestInputGapDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream);
+
+    for (int i = 0; i < 5; ++i)
+    {
+        runLoop(500);
+
+        if (manager.isInMonkeyMode()) manager.stopMonkeyMode();
+        else manager.startMonkeyMode();
+    }
+
+    manager.stopRecording();
+    manager.stopMonkeyMode();
+
+    int prevA = a;
+    int prevB = b;
+    int prevC = c;
+    int prevD = d;
+
+    resetValues();
+    manager.playDemo(stream);
+    runLoop(2500);
+
+    ASSERT_EQ(prevA, a);
+    ASSERT_EQ(prevB, b);
+    ASSERT_EQ(prevC, c);
+    ASSERT_EQ(prevD, d);
+}
+
+TEST_F(InputManagerRunTest, TestModeSwitchInputGapDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream);
+
+    for (int i = 0; i < 20; ++i)
+    {
+        runLoop(50);
+
+        if (rand() % 100 > 90)
+        {
+            manager.setInputMode(manager.getInputMode() == 0 ? 1 : 0);
+        }
+
+        if (i % 10 == 0)
+        {
+            if (manager.isInMonkeyMode()) manager.stopMonkeyMode();
+            else manager.startMonkeyMode();
+        }
+    }
+
+    manager.stopRecording();
+    manager.stopMonkeyMode();
+
     int prevA = a;
     int prevB = b;
     int prevC = c;

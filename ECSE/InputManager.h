@@ -410,12 +410,20 @@ private:
         return requireFocus && (window == nullptr || !window->hasFocus());
     }
 
+    //! Maximum delta time between input changes that can fit in one byte.
+    const uint8_t maxDelta = std::numeric_limits<uint8_t>::max();
+
     uint8_t inputMode = 0;                  //!< Current input mode.
+    uint8_t prevInputMode = 0;              //!< Input mode on previous update.
+
     bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
     bool recording = false;                 //!< Whether a demo is being recorded.
     bool playingDemo = false;               //!< Whether a demo is being played.
-    bool firstRecordedFrame = false;        //!< Whether this is the first frame to be recorded.
     bool monkeyMode = false;                //!< Whether this is in monkey testing mode (random input).
+
+    uint32_t demoFrames;                    //!< Number of frames for the current demo.
+    uint32_t lastChangeFrame;               //!< The last demo frame on which inputs were changed.
+    uint32_t nextChangeFrame;               //!< The next demo frame on which inputs will change in playback mode.
 
     const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     std::ostream* demoOut = nullptr;        //!< Output stream for the demo.

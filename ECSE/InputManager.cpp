@@ -12,41 +12,64 @@ void InputManager::update()
 {
     if (playingDemo)
     {
-        demoIn->read(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
-
-        uint8_t changeCount;
-        demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
-
-        for (uint8_t i = 0; i < changeCount; ++i)
+        // Time to read the next change frame
+        if (nextChangeFrame < demoFrames || nextChangeFrame == 0)
         {
-            uint8_t mode;
-            uint8_t bindingId;
-            ECSE_INPUT_INTERNAL_TYPE value;
+            uint8_t delta;
+            demoIn->read(reinterpret_cast<char*>(&delta), sizeof(delta));
 
-            demoIn->read(reinterpret_cast<char*>(&mode), sizeof(mode));
-            demoIn->read(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
-            demoIn->read(reinterpret_cast<char*>(&value), sizeof(value));
-
-            auto& bindings = demoSources[mode];
-            auto sourceIt = bindings.find(bindingId);
-            InputSource* source;
-
-            if (sourceIt == bindings.end())
+            // Full time will be specified
+            if (delta == maxDelta)
             {
-                bindings[bindingId] = std::make_unique<ManualInputSource>();
-                source = bindings[bindingId].get();
+                demoIn->read(reinterpret_cast<char*>(&nextChangeFrame), sizeof(nextChangeFrame));
             }
             else
             {
-                source = sourceIt->second.get();
+                nextChangeFrame = demoFrames + delta;
+            }
+        }
+        
+        if (nextChangeFrame == demoFrames)
+        {
+            uint8_t newInputMode;
+            demoIn->read(reinterpret_cast<char*>(&newInputMode), sizeof(inputMode));
+            if (newInputMode != inputMode) inputMode = newInputMode;
+
+            uint8_t changeCount;
+            demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
+
+            // Update the internal values of any inputs that changed
+            for (uint8_t i = 0; i < changeCount; ++i)
+            {
+                uint8_t mode;
+                uint8_t bindingId;
+                ECSE_INPUT_INTERNAL_TYPE value;
+
+                demoIn->read(reinterpret_cast<char*>(&mode), sizeof(mode));
+                demoIn->read(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
+                demoIn->read(reinterpret_cast<char*>(&value), sizeof(value));
+
+                auto& bindings = demoSources[mode];
+                auto sourceIt = bindings.find(bindingId);
+                InputSource* source;
+
+                if (sourceIt == bindings.end())
+                {
+                    bindings[bindingId] = std::make_unique<ManualInputSource>();
+                    source = bindings[bindingId].get();
+                }
+                else
+                {
+                    source = sourceIt->second.get();
+                }
+
+                source->setInternalValue(value);
             }
 
-            source->setInternalValue(value);
-        }
-
-        if (demoIn->peek() == EOF)
-        {
-            stopDemo();
+            if (demoIn->peek() == EOF)
+            {
+                stopDemo();
+            }
         }
     }
     else
@@ -69,7 +92,7 @@ void InputManager::update()
                     source->updateInternalValue();
                 }
 
-                if (source->getInternalValue() != oldValue || firstRecordedFrame)
+                if (source->getInternalValue() != oldValue || demoFrames == 0)
                 {
                     changes.insert(std::pair<uint8_t, uint8_t>(modePair.first, bindingPair.first));
                 }
@@ -77,13 +100,18 @@ void InputManager::update()
         }
 
         // Write out recording data
-        if (recording)
+        if (recording && (!changes.empty() || prevInputMode != inputMode))
         {
             writeChanges(changes);
-
-            firstRecordedFrame = false;
         }
     }
+
+    if (playingDemo || recording)
+    {
+        ++demoFrames;
+    }
+
+    prevInputMode = inputMode;
 }
 
 void InputManager::bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key)
@@ -205,7 +233,7 @@ void InputManager::startRecording(std::ostream& stream)
 
     demoOut = &stream;
     recording = true;
-    firstRecordedFrame = true;
+    demoFrames = lastChangeFrame = 0;
 }
 
 void InputManager::stopRecording()
@@ -227,6 +255,7 @@ void InputManager::playDemo(std::istream& stream)
 
     demoIn = &stream;
     playingDemo = true;
+    demoFrames = lastChangeFrame = nextChangeFrame = 0;
 
     demoSources.clear();
 }
@@ -270,6 +299,24 @@ const InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint
 
 void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes)
 {
+    // Subtract 1 because we'll already be on the next frame when this is read
+    uint32_t delta = demoFrames == 0 ? 0 : demoFrames - lastChangeFrame - 1;
+
+    // More than one byte worth of delta time, so use extra bytes to represent exactly
+    if (delta > maxDelta)
+    {
+        uint8_t maxDeltaCopy = maxDelta;
+        demoOut->write(reinterpret_cast<char*>(&maxDeltaCopy), sizeof(maxDeltaCopy));
+
+        demoOut->write(reinterpret_cast<char*>(&demoFrames), sizeof(demoFrames));
+    }
+    // Otherwise just write the delta time as one byte
+    else
+    {
+        uint8_t deltaByte = static_cast<uint8_t>(delta);
+        demoOut->write(reinterpret_cast<char*>(&deltaByte), sizeof(deltaByte));
+    }
+
     if (demoOut == nullptr || !demoOut->good())
     {
         throw std::runtime_error("Demo output stream cannot be written to");
@@ -284,7 +331,6 @@ void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& cha
     demoOut->write(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
 
     auto changeCount = static_cast<uint8_t>(changes.size());
-
     demoOut->write(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
 
     for (auto& pair : changes)
@@ -297,6 +343,8 @@ void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& cha
         demoOut->write(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
         demoOut->write(reinterpret_cast<char*>(&value), sizeof(value));
     }
+
+    lastChangeFrame = demoFrames;
 }
 
 }
