@@ -156,6 +156,12 @@ public:
     */
     int getIntValue(uint8_t bindingId) const;
 
+    //! Get the mouse's position relative to the window.
+    /*!
+    * \return The mouse's position.
+    */
+    sf::Vector2i getMousePosition() const;
+
     //! Set the input mode.
     /*!
     * The input mode will not be changed in demo playback mode.
@@ -180,8 +186,10 @@ public:
     //! Start recording a demo.
     /*!
     * \param stream The object to which demo data will be streamed.
+    * \param recordMousePos Whether the mouse position should also be recorded. Note that
+    *                       this may significantly increase the size of the replay file.
     */
-    void startRecording(std::ostream& stream);
+    void startRecording(std::ostream& stream, bool recordMousePos = false);
 
     //! Stop recording the demo.
     void stopRecording();
@@ -419,11 +427,14 @@ private:
     bool requireFocus = true;               //!< If true, input is only considered when the window has focus.
     bool recording = false;                 //!< Whether a demo is being recorded.
     bool playingDemo = false;               //!< Whether a demo is being played.
+    bool demoMouse = false;                 //!< Whether the mouse position is recorded in the current demo.
     bool monkeyMode = false;                //!< Whether this is in monkey testing mode (random input).
 
     uint32_t demoFrames;                    //!< Number of frames for the current demo.
     uint32_t lastChangeFrame;               //!< The last demo frame on which inputs were changed.
     uint32_t nextChangeFrame;               //!< The next demo frame on which inputs will change in playback mode.
+
+    sf::Vector2i mousePosition;             //!< The position of the mouse relative to the window.
 
     const sf::Window* window = nullptr;     //!< The game window, or nullptr if there isn't one.
     std::ostream* demoOut = nullptr;        //!< Output stream for the demo.

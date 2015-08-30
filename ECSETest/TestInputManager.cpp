@@ -38,6 +38,8 @@ public:
         b = 0;
         c = 0;
         d = 0;
+        frames = 0;
+        mouseAvg = sf::Vector2i();
     }
 
     void runLoop(int length)
@@ -69,10 +71,16 @@ public:
             {
                 d += 1;
             }
+
+            mouseAvg = (mouseAvg * frames + manager.getMousePosition()) / (frames + 1);
+
+            ++frames;
         }
     }
 
     int a, b, c, d;
+    int frames;
+    sf::Vector2i mouseAvg;
 };
 
 TEST_F(InputManagerTest, TestIsBound)
@@ -346,6 +354,26 @@ TEST_F(InputManagerRunTest, TestDemo)
     ASSERT_EQ(prevD, d);
 
     ASSERT_FALSE(manager.isPlayingDemo());
+}
+
+TEST_F(InputManagerRunTest, TestMouseDemo)
+{
+    std::stringstream stream;
+
+    manager.startMonkeyMode();
+    manager.startRecording(stream, true);
+    runLoop(1000);
+    manager.stopRecording();
+    manager.stopMonkeyMode();
+
+    auto prevMouseAvg = mouseAvg;
+
+    resetValues();
+    manager.playDemo(stream);
+    runLoop(1000);
+
+    ASSERT_EQ(prevMouseAvg.x, mouseAvg.x);
+    ASSERT_EQ(prevMouseAvg.y, mouseAvg.y);
 }
 
 TEST_F(InputManagerRunTest, TestModeSwitchDemo)

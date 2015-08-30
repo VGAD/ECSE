@@ -10,6 +10,16 @@ InputManager::InputManager()
 
 void InputManager::update()
 {
+    sf::Vector2i newMousePosition;
+    if (monkeyMode)
+    {
+        newMousePosition = sf::Vector2i(rand(), rand());
+    }
+    else if (window != nullptr && !(demoMouse && playingDemo))
+    {
+        newMousePosition = sf::Mouse::getPosition(*window);
+    }
+
     if (playingDemo)
     {
         // Time to read the next change frame
@@ -31,9 +41,12 @@ void InputManager::update()
         
         if (nextChangeFrame == demoFrames)
         {
-            uint8_t newInputMode;
-            demoIn->read(reinterpret_cast<char*>(&newInputMode), sizeof(inputMode));
-            if (newInputMode != inputMode) inputMode = newInputMode;
+            if (demoMouse)
+            {
+                demoIn->read(reinterpret_cast<char*>(&mousePosition), sizeof(mousePosition));
+            }
+
+            demoIn->read(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
 
             uint8_t changeCount;
             demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
@@ -100,7 +113,10 @@ void InputManager::update()
         }
 
         // Write out recording data
-        if (recording && (!changes.empty() || prevInputMode != inputMode))
+        if (recording &&
+            (!changes.empty() ||
+            prevInputMode != inputMode ||
+            (newMousePosition != mousePosition && demoMouse)))
         {
             writeChanges(changes);
         }
@@ -194,6 +210,11 @@ int InputManager::getIntValue(uint8_t bindingId) const
     return getIntValue(bindingId, inputMode);
 }
 
+sf::Vector2i InputManager::getMousePosition() const
+{
+    return mousePosition;
+}
+
 bool InputManager::setInputMode(uint8_t mode)
 {
     if (playingDemo) return false;
@@ -219,7 +240,7 @@ std::vector<unsigned> InputManager::getConnectedJoysticks() const
     return result;
 }
 
-void InputManager::startRecording(std::ostream& stream)
+void InputManager::startRecording(std::ostream& stream, bool recordMousePos)
 {
     if (playingDemo)
     {
@@ -233,7 +254,10 @@ void InputManager::startRecording(std::ostream& stream)
 
     demoOut = &stream;
     recording = true;
+    demoMouse = recordMousePos;
     demoFrames = lastChangeFrame = 0;
+
+    demoOut->write(reinterpret_cast<char*>(&demoMouse), sizeof(demoMouse));
 }
 
 void InputManager::stopRecording()
@@ -258,6 +282,8 @@ void InputManager::playDemo(std::istream& stream)
     demoFrames = lastChangeFrame = nextChangeFrame = 0;
 
     demoSources.clear();
+
+    demoIn->read(reinterpret_cast<char*>(&demoMouse), sizeof(demoMouse));
 }
 
 void InputManager::stopDemo()
@@ -299,6 +325,18 @@ const InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint
 
 void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes)
 {
+    // This is kind of crappy, but hitting the limit would be very difficult
+    if (changes.size() >= std::numeric_limits<uint8_t>::max())
+    {
+        throw std::runtime_error("More than " + std::to_string(std::numeric_limits<uint8_t>::max()) + " input changes per frame not supported");
+    }
+
+    if (demoOut == nullptr || !demoOut->good())
+    {
+        throw std::runtime_error("Demo output stream cannot be written to");
+    }
+
+
     // Subtract 1 because we'll already be on the next frame when this is read
     uint32_t delta = demoFrames == 0 ? 0 : demoFrames - lastChangeFrame - 1;
 
@@ -317,15 +355,9 @@ void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& cha
         demoOut->write(reinterpret_cast<char*>(&deltaByte), sizeof(deltaByte));
     }
 
-    if (demoOut == nullptr || !demoOut->good())
+    if (demoMouse)
     {
-        throw std::runtime_error("Demo output stream cannot be written to");
-    }
-
-    // This is kind of crappy, but hitting the limit would be very difficult
-    if (changes.size() >= std::numeric_limits<uint8_t>::max())
-    {
-        throw std::runtime_error("More than " + std::to_string(std::numeric_limits<uint8_t>::max()) + " input changes per frame not supported");
+        demoOut->write(reinterpret_cast<char*>(&mousePosition), sizeof(mousePosition));
     }
 
     demoOut->write(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
