@@ -335,6 +335,16 @@ void InputManager::playDemo(std::istream& stream)
 void InputManager::stopDemo()
 {
     playingDemo = false;
+
+    for (auto& modePair : demoSources)
+    {
+        for (auto& bindingPair : modePair.second)
+        {
+            auto& demoSource = bindingPair.second;
+
+            getSource(bindingPair.first, modePair.first).setPrevInternalValue(demoSource->getInternalValue());
+        }
+    }
 }
 
 void InputManager::startMonkeyMode()
@@ -349,7 +359,7 @@ void InputManager::stopMonkeyMode()
     LOG(TRACE) << "Monkey mode disabled";
 }
 
-const InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint8_t mode) const
+InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint8_t mode) const
 {
     auto& bindingMap = playingDemo ? demoSources : bindings;
     auto modeBindings = bindingMap.find(mode);

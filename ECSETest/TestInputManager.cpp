@@ -385,6 +385,29 @@ TEST_F(InputManagerTest, TestDemoDelta)
     ASSERT_EQ(0, manager.getIntDelta(0)) << "Input delta may be stuck";
 }
 
+TEST_F(InputManagerTest, TestPostDemoDelta)
+{
+    int value = 0;
+    std::stringstream stream;
+
+    std::function<int8_t()> fn = [&value]() { return value; };
+    manager.bindInput(0, 0, fn);
+    
+    manager.startRecording(stream);
+    value = 1;
+    manager.update();
+    manager.stopRecording();
+    
+    value = 0;
+    manager.update();
+    manager.update();
+
+    manager.playDemo(stream);
+    manager.update();
+
+    ASSERT_EQ(-1, manager.getIntDelta(0)) << "Input delta does not account for demo values";
+}
+
 TEST_F(InputManagerRunTest, TestMonkey)
 {
     manager.startMonkeyMode();
