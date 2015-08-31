@@ -260,6 +260,17 @@ void InputManager::startRecording(std::ostream& stream, bool recordMousePos)
     demoFrames = lastChangeFrame = 0;
 
     demoOut->write(reinterpret_cast<char*>(&demoMouse), sizeof(demoMouse));
+
+    // Write out previous values so delta is correct
+    auto changes = std::set<std::pair<uint8_t, uint8_t>>();
+    for (auto& modePair : bindings)
+    {
+        for (auto& bindingPair : modePair.second)
+        {
+            changes.insert(std::pair<uint8_t, uint8_t>(modePair.first, bindingPair.first));
+        }
+    }
+    writeDemoChanges(changes);
 }
 
 void InputManager::stopRecording()
@@ -295,6 +306,10 @@ void InputManager::playDemo(std::istream& stream)
     demoSources.clear();
 
     demoIn->read(reinterpret_cast<char*>(&demoMouse), sizeof(demoMouse));
+    
+    // Read changes once so demo sources are primed with previous values
+    demoIn->ignore(1); // Skip delta
+    readDemoChanges();
 }
 
 void InputManager::stopDemo()

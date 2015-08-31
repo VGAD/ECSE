@@ -387,6 +387,33 @@ TEST_F(InputManagerTest, TestDemoDelta)
     ASSERT_EQ(0, manager.getIntDelta(0)) << "Input delta sticks when demo has no changes";
 }
 
+TEST_F(InputManagerTest, TestPreDemoDelta)
+{
+    int value = 0;
+    std::stringstream stream;
+
+    std::function<int8_t()> fn = [&value]() { return value; };
+    manager.bindInput(0, 0, fn);
+
+    // Before the demo started, value was 1
+    value = 1;
+    manager.update();
+
+    manager.startRecording(stream);
+    manager.update();
+    manager.update();
+    manager.stopRecording();
+
+    // Now value is 0
+    value = 0;
+    manager.update();
+
+    manager.playDemo(stream);
+    manager.update();
+
+    ASSERT_EQ(0, manager.getIntDelta(0)) << "Demo starts with incorrect delta value";
+}
+
 TEST_F(InputManagerTest, TestPostDemoDelta)
 {
     int value = 0;
