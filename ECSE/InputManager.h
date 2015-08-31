@@ -492,6 +492,9 @@ private:
     //! Write out data for changes in the current frame to the demo stream.
     void writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes);
 
+    //! Read changes from the demo stream.
+    void readChanges();
+
     //! Determine whether to ignore input.
     /*!
     * \return True if input should be ignored.

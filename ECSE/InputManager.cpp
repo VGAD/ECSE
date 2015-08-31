@@ -51,43 +51,7 @@ void InputManager::update()
         
         if (nextChangeFrame == demoFrames)
         {
-            if (demoMouse)
-            {
-                demoIn->read(reinterpret_cast<char*>(&mousePosition), sizeof(mousePosition));
-            }
-
-            demoIn->read(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
-
-            uint8_t changeCount;
-            demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
-
-            // Update the internal values of any inputs that changed
-            for (uint8_t i = 0; i < changeCount; ++i)
-            {
-                uint8_t mode;
-                uint8_t bindingId;
-                ECSE_INPUT_INTERNAL_TYPE value;
-
-                demoIn->read(reinterpret_cast<char*>(&mode), sizeof(mode));
-                demoIn->read(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
-                demoIn->read(reinterpret_cast<char*>(&value), sizeof(value));
-
-                auto& bindings = demoSources[mode];
-                auto sourceIt = bindings.find(bindingId);
-                InputSource* source;
-
-                if (sourceIt == bindings.end())
-                {
-                    bindings[bindingId] = std::make_unique<ManualInputSource>();
-                    source = bindings[bindingId].get();
-                }
-                else
-                {
-                    source = sourceIt->second.get();
-                }
-
-                source->setInternalValue(value);
-            }
+            readChanges();
 
             if (demoIn->peek() == EOF)
             {
@@ -433,6 +397,47 @@ void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& cha
     }
 
     lastChangeFrame = demoFrames;
+}
+
+void InputManager::readChanges()
+{
+    if (demoMouse)
+    {
+        demoIn->read(reinterpret_cast<char*>(&mousePosition), sizeof(mousePosition));
+    }
+
+    demoIn->read(reinterpret_cast<char*>(&inputMode), sizeof(inputMode));
+
+    uint8_t changeCount;
+    demoIn->read(reinterpret_cast<char*>(&changeCount), sizeof(changeCount));
+
+    // Update the internal values of any inputs that changed
+    for (uint8_t i = 0; i < changeCount; ++i)
+    {
+        uint8_t mode;
+        uint8_t bindingId;
+        ECSE_INPUT_INTERNAL_TYPE value;
+
+        demoIn->read(reinterpret_cast<char*>(&mode), sizeof(mode));
+        demoIn->read(reinterpret_cast<char*>(&bindingId), sizeof(bindingId));
+        demoIn->read(reinterpret_cast<char*>(&value), sizeof(value));
+
+        auto& bindings = demoSources[mode];
+        auto sourceIt = bindings.find(bindingId);
+        InputSource* source;
+
+        if (sourceIt == bindings.end())
+        {
+            bindings[bindingId] = std::make_unique<ManualInputSource>();
+            source = bindings[bindingId].get();
+        }
+        else
+        {
+            source = sourceIt->second.get();
+        }
+
+        source->setInternalValue(value);
+    }
 }
 
 }
