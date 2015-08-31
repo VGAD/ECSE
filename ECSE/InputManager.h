@@ -148,14 +148,14 @@ public:
     * \param mode The input mode.
     * \return The input source's value.
     */
-    int getIntValue(uint8_t bindingId, uint8_t mode) const;
+    int8_t getIntValue(uint8_t bindingId, uint8_t mode) const;
 
     //! Get an input source's value as an int in the current input mode.
     /*!
     * \param bindingId The id of the input source.
     * \return The input source's value.
     */
-    int getIntValue(uint8_t bindingId) const;
+    int8_t getIntValue(uint8_t bindingId) const;
 
     //! Get the mouse's position relative to the window.
     /*!
@@ -277,7 +277,7 @@ private:
         /*!
         * \return The value converted to an integer.
         */
-        inline int getIntValue() const
+        inline int8_t getIntValue() const
         {
             auto value = getInternalValue();
 

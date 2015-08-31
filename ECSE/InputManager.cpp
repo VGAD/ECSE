@@ -196,7 +196,7 @@ float InputManager::getFloatValue(uint8_t bindingId) const
     return getFloatValue(bindingId, inputMode);
 }
 
-int InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
+int8_t InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
 {
     if (ignoreInput()) return 0;
 
@@ -205,7 +205,7 @@ int InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
     return source.getIntValue();
 }
 
-int InputManager::getIntValue(uint8_t bindingId) const
+int8_t InputManager::getIntValue(uint8_t bindingId) const
 {
     return getIntValue(bindingId, inputMode);
 }
