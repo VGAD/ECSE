@@ -284,6 +284,12 @@ private:
         */
         inline ECSE_INPUT_INTERNAL_TYPE getInternalValue() const { return internalVal; }
 
+        //! Get the input source's previous internal value.
+        /*!
+        * \return The value converted to an integer for external storage.
+        */
+        inline ECSE_INPUT_INTERNAL_TYPE getPrevInternalValue() const { return prevInternalVal; }
+
         //! Set the internal value.
         /*!
         * \param value The new value.

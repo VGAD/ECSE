@@ -94,7 +94,6 @@ void InputManager::update()
             for (auto& bindingPair : modePair.second)
             {
                 auto& source = bindingPair.second;
-                ECSE_INPUT_INTERNAL_TYPE oldValue = source->getInternalValue();
 
                 if (monkeyMode)
                 {
@@ -105,7 +104,7 @@ void InputManager::update()
                     source->updateInternalValue();
                 }
 
-                if (source->getInternalValue() != oldValue || demoFrames == 0)
+                if (source->getInternalValue() != source->getPrevInternalValue() || demoFrames == 0)
                 {
                     changes.insert(std::pair<uint8_t, uint8_t>(modePair.first, bindingPair.first));
                 }
