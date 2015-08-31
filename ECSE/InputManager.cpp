@@ -289,7 +289,16 @@ void InputManager::startRecording(std::ostream& stream, bool recordMousePos)
 
 void InputManager::stopRecording()
 {
-    recording = false;
+    if (recording)
+    {
+        recording = false;
+
+        // Write empty changes if input hasn't changed recently so the demo doesn't end early
+        if (lastChangeFrame != demoFrames - 1)
+        {
+            writeChanges(std::set<std::pair<uint8_t, uint8_t>>());
+        }
+    }
 }
 
 void InputManager::playDemo(std::istream& stream)

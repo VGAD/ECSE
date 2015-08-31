@@ -337,8 +337,8 @@ private:
         }
 
     protected:
-        ECSE_INPUT_INTERNAL_TYPE internalVal;       //!< The internal value.
-        ECSE_INPUT_INTERNAL_TYPE prevInternalVal;    //!< The previous internal value.
+        ECSE_INPUT_INTERNAL_TYPE internalVal = 0;       //!< The internal value.
+        ECSE_INPUT_INTERNAL_TYPE prevInternalVal = 0;   //!< The previous internal value.
 
     private:
         //! Convert an internal value to a float.

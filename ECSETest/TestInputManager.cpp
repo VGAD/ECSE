@@ -22,14 +22,17 @@ public:
         std::function<bool()> boolfn = []() { return false; };
         std::function<int8_t()> intfn = []() { return 0; };
         std::function<float()> floatfn = []() { return 0.0f; };
+        std::function<bool()> dynamicfn = [&]() { return dynamicValue; };
 
         manager.bindInput(0, 0, boolfn);
         manager.bindInput(1, 0, intfn);
         manager.bindInput(2, 0, floatfn, 0.2f);
+        manager.bindInput(3, 0, dynamicfn);
 
         manager.bindInput(0, 1, boolfn);
         manager.bindInput(1, 1, intfn);
         manager.bindInput(2, 1, floatfn, 0.4f);
+        manager.bindInput(3, 1, dynamicfn);
     }
 
     void resetValues()
@@ -38,6 +41,7 @@ public:
         b = 0;
         c = 0;
         d = 0;
+        e = 0;
         frames = 0;
         mouseAvg = sf::Vector2i();
     }
@@ -67,9 +71,15 @@ public:
                 anyPressed = true;
             }
 
-            if (!anyPressed)
+            if (manager.getIntValue(3) > 0)
             {
                 d += 1;
+                anyPressed = true;
+            }
+
+            if (!anyPressed)
+            {
+                e += 1;
             }
 
             mouseAvg = (mouseAvg * frames + manager.getMousePosition()) / (frames + 1);
@@ -78,8 +88,9 @@ public:
         }
     }
 
-    int a, b, c, d;
+    int a, b, c, d, e;
     int frames;
+    bool dynamicValue;
     sf::Vector2i mouseAvg;
 };
 
@@ -368,7 +379,7 @@ TEST_F(InputManagerRunTest, TestDemo)
     int prevA = a;
     int prevB = b;
     int prevC = c;
-    int prevD = d;
+    int prevE = e;
 
     resetValues();
     manager.playDemo(stream);
@@ -377,9 +388,34 @@ TEST_F(InputManagerRunTest, TestDemo)
     ASSERT_EQ(prevA, a);
     ASSERT_EQ(prevB, b);
     ASSERT_EQ(prevC, c);
-    ASSERT_EQ(prevD, d);
+    ASSERT_EQ(prevE, e);
 
     ASSERT_FALSE(manager.isPlayingDemo());
+}
+
+TEST_F(InputManagerRunTest, TestHoldDemo)
+{
+    std::stringstream stream;
+
+    dynamicValue = true;
+    manager.startRecording(stream);
+    runLoop(1000);
+    manager.stopRecording();
+
+    int prevD = d;
+
+
+    // Real value is now false
+    dynamicValue = false;
+    manager.update();
+
+
+    resetValues();
+    manager.playDemo(stream);
+    runLoop(1000);
+
+
+    ASSERT_EQ(prevD, d) << "Demo cancelled early";
 }
 
 TEST_F(InputManagerRunTest, TestMouseDemo)
@@ -427,7 +463,7 @@ TEST_F(InputManagerRunTest, TestModeSwitchDemo)
     int prevA = a;
     int prevB = b;
     int prevC = c;
-    int prevD = d;
+    int prevE = e;
 
     resetValues();
     manager.playDemo(stream);
@@ -436,7 +472,7 @@ TEST_F(InputManagerRunTest, TestModeSwitchDemo)
     ASSERT_EQ(prevA, a);
     ASSERT_EQ(prevB, b);
     ASSERT_EQ(prevC, c);
-    ASSERT_EQ(prevD, d);
+    ASSERT_EQ(prevE, e);
 }
 
 TEST_F(InputManagerRunTest, TestInputGapDemo)
@@ -460,7 +496,7 @@ TEST_F(InputManagerRunTest, TestInputGapDemo)
     int prevA = a;
     int prevB = b;
     int prevC = c;
-    int prevD = d;
+    int prevE = e;
 
     resetValues();
     manager.playDemo(stream);
@@ -469,7 +505,7 @@ TEST_F(InputManagerRunTest, TestInputGapDemo)
     ASSERT_EQ(prevA, a);
     ASSERT_EQ(prevB, b);
     ASSERT_EQ(prevC, c);
-    ASSERT_EQ(prevD, d);
+    ASSERT_EQ(prevE, e);
 }
 
 TEST_F(InputManagerRunTest, TestModeSwitchInputGapDemo)
@@ -501,7 +537,7 @@ TEST_F(InputManagerRunTest, TestModeSwitchInputGapDemo)
     int prevA = a;
     int prevB = b;
     int prevC = c;
-    int prevD = d;
+    int prevE = e;
 
     resetValues();
     manager.playDemo(stream);
@@ -510,5 +546,5 @@ TEST_F(InputManagerRunTest, TestModeSwitchInputGapDemo)
     ASSERT_EQ(prevA, a);
     ASSERT_EQ(prevB, b);
     ASSERT_EQ(prevC, c);
-    ASSERT_EQ(prevD, d);
+    ASSERT_EQ(prevE, e);
 }
