@@ -148,32 +148,6 @@ TEST_F(InputManagerTest, TestIntInput)
     ASSERT_FLOAT_EQ(-1.f, manager.getFloatValue(0));
 }
 
-TEST_F(InputManagerTest, TestDelta)
-{
-    int value;
-
-    std::function<int8_t()> fn = [&value]() { return value; };
-    manager.bindInput(0, 0, fn);
-
-    value = 0;
-    manager.update();
-
-    ASSERT_EQ(0, manager.getIntDelta(0));
-    ASSERT_FLOAT_EQ(0.f, manager.getFloatDelta(0));
-
-    value = 1;
-    manager.update();
-
-    ASSERT_EQ(1, manager.getIntDelta(0));
-    ASSERT_FLOAT_EQ(1.f, manager.getFloatDelta(0));
-
-    value = -1;
-    manager.update();
-
-    ASSERT_EQ(-2, manager.getIntDelta(0));
-    ASSERT_FLOAT_EQ(-2.f, manager.getFloatDelta(0));
-}
-
 TEST_F(InputManagerTest, TestFloatInput)
 {
     float value;
@@ -198,6 +172,32 @@ TEST_F(InputManagerTest, TestFloatInput)
 
     ASSERT_EQ(-1, manager.getIntValue(0));
     ASSERT_FLOAT_EQ(-1.f, manager.getFloatValue(0));
+}
+
+TEST_F(InputManagerTest, TestDelta)
+{
+    int value;
+
+    std::function<int8_t()> fn = [&value]() { return value; };
+    manager.bindInput(0, 0, fn);
+
+    value = 0;
+    manager.update();
+
+    ASSERT_EQ(0, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(0.f, manager.getFloatDelta(0));
+
+    value = 1;
+    manager.update();
+
+    ASSERT_EQ(1, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(1.f, manager.getFloatDelta(0));
+
+    value = -1;
+    manager.update();
+
+    ASSERT_EQ(-2, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(-2.f, manager.getFloatDelta(0));
 }
 
 TEST_F(InputManagerTest, TestSensitivity)
@@ -350,6 +350,39 @@ TEST_F(InputManagerTest, TestMultipleModes)
 
     ASSERT_EQ(0, manager.getIntValue(0, 0));
     ASSERT_EQ(1, manager.getIntValue(0, 1));
+}
+
+TEST_F(InputManagerTest, TestDemoDelta)
+{
+    int value;
+    std::stringstream stream;
+
+    std::function<int8_t()> fn = [&value]() { return value; };
+    manager.bindInput(0, 0, fn);
+
+
+    // Record pressing only once
+    manager.startRecording(stream);
+
+    value = 1;
+    manager.update();
+
+    value = 0;
+    manager.update();
+    manager.update();
+
+    manager.stopRecording();
+
+    ASSERT_EQ(0, manager.getIntDelta(0));
+
+
+    manager.playDemo(stream);
+    for (int i = 0; i < 2; ++i)
+    {
+        manager.update();
+    }
+
+    ASSERT_EQ(0, manager.getIntDelta(0)) << "Input delta may be stuck";
 }
 
 TEST_F(InputManagerRunTest, TestMonkey)

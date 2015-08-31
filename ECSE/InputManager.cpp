@@ -10,6 +10,16 @@ InputManager::InputManager()
 
 void InputManager::update()
 {
+    for (auto& modePair : bindings)
+    {
+        for (auto& bindingPair : modePair.second)
+        {
+            auto& source = bindingPair.second;
+
+            source->updatePrevInternalValue();
+        }
+    }
+
     sf::Vector2i newMousePosition;
     if (monkeyMode)
     {

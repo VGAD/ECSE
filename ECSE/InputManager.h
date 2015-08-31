@@ -272,11 +272,11 @@ private:
         //! Destroy the input source.
         virtual ~InputSource() {}
 
-        //! Update the input source's internal value.
-        /*!
-        * \return The value converted to an integer for external storage.
-        */
-        virtual void updateInternalValue() { prevInternalVal = internalVal; }
+        //! Update the current internal value.
+        virtual void updateInternalValue() {}
+
+        //! Update the previous and current internal values.
+        virtual void updatePrevInternalValue() { prevInternalVal = internalVal; }
 
         //! Get the input source's internal value.
         /*!
@@ -292,13 +292,10 @@ private:
 
         //! Set the internal value.
         /*!
+        * You should usually call updatePrevInternalValue() first so the previous value is stored.
         * \param value The new value.
         */
-        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value)
-        {
-            prevInternalVal = internalVal;
-            internalVal = value;
-        }
+        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value) { internalVal = value; }
 
         //! Get the input source's floating-point value.
         /*!
