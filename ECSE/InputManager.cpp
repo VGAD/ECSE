@@ -138,7 +138,7 @@ void InputManager::bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key 
 
 void InputManager::bindInput(uint8_t bindingId, uint8_t mode, sf::Keyboard::Key key1, sf::Keyboard::Key key2)
 {
-    std::function<int()> poll = [key1, key2]()
+    std::function<int8_t()> poll = [key1, key2]()
     {
         auto pull = sf::Keyboard::isKeyPressed(key1) ? 1 : 0;
         auto push = sf::Keyboard::isKeyPressed(key2) ? 1 : 0;
@@ -159,7 +159,7 @@ void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick,
 
 void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, unsigned button)
 {
-    std::function<int()> poll = [joystick, button]()
+    std::function<bool()> poll = [joystick, button]()
     {
         return sf::Joystick::isButtonPressed(joystick, button);
     };

@@ -313,10 +313,7 @@ private:
     class TypedInputSourceImpl
     {
     public:
-        explicit TypedInputSourceImpl<T>(const std::function<float()>&, float)
-        {
-            throw std::runtime_error("Input type not supported");
-        }
+        static_assert(sizeof(T) == -1, "Input type not supported");
     };
 
     //! Floating-point input source.
@@ -352,11 +349,11 @@ private:
 
     //! Integer input source.
     template <>
-    class TypedInputSourceImpl<int> : public TypedInputSource<int>
+    class TypedInputSourceImpl<int8_t> : public TypedInputSource<int8_t>
     {
     public:
-        explicit TypedInputSourceImpl(const std::function<int()>& fn, float sensitivity)
-            : TypedInputSource<int>(fn, sensitivity)
+        explicit TypedInputSourceImpl(const std::function<int8_t()>& fn, float sensitivity)
+            : TypedInputSource<int8_t>(fn, sensitivity)
         { }
 
         inline virtual void updateInternalValue() override

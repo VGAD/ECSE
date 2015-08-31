@@ -20,7 +20,7 @@ public:
         resetValues();
 
         std::function<bool()> boolfn = []() { return false; };
-        std::function<int()> intfn = []() { return 0; };
+        std::function<int8_t()> intfn = []() { return 0; };
         std::function<float()> floatfn = []() { return 0.0f; };
 
         manager.bindInput(0, 0, boolfn);
@@ -115,7 +115,7 @@ TEST_F(InputManagerTest, TestIntInput)
 {
     int value;
 
-    std::function<int()> fn = [&value]() { return value; };
+    std::function<int8_t()> fn = [&value]() { return value; };
     manager.bindInput(0, 0, fn);
 
     value = 0;
@@ -194,10 +194,10 @@ TEST_F(InputManagerTest, TestMultipleInputs)
 {
     int val1, val2;
 
-    std::function<int()> fn1 = [&val1]() { return val1; };
+    std::function<int8_t()> fn1 = [&val1]() { return val1; };
     manager.bindInput(0, 0, fn1);
 
-    std::function<int()> fn2 = [&val2]() { return val2; };
+    std::function<int8_t()> fn2 = [&val2]() { return val2; };
     manager.bindInput(1, 0, fn2);
 
     val1 = 0;
@@ -233,10 +233,10 @@ TEST_F(InputManagerTest, TestSwitchModes)
 {
     int val1, val2;
 
-    std::function<int()> fn1 = [&val1]() { return val1; };
+    std::function<int8_t()> fn1 = [&val1]() { return val1; };
     manager.bindInput(0, 0, fn1);
 
-    std::function<int()> fn2 = [&val2]() { return val2; };
+    std::function<int8_t()> fn2 = [&val2]() { return val2; };
     manager.bindInput(0, 1, fn2);
 
     val1 = 0;
@@ -280,10 +280,10 @@ TEST_F(InputManagerTest, TestMultipleModes)
 {
     int val1, val2;
 
-    std::function<int()> fn1 = [&val1]() { return val1; };
+    std::function<int8_t()> fn1 = [&val1]() { return val1; };
     manager.bindInput(0, 0, fn1);
 
-    std::function<int()> fn2 = [&val2]() { return val2; };
+    std::function<int8_t()> fn2 = [&val2]() { return val2; };
     manager.bindInput(0, 1, fn2);
 
     val1 = 0;
