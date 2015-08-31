@@ -377,12 +377,14 @@ TEST_F(InputManagerTest, TestDemoDelta)
 
 
     manager.playDemo(stream);
-    for (int i = 0; i < 2; ++i)
-    {
-        manager.update();
-    }
+    manager.update();
+    manager.update();
 
-    ASSERT_EQ(0, manager.getIntDelta(0)) << "Input delta may be stuck";
+    ASSERT_EQ(-1, manager.getIntDelta(0));
+
+    manager.update();
+
+    ASSERT_EQ(0, manager.getIntDelta(0)) << "Input delta sticks when demo has no changes";
 }
 
 TEST_F(InputManagerTest, TestPostDemoDelta)

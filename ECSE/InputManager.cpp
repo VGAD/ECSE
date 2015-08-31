@@ -10,16 +10,6 @@ InputManager::InputManager()
 
 void InputManager::update()
 {
-    for (auto& modePair : bindings)
-    {
-        for (auto& bindingPair : modePair.second)
-        {
-            auto& source = bindingPair.second;
-
-            source->updatePrevInternalValue();
-        }
-    }
-
     sf::Vector2i newMousePosition;
     if (monkeyMode)
     {
@@ -32,6 +22,16 @@ void InputManager::update()
 
     if (playingDemo)
     {
+        for (auto& modePair : demoSources)
+        {
+            for (auto& bindingPair : modePair.second)
+            {
+                auto& source = bindingPair.second;
+
+                source->updatePrevInternalValue();
+            }
+        }
+
         // Time to read the next change frame
         if (nextChangeFrame < demoFrames || nextChangeFrame == 0)
         {
@@ -68,6 +68,7 @@ void InputManager::update()
             for (auto& bindingPair : modePair.second)
             {
                 auto& source = bindingPair.second;
+                source->updatePrevInternalValue();
 
                 if (monkeyMode)
                 {
