@@ -43,7 +43,7 @@ public:
 
     //! Get the component's specialization.
     /*!
-    * \param spec The specialization.
+    * \return The specialization.
     */
     inline Specialization* getSpecialization()
     {

@@ -60,7 +60,8 @@ public:
     /*!
     * \param bindingId The id used to refer to this input source.
     * \param mode The input mode in which this binding is active.
-    * \param fn The function to poll the input source's value. This should always return values in [-1, 1].
+    * \param fn The function to poll the input source's value. The return value should always be in [-1, 1]
+    *           and should be one of int8_t, bool, or float.
     * \param sensitivity The minimum absolute float value above which the input is returned as non-zero.
     *                    If <= 0, all values are considered non-zero.
     *                    If the input type is non-floating-point, this is ignored.
