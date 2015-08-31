@@ -490,10 +490,10 @@ private:
     InputSource& getSource(uint8_t bindingId, uint8_t mode) const;
 
     //! Write out data for changes in the current frame to the demo stream.
-    void writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes);
+    void writeDemoChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes);
 
     //! Read changes from the demo stream.
-    void readChanges();
+    void readDemoChanges();
 
     //! Determine whether to ignore input.
     /*!

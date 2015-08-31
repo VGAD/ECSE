@@ -51,7 +51,7 @@ void InputManager::update()
         
         if (nextChangeFrame == demoFrames)
         {
-            readChanges();
+            readDemoChanges();
 
             if (demoIn->peek() == EOF)
             {
@@ -91,7 +91,7 @@ void InputManager::update()
             prevInputMode != inputMode ||
             (newMousePosition != mousePosition && demoMouse)))
         {
-            writeChanges(changes);
+            writeDemoChanges(changes);
         }
     }
 
@@ -270,7 +270,7 @@ void InputManager::stopRecording()
         // Write empty changes if input hasn't changed recently so the demo doesn't end early
         if (lastChangeFrame != demoFrames - 1)
         {
-            writeChanges(std::set<std::pair<uint8_t, uint8_t>>());
+            writeDemoChanges(std::set<std::pair<uint8_t, uint8_t>>());
         }
     }
 }
@@ -343,7 +343,7 @@ InputManager::InputSource& InputManager::getSource(uint8_t bindingId, uint8_t mo
     return *source->second;
 }
 
-void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes)
+void InputManager::writeDemoChanges(const std::set<std::pair<uint8_t, uint8_t>>& changes)
 {
     // This is kind of crappy, but hitting the limit would be very difficult
     if (changes.size() >= std::numeric_limits<uint8_t>::max())
@@ -399,7 +399,7 @@ void InputManager::writeChanges(const std::set<std::pair<uint8_t, uint8_t>>& cha
     lastChangeFrame = demoFrames;
 }
 
-void InputManager::readChanges()
+void InputManager::readDemoChanges()
 {
     if (demoMouse)
     {
