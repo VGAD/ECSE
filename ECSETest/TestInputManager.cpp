@@ -137,6 +137,32 @@ TEST_F(InputManagerTest, TestIntInput)
     ASSERT_FLOAT_EQ(-1.f, manager.getFloatValue(0));
 }
 
+TEST_F(InputManagerTest, TestDelta)
+{
+    int value;
+
+    std::function<int8_t()> fn = [&value]() { return value; };
+    manager.bindInput(0, 0, fn);
+
+    value = 0;
+    manager.update();
+
+    ASSERT_EQ(0, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(0.f, manager.getFloatDelta(0));
+
+    value = 1;
+    manager.update();
+
+    ASSERT_EQ(1, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(1.f, manager.getFloatDelta(0));
+
+    value = -1;
+    manager.update();
+
+    ASSERT_EQ(-2, manager.getIntDelta(0));
+    ASSERT_FLOAT_EQ(-2.f, manager.getFloatDelta(0));
+}
+
 TEST_F(InputManagerTest, TestFloatInput)
 {
     float value;

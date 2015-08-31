@@ -196,6 +196,20 @@ float InputManager::getFloatValue(uint8_t bindingId) const
     return getFloatValue(bindingId, inputMode);
 }
 
+float InputManager::getFloatDelta(uint8_t bindingId, uint8_t mode) const
+{
+    if (ignoreInput()) return 0.f;
+
+    const InputSource& source = getSource(bindingId, mode);
+
+    return source.getFloatValue() - source.getPrevFloatValue();
+}
+
+float InputManager::getFloatDelta(uint8_t bindingId) const
+{
+    return getFloatDelta(bindingId, inputMode);
+}
+
 int8_t InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
 {
     if (ignoreInput()) return 0;
@@ -208,6 +222,20 @@ int8_t InputManager::getIntValue(uint8_t bindingId, uint8_t mode) const
 int8_t InputManager::getIntValue(uint8_t bindingId) const
 {
     return getIntValue(bindingId, inputMode);
+}
+
+int8_t InputManager::getIntDelta(uint8_t bindingId, uint8_t mode) const
+{
+    if (ignoreInput()) return 0;
+
+    const InputSource& source = getSource(bindingId, mode);
+
+    return source.getIntValue() - source.getPrevIntValue();
+}
+
+int8_t InputManager::getIntDelta(uint8_t bindingId) const
+{
+    return getIntDelta(bindingId, inputMode);
 }
 
 sf::Vector2i InputManager::getMousePosition() const

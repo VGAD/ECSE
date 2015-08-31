@@ -142,6 +142,21 @@ public:
     */
     float getFloatValue(uint8_t bindingId) const;
 
+    //! Get an input source's value change since the last update as a float.
+    /*!
+    * \param bindingId The id of the input source.
+    * \param mode The input mode.
+    * \return The input source's value change since the last update.
+    */
+    float getFloatDelta(uint8_t bindingId, uint8_t mode) const;
+
+    //! Get an input source's value change since the last update as a float in the current input mode.
+    /*!
+    * \param bindingId The id of the input source.
+    * \return The input source's value change since the last update.
+    */
+    float getFloatDelta(uint8_t bindingId) const;
+
     //! Get an input source's value as an int.
     /*!
     * \param bindingId The id of the input source.
@@ -156,6 +171,21 @@ public:
     * \return The input source's value.
     */
     int8_t getIntValue(uint8_t bindingId) const;
+
+    //! Get an input source's value change since the last update as an integer.
+    /*!
+    * \param bindingId The id of the input source.
+    * \param mode The input mode.
+    * \return The input source's value change since the last update.
+    */
+    int8_t getIntDelta(uint8_t bindingId, uint8_t mode) const;
+
+    //! Get an input source's value change since the last update as an integer in the current input mode.
+    /*!
+    * \param bindingId The id of the input source.
+    * \return The input source's value change since the last update.
+    */
+    int8_t getIntDelta(uint8_t bindingId) const;
 
     //! Get the mouse's position relative to the window.
     /*!
@@ -234,10 +264,10 @@ private:
     {
     public:
         //! Half of the number of possible values for the internal value.
-        const ECSE_INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(ECSE_INPUT_INTERNAL_TYPE) * 7) - 1);
+        static const ECSE_INPUT_INTERNAL_TYPE halfValue = static_cast<size_t>((1 << sizeof(ECSE_INPUT_INTERNAL_TYPE) * 7) - 1);
 
         //! Input should be rounded into "chunks" of this size.
-        const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
+        static const ECSE_INPUT_INTERNAL_TYPE precision = 1 << ECSE_INPUT_PRECISION;
 
         //! Destroy the input source.
         virtual ~InputSource() {}
@@ -246,7 +276,7 @@ private:
         /*!
         * \return The value converted to an integer for external storage.
         */
-        virtual void updateInternalValue() = 0;
+        virtual void updateInternalValue() { prevInternalVal = internalVal; }
 
         //! Get the input source's internal value.
         /*!
@@ -258,7 +288,11 @@ private:
         /*!
         * \param value The new value.
         */
-        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value) { internalVal = value; }
+        inline void setInternalValue(ECSE_INPUT_INTERNAL_TYPE value)
+        {
+            prevInternalVal = internalVal;
+            internalVal = value;
+        }
 
         //! Get the input source's floating-point value.
         /*!
@@ -266,11 +300,7 @@ private:
         */
         inline float getFloatValue() const
         {
-            auto value = getInternalValue();
-
-            if (value == 0) return 0.f;
-
-            return static_cast<float>(value) / static_cast<float>(halfValue);
+            return getFloatValue(internalVal);
         }
 
         //! Get the input source's integer value.
@@ -279,16 +309,53 @@ private:
         */
         inline int8_t getIntValue() const
         {
-            auto value = getInternalValue();
+            return getIntValue(internalVal);
+        }
 
+        //! Get the input source's previous floating-point value.
+        /*!
+        * \return The previous value converted to a float.
+        */
+        inline float getPrevFloatValue() const
+        {
+            return getFloatValue(prevInternalVal);
+        }
+
+        //! Get the input source's previous integer value.
+        /*!
+        * \return The previous value converted to an integer.
+        */
+        inline int8_t getPrevIntValue() const
+        {
+            return getIntValue(prevInternalVal);
+        }
+
+    protected:
+        ECSE_INPUT_INTERNAL_TYPE internalVal;       //!< The internal value.
+        ECSE_INPUT_INTERNAL_TYPE prevInternalVal;    //!< The previous internal value.
+
+    private:
+        //! Convert an internal value to a float.
+        /*!
+        * \return The value converted to a float.
+        */
+        static inline float getFloatValue(ECSE_INPUT_INTERNAL_TYPE value)
+        {
+            if (value == 0) return 0.f;
+
+            return static_cast<float>(value) / static_cast<float>(halfValue);
+        }
+        //! Convert an internal value to an integer.
+        /*!
+        * \return The value converted to a float.
+        */
+        static inline int8_t getIntValue(ECSE_INPUT_INTERNAL_TYPE value)
+        {
             if (value == 0) return 0;
             if (value > 0) return 1;
 
             return -1;
         }
-
-    protected:
-        ECSE_INPUT_INTERNAL_TYPE internalVal;   //!< The internal value.
     };
 
     //! Templated InputSource subclass that holds the actual polling function.
@@ -330,6 +397,8 @@ private:
 
         inline virtual void updateInternalValue() override
         {
+            TypedInputSource<float>::updateInternalValue();
+
             float newValue = fn();
 
             if (fabs(newValue) < sensitivity)
@@ -359,6 +428,8 @@ private:
 
         inline virtual void updateInternalValue() override
         {
+            TypedInputSource<int8_t>::updateInternalValue();
+
             auto newValue = fn();
 
             if (newValue == 0)
@@ -386,7 +457,12 @@ private:
         {
         }
 
-        inline virtual void updateInternalValue() override { internalVal = fn() ? halfValue : 0; }
+        inline virtual void updateInternalValue() override
+        {
+            TypedInputSource<bool>::updateInternalValue();
+
+            internalVal = fn() ? halfValue : 0;
+        }
     };
 
     //! Input source which is intended to be updated by antoher class using setInternalValue().
