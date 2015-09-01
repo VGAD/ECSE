@@ -258,6 +258,7 @@
     <ClCompile Include="SpecializationSystem.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="System.cpp" />
+    <ClCompile Include="TagSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
@@ -287,6 +288,8 @@
     <ClInclude Include="SetSystem.h" />
     <ClInclude Include="Spritemap.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="TagComponent.h" />
+    <ClInclude Include="TagSystem.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="VectorMath.h" />
