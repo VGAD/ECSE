@@ -196,5 +196,8 @@
     <ClInclude Include="Specialization.h">
       <Filter>Source Files\Engine\Specialization</Filter>
     </ClInclude>
+    <ClInclude Include="PrefabComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

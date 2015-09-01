@@ -1,5 +1,6 @@
 #include "PrefabManager.h"
 #include "World.h"
+#include "PrefabComponent.h"
 
 namespace ECSE {
 
@@ -16,6 +17,12 @@ void PrefabManager::addPrefab(std::string name, const Prefab& prefab)
 Entity::ID PrefabManager::createEntity(std::string name, World& world) const
 {
     auto entId = world.createEntity();
+
+    if (storeNames)
+    {
+        world.attachComponent<PrefabComponent>(entId)->prefabName = name;
+    }
+
     applyPrefab(name, world, entId);
     world.registerEntity(entId);
 

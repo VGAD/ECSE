@@ -272,6 +272,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PrefabComponent.h" />
     <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Specialization.h" />

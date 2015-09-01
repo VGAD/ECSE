@@ -42,6 +42,13 @@ public:
     */
     void applyPrefab(std::string name, World& world, Entity::ID entId) const;
 
+    //! Set whether or not to store prefab names in entities created using createEntity().
+    /*!
+    * \param storeNames If true, a PrefabComponent with the prefab name will be added automatically
+    *                   to any entities created by this manager.
+    */
+    inline void setStoreNames(bool storeNames) { this->storeNames = storeNames; }
+
 private:
     std::map<std::string, Prefab> prefabs;  //! Map from prefab name to prefab function.
 
@@ -51,6 +58,8 @@ private:
     * \return The prefab.
     */
     const Prefab& getPrefab(std::string name) const;
+
+    bool storeNames = true;     //! If true, a PrefabComponent will be added to created entities.
 };
 
 }
