@@ -88,9 +88,17 @@ void World::destroyEntity(Entity::ID id)
         throw std::runtime_error(ss.str());
     }
 
+    // Move components into a set so duplicate components don't get destroyed twice
+    // (which happens if a component was added polymorphically)
+    std::set<Component*> toDestroy;
     for (const auto& pair : e->getComponents())
     {
-        destroyComponent(pair.second);
+        toDestroy.insert(pair.second);
+    }
+
+    for (auto* component : toDestroy)
+    {
+        destroyComponent(component);
     }
 
     for (auto system : orderedSystems)

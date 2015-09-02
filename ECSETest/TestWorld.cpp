@@ -108,6 +108,26 @@ public:
     }
 };
 
+class TestComponentBase : public ECSE::Component
+{
+public:
+    virtual int getValue() const
+    {
+        return 5;
+    }
+};
+
+class TestComponentChild : public TestComponentBase
+{
+public:
+    virtual int getValue() const override
+    {
+        return 10;
+    }
+};
+
+
+
 TEST_F(WorldTest, TestAddSystems)
 {
     world.addSystem<WorldTest_SysA>();
@@ -224,6 +244,25 @@ TEST_F(WorldTest, TestAttachComponent)
     ECSE::Entity* e = world.registerEntity(id);
 
     ASSERT_NE(nullptr, e->getComponent<DummyComponent>());
+}
+
+TEST_F(WorldTest, TestAttachPolymorphicComponent)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<TestComponentChild, TestComponentBase>(id);
+    ECSE::Entity* e = world.registerEntity(id);
+
+    ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentChild>());
+    ASSERT_EQ(10, e->getComponent<TestComponentBase>()->getValue());
+}
+
+TEST_F(WorldTest, TestAttachPolymorphicComponentDestroy)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<TestComponentChild, TestComponentBase>(id);
+    ECSE::Entity* e = world.registerEntity(id);
+    world.destroyEntity(id);
 }
 
 TEST_F(WorldTest, TestAttachComponentAfterRegister)

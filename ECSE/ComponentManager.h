@@ -7,8 +7,7 @@
 #include "Component.h"
 #include "Pool.h"
 
-namespace ECSE
-{
+namespace ECSE {
 
 //! Handles allocation and deallocation for all component types.
 /*!
@@ -36,31 +35,54 @@ public:
     void destroyComponent(ComponentType* component);
 
 private:
+    //! Get the internal pool from a generic PoolBase.
+    /*!
+    * \param pool The generic pool.
+    * \return The internal Boost pool.
+    */
+    template <typename ComponentType>
+    static boost::object_pool<ComponentType>& getInternalPool(PoolBase& pool);
+
     //! Get the collection of Components of a given type.
     /*!
     * \return A reference to the Component pool.
     */
     template <typename ComponentType>
-    boost::object_pool<ComponentType>& getPool();
+    PoolBase& getPool();
 
     //! Map from component type to pools of Components.
     std::map<size_t, std::unique_ptr<PoolBase>> pools;
+
+    //! Map from component pointer to pool.
+    std::map<Component*, PoolBase*> directory;
 };
 
 //////////////////
 // Implementation
 
 template <typename ComponentType>
+boost::object_pool<ComponentType>& ComponentManager::getInternalPool(PoolBase& pool)
+{
+    typedef Pool<ComponentType> PType;
+
+    return static_cast<PType*>(&pool)->pool;
+}
+
+template <typename ComponentType>
 ComponentType* ComponentManager::createComponent()
 {
     // Get the pool of components for this type
-    boost::object_pool<ComponentType>& pool = getPool<ComponentType>();
+    auto& pool = getPool<ComponentType>();
+    auto& typedPool = getInternalPool<ComponentType>(pool);
 
     // Attempt to allocate a new component
-    ComponentType* component = pool.construct();
-    if (!component) {
+    ComponentType* component = typedPool.construct();
+    if (!component)
+    {
         throw std::runtime_error("Out of memory!");
     }
+
+    directory[component] = &pool;
 
     return component;
 }
@@ -68,16 +90,23 @@ ComponentType* ComponentManager::createComponent()
 template <typename ComponentType>
 void ComponentManager::destroyComponent(ComponentType* component)
 {
+    auto directoryIt = directory.find(component);
+    if (directoryIt == directory.end())
+    {
+        throw std::runtime_error("Attempted to delete a component which was not created by this manager");
+    }
+
     // Get the pool of components for this type
-    boost::object_pool<ComponentType>& pool = getPool<ComponentType>();
+    auto pool = directoryIt->second;
+    auto& typedPool = getInternalPool<ComponentType>(*pool);
 
     // Attempt to free the component
-    assert(pool.is_from(component));
-    pool.destroy(component);
+    assert(typedPool.is_from(component));
+    typedPool.destroy(component);
 }
 
 template <typename ComponentType>
-boost::object_pool<ComponentType>& ComponentManager::getPool()
+PoolBase& ComponentManager::getPool()
 {
     static_assert(std::is_base_of<Component, ComponentType>::value,
                   "ComponentType must be a descendant of Component!");
@@ -94,10 +123,7 @@ boost::object_pool<ComponentType>& ComponentManager::getPool()
         pool = pools[typeHash].get();
     }
 
-    // Cast to the actual class type
-    PType* typedPool = static_cast<PType*>(pool);
-
-    return typedPool->pool;
+    return *pool;
 }
 
 }

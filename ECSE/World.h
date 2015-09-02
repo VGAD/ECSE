@@ -62,10 +62,29 @@ public:
 
     //! Attach a Component to an Entity.
     /*!
+    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
     * \param id The ID of the Entity.
     * \return A pointer to the Component.
     */
     template <typename ComponentType>
+    ComponentType* attachComponent(Entity::ID id);
+
+    //! Attach a Component to an Entity, marking it also as its base type.
+    /*!
+    * This allows for component polymorphism. This component will be returned when entity->getComponent() is
+    * called for both ComponentType and BaseType.
+    * 
+    * Usage example: you may have a Damage component with a function getDamage() that returns the damage dealt.
+    * You could use this function add a SpeedDamage component that descends from Damage and that returns a
+    * higher value from getDamage() when its speed is higher. When you call entity->getComponent<Damage>() later,
+    * a pointer to the SpeedDamage component will be returned.
+    * 
+    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
+    * \tparam BaseType The Component type from which ComponentType descends. Must be a descendant of Component.
+    * \param id The ID of the Entity.
+    * \return A pointer to the Component.
+    */
+    template <typename ComponentType, typename BaseType>
     ComponentType* attachComponent(Entity::ID id);
 
     //! Add a System of this type to the World.
@@ -143,6 +162,20 @@ ComponentType* World::attachComponent(Entity::ID id)
 
     ComponentType* component = createComponent<ComponentType>();
     entity->attachComponent(component);
+
+    return component;
+}
+
+template <typename ComponentType, typename BaseType>
+ComponentType* World::attachComponent(Entity::ID id)
+{
+    static_assert(std::is_base_of<BaseType, ComponentType>::value,
+                  "ComponentType must be a descendant of BaseType!");
+
+    auto* component = attachComponent<ComponentType>(id);
+
+    Entity* entity = getEntity(id);
+    entity->attachComponent(dynamic_cast<BaseType*>(component));
 
     return component;
 }
