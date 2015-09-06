@@ -8,6 +8,12 @@ namespace ECSE
 {
 
 //! A system which renders entities to the screen.
+/*!
+* Note that in order for entities to be rendered, they must have:
+* - SpriteComponent
+* - TransformComponent
+* - DepthComponent
+*/
 class RenderSystem :
     public System
 {
