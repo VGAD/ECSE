@@ -6,6 +6,7 @@
 
 namespace ECSE
 {
+class Spritemap;
 
 //! A system which renders entities to the screen.
 /*!
@@ -52,6 +53,17 @@ public:
     * \return Whether the Entity matches this System's requirements.
     */
     bool checkRequirements(const Entity& e) const override;
+
+protected:
+    //! Render an entity to the screen.
+    /*!
+    * This can be overridden to add effects.
+    *
+    * \param alpha The amount of interpolation between the two states.
+    * \param renderTarget The RenderTarget to draw to.
+    * \param entity The entity to render.
+    */
+    virtual void renderEntity(float alpha, sf::RenderTarget& renderTarget, Entity& entity);
 
 private:
     ////////////

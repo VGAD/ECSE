@@ -47,17 +47,7 @@ void RenderSystem::render(float alpha, sf::RenderTarget& renderTarget)
     {
         for (auto& entity : pair.second)
         {
-            SpriteComponent* sc = entity->getComponent<SpriteComponent>();
-            if (!sc->enabled) continue;
-
-            Spritemap& sprite = sc->sprite;
-
-            // Update sprite transform
-            sprite.setPosition(ts->interpolatePosition(*entity, alpha));
-            sprite.setRotation(radToDeg(ts->interpolateAngle(*entity, alpha)));
-
-            // Render it
-            renderTarget.draw(sprite);
+            renderEntity(alpha, renderTarget, *entity);
         }
     }
 }
@@ -69,6 +59,21 @@ bool RenderSystem::checkRequirements(const Entity& e) const
     if (!e.getComponent<DepthComponent>()) return false;
 
     return true;
+}
+
+void RenderSystem::renderEntity(float alpha, sf::RenderTarget& renderTarget, Entity& entity)
+{
+    SpriteComponent* sc = entity.getComponent<SpriteComponent>();
+    if (!sc->enabled) return;
+
+    Spritemap& sprite = sc->sprite;
+
+    // Update sprite transform
+    sprite.setPosition(ts->interpolatePosition(entity, alpha));
+    sprite.setRotation(radToDeg(ts->interpolateAngle(entity, alpha)));
+
+    // Render it
+    renderTarget.draw(sprite);
 }
 
 void RenderSystem::internalAddEntity(Entity& e)
