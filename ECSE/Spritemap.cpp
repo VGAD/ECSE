@@ -170,7 +170,6 @@ sf::FloatRect Spritemap::getIndexRect(size_t frame) const
 {
     if (m_frameGrid.x == 0 || m_frameGrid.y == 0)
     {
-        LOG(DEBUG) << "Zero frameGrid";
         return sf::FloatRect(sf::Vector2f(),
                              sf::Vector2f(m_texture->getSize()));
     }
@@ -192,6 +191,12 @@ void Spritemap::updateGrid()
     if (!m_texture || m_frameSize.x == 0 || m_frameSize.y == 0) return;
 
     sf::Vector2u textureSize = m_texture->getSize();
+
+    if (static_cast<size_t>(m_frameSize.x) < textureSize.x ||
+        static_cast<size_t>(m_frameSize.y) < textureSize.y)
+    {
+        LOG(WARNING) << "Texture not big enough for provided frame width";
+    }
 
     m_frameGrid = sf::Vector2u(
         textureSize.x / static_cast<size_t>(m_frameSize.x),
