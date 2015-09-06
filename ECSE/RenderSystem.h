@@ -65,6 +65,9 @@ protected:
     */
     virtual void renderEntity(float alpha, sf::RenderTarget& renderTarget, Entity& entity);
 
+    //! The World's TransformSystem.
+    TransformSystem* ts;
+
 private:
     ////////////
     // Functions
@@ -92,9 +95,6 @@ private:
 
     //! Map from Entity to layer index.
     std::map<Entity*, int> layers;
-
-    //! The World's TransformSystem.
-    TransformSystem* ts;
 };
 
 }
