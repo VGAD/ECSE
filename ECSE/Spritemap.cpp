@@ -192,8 +192,8 @@ void Spritemap::updateGrid()
 
     sf::Vector2u textureSize = m_texture->getSize();
 
-    if (static_cast<size_t>(m_frameSize.x) < textureSize.x ||
-        static_cast<size_t>(m_frameSize.y) < textureSize.y)
+    if (static_cast<size_t>(m_frameSize.x) > textureSize.x ||
+        static_cast<size_t>(m_frameSize.y) > textureSize.y)
     {
         LOG(WARNING) << "Texture not big enough for provided frame width";
     }
