@@ -36,7 +36,7 @@ public:
     /*!
     * Sprites' frames are updated.
     */
-    void update(sf::Time deltaTime) override;
+    virtual void update(sf::Time deltaTime) override;
 
     //! Called on a render step.
     /*!
@@ -45,14 +45,14 @@ public:
     * \param alpha The amount of interpolation between the two states.
     * \param renderTarget The RenderTarget to draw to.
     */
-    void render(float alpha, sf::RenderTarget& renderTarget) override;
+    virtual void render(float alpha, sf::RenderTarget& renderTarget) override;
 
     //! Check whether an Entity meets the requirements to be added to this System.
     /*!
     * \param e The Entity to check.
     * \return Whether the Entity matches this System's requirements.
     */
-    bool checkRequirements(const Entity& e) const override;
+    virtual bool checkRequirements(const Entity& e) const override;
 
 protected:
     //! Render an entity to the screen.
