@@ -20,7 +20,8 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRen
             throw new std::runtime_error("Failed to create render target!");
         }
 
-        window->setFramerateLimit(fps);
+        // Disabled because this causes stuttering. Without it, GPU time gets wasted a bit. Oh well.
+        //window->setFramerateLimit(fps);
         rtSprite.setTexture(renderTarget.getTexture());
 
         inputManager.setWindow(window.get());
