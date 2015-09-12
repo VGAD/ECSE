@@ -282,3 +282,27 @@ TEST(RejectTest, ParallelTest)
 
     ASSERT_NEAR_TRANS(0.f, ECSE::getDotProduct(a, b));
 }
+
+TEST(ScalarProjectTest, GeneralTest)
+{
+    sf::Vector2f a(4.f, 1.f);
+    sf::Vector2f b(2.f, 3.f);
+
+    ASSERT_NEAR_TRANS(11.f / sqrtf(13.f), ECSE::getScalarProjection(a, b));
+}
+
+TEST(ScalarProjectTest, PerpendicularTest)
+{
+    sf::Vector2f a(0.f, -1.f);
+    sf::Vector2f b(1.f, 0.f);
+
+    ASSERT_NEAR_TRANS(0.f, ECSE::getScalarProjection(a, b));
+}
+
+TEST(ScalarProjectTest, ParallelTest)
+{
+    sf::Vector2f a(1.f, 0.f);
+    sf::Vector2f b(1.f, 0.f);
+
+    ASSERT_NEAR_TRANS(1.f, ECSE::getScalarProjection(a, b));
+}

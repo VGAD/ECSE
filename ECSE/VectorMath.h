@@ -146,6 +146,20 @@ inline sf::Vector2f& project(sf::Vector2f& v1, const sf::Vector2f& v2)
     return v1;
 }
 
+//! Get the magnitude of a vector projected onto another vector.
+/*!
+* \param v1 The first vector.
+* \param v2 The vector onto which to project it.
+* \return A reference to v1.
+*/
+inline float getScalarProjection(const sf::Vector2f& v1, const sf::Vector2f& v2)
+{
+    auto normalized = v2;
+    normalize(normalized);
+
+    return getDotProduct(v1, normalized);
+}
+
 //! Reject a vector onto another vector.
 /*!
 * This is also known as the orthogonal projection.
