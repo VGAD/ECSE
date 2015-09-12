@@ -23,6 +23,7 @@
     <ClCompile Include="TestSystem.cpp" />
     <ClCompile Include="TestEngine.cpp" />
     <ClCompile Include="TestEntityManager.cpp" />
+    <ClCompile Include="TestTransformSystem.cpp" />
     <ClCompile Include="TestVectorMath.cpp" />
     <ClCompile Include="TestWorld.cpp" />
   </ItemGroup>

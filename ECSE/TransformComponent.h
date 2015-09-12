@@ -10,6 +10,8 @@ namespace ECSE
 //! A Component which stores local transform data (e.g. local position and angle).
 class TransformComponent : public Component
 {
+    friend class TransformSystem;
+
 public:
     //! Get the position interpolated between its current and next value.
     /*!
@@ -29,16 +31,6 @@ public:
     inline float interpolateAngle(float alpha) const
     {
         return discreteAngle ? nextAngle : angularLerp(angle, nextAngle, alpha);
-    }
-
-    //! Set the current values to their next values and sets movement back to linear for the new timestep.
-    inline void advance()
-    {
-        position = nextPosition;
-        angle = nextAngle;
-
-        discretePosition = false;
-        discreteAngle = false;
     }
 
     //! Set the next position.
@@ -121,6 +113,16 @@ public:
         return discreteAngle;
     }
 
+    //! Set the current values to their next values and sets movement back to linear for the new timestep.
+    inline void advance()
+    {
+        position = nextPosition;
+        angle = nextAngle;
+
+        discretePosition = false;
+        discreteAngle = false;
+    }
+
 private:
     sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
     float nextAngle = 0.f;                      //!< Next angle in radians.
@@ -130,6 +132,8 @@ private:
 
     bool discretePosition = false;              //!< Whether the position change in this timestep should be a discrete jump.
     bool discreteAngle = false;                 //!< Whether the angle change in this timestep should be a discrete jump.
+
+    Entity::ID parent = Entity::invalidID;      //!< The id of the Entity to which this is parented.
 };
 
 }
