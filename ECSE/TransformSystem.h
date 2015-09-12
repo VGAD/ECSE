@@ -7,7 +7,6 @@ namespace ECSE
 {
 
 //! A System that handles updating TransformComponents as well as determining an Entity's global (not relative/local) transform data.
-// TODO: add a Component allowing Entities to attach to a parent.
 class TransformSystem :
     public SetSystem
 {
@@ -72,6 +71,26 @@ public:
     */
     float getInterpGlobalAngle(const Entity& e, float alpha) const;
 
+    //! Set the next global position of a given Entity.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param e The Entity.
+    * \param newPosition The position to move to.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    void setNextGlobalPosition(const Entity& e, sf::Vector2f newPosition, bool discrete = false) const;
+
+    //! Set the next global angle of a given Entity.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param e The Entity.
+    * \param newAngle The angle to rotate to.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    void setNextGlobalAngle(const Entity& e, float newAngle, bool discrete = false) const;
+
     //! Set an entity's parent.
     /*!
     * The child entity's position and angle will now be relative to the parent's
@@ -96,14 +115,21 @@ public:
     void unparentEntity(const Entity& child) const;
 
 private:
-    //! Convert a position and angle relative to a parent anchor position and angle.
+    //! Convert an angle relative to a parent anchor position and angle.
     /*!
-    * \param pos The position.
     * \param angle The angle.
     * \param anchorPos The anchor position.
     * \param anchorAngle The anchor angle.
     */
-    static void convertRelativeToAnchor(sf::Vector2f& pos, float& angle, sf::Vector2f anchorPos, float anchorAngle);
+    static void convertAngleRelativeToAnchor(float& angle, float anchorAngle);
+
+    //! Convert a position relative to a parent anchor position and angle.
+    /*!
+    * \param position The position.
+    * \param anchorPos The anchor position.
+    * \param anchorAngle The anchor angle.
+    */
+    static void convertPositionRelativeToAnchor(sf::Vector2f& position, const sf::Vector2f& anchorPos, float anchorAngle);
 
     //! Get the transform of an entity's parent.
     /*!

@@ -229,3 +229,34 @@ TEST_F(TransformSystemTest, ChildConvertLocalAngleInterpPositionTest)
     ASSERT_NEAR_TRANS(0.5f, localPos.y);
     ASSERT_NEAR_TRANS(-ECSE::halfPi, transA->getInterpLocalAngle(delta));
 }
+
+TEST_F(TransformSystemTest, SetGlobalPositionNoParentTest)
+{
+    system->setNextGlobalPosition(*a, sf::Vector2f(1.f, 2.f));
+
+    auto nextLocalPos = transA->getNextLocalPosition();
+    auto nextGlobalPos = system->getNextGlobalPosition(*a);
+
+    ASSERT_FLOAT_EQ(1.f, nextLocalPos.x);
+    ASSERT_FLOAT_EQ(2.f, nextLocalPos.y);
+
+    ASSERT_FLOAT_EQ(1.f, nextGlobalPos.x);
+    ASSERT_FLOAT_EQ(2.f, nextGlobalPos.y);
+}
+
+TEST_F(TransformSystemTest, SetGlobalPositionWithParentTest)
+{
+    system->parentEntity(*a, *b);
+
+    system->setNextGlobalPosition(*b, sf::Vector2f(5.f, 7.f));
+    system->setNextGlobalPosition(*a, sf::Vector2f(15.f, -5.f));
+
+    auto nextLocalPos = transA->getNextLocalPosition();
+    auto nextGlobalPos = system->getNextGlobalPosition(*a);
+
+    ASSERT_FLOAT_EQ(10.f, nextLocalPos.x);
+    ASSERT_FLOAT_EQ(-12.f, nextLocalPos.y);
+
+    ASSERT_FLOAT_EQ(15.f, nextGlobalPos.x);
+    ASSERT_FLOAT_EQ(-5.f, nextGlobalPos.y);
+}
