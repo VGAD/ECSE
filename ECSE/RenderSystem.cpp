@@ -69,8 +69,8 @@ void RenderSystem::renderEntity(float alpha, sf::RenderTarget& renderTarget, Ent
     Spritemap& sprite = sc->sprite;
 
     // Update sprite transform
-    sprite.setPosition(ts->interpolatePosition(entity, alpha));
-    sprite.setRotation(radToDeg(ts->interpolateAngle(entity, alpha)));
+    sprite.setPosition(ts->getInterpGlobalPosition(entity, alpha));
+    sprite.setRotation(radToDeg(ts->getInterpGlobalAngle(entity, alpha)));
 
     // Render it
     renderTarget.draw(sprite);

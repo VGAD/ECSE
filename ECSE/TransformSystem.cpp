@@ -25,76 +25,76 @@ bool TransformSystem::checkRequirements(const Entity& e) const
     return true;
 }
 
-sf::Vector2f TransformSystem::getPosition(const Entity& e) const
+sf::Vector2f TransformSystem::getGlobalPosition(const Entity& e) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto pos = trans->getPosition();
+    auto pos = trans->getLocalPosition();
 
     if (trans->parent == Entity::invalidID) return pos;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->getPosition() + rotate(pos, parentTrans->getAngle());
+    return parentTrans->getLocalPosition() + rotate(pos, parentTrans->getLocalAngle());
 }
 
-float TransformSystem::getAngle(const Entity& e) const
+float TransformSystem::getGlobalAngle(const Entity& e) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto angle = trans->getAngle();
+    auto angle = trans->getLocalAngle();
 
     if (trans->parent == Entity::invalidID) return angle;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->getAngle() + angle;
+    return parentTrans->getLocalAngle() + angle;
 }
 
-sf::Vector2f TransformSystem::getNextPosition(const Entity& e) const
+sf::Vector2f TransformSystem::getNextGlobalPosition(const Entity& e) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto pos = trans->getNextPosition();
+    auto pos = trans->getNextLocalPosition();
 
     if (trans->parent == Entity::invalidID) return pos;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->getNextPosition() + rotate(pos, parentTrans->getNextAngle());
+    return parentTrans->getNextLocalPosition() + rotate(pos, parentTrans->getNextLocalAngle());
 }
 
-float TransformSystem::getNextAngle(const Entity& e) const
+float TransformSystem::getNextGlobalAngle(const Entity& e) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto angle = trans->getNextAngle();
+    auto angle = trans->getNextLocalAngle();
 
     if (trans->parent == Entity::invalidID) return angle;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->getNextAngle() + angle;
+    return parentTrans->getNextLocalAngle() + angle;
 }
 
-sf::Vector2f TransformSystem::interpolatePosition(const Entity& e, float alpha) const
+sf::Vector2f TransformSystem::getInterpGlobalPosition(const Entity& e, float alpha) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto pos = trans->interpolatePosition(alpha);
+    auto pos = trans->getInterpLocalPosition(alpha);
 
     if (trans->parent == Entity::invalidID) return pos;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->interpolatePosition(alpha) + rotate(pos, parentTrans->interpolateAngle(alpha));
+    return parentTrans->getInterpLocalPosition(alpha) + rotate(pos, parentTrans->getInterpLocalAngle(alpha));
 }
 
-float TransformSystem::interpolateAngle(const Entity& e, float alpha) const
+float TransformSystem::getInterpGlobalAngle(const Entity& e, float alpha) const
 {
     auto trans = e.getComponent<TransformComponent>();
-    auto angle = trans->interpolateAngle(alpha);
+    auto angle = trans->getInterpLocalAngle(alpha);
 
     if (trans->parent == Entity::invalidID) return angle;
 
     auto parentTrans = getParentTransform(*trans);
 
-    return parentTrans->interpolateAngle(alpha) + angle;
+    return parentTrans->getInterpLocalAngle(alpha) + angle;
 }
 
 void TransformSystem::parentEntity(const Entity& child, const Entity& parent) const
@@ -118,20 +118,20 @@ void TransformSystem::parentEntity(const Entity& child, const Entity& parent) co
         unparentEntity(child);
     }
 
-    auto parentPos = getPosition(parent);
-    auto parentAngle = getAngle(parent);
-    auto childPos = getPosition(child);
-    auto childAngle = getAngle(child);
+    auto parentPos = getGlobalPosition(parent);
+    auto parentAngle = getGlobalAngle(parent);
+    auto childPos = getGlobalPosition(child);
+    auto childAngle = getGlobalAngle(child);
 
     convertRelativeToAnchor(childPos, childAngle, parentPos, parentAngle);
 
     childTransform->angle = childAngle;
     childTransform->position = childPos;
 
-    auto parentNextPos = getNextPosition(parent);
-    auto parentNextAngle = getNextAngle(parent);
-    auto childNextPos = getNextPosition(child);
-    auto childNextAngle = getNextAngle(child);
+    auto parentNextPos = getNextGlobalPosition(parent);
+    auto parentNextAngle = getNextGlobalAngle(parent);
+    auto childNextPos = getNextGlobalPosition(child);
+    auto childNextAngle = getNextGlobalAngle(child);
 
     convertRelativeToAnchor(childNextPos, childNextAngle, parentNextPos, parentNextAngle);
 
@@ -158,8 +158,8 @@ void TransformSystem::unparentEntity(const Entity& child) const
     auto origin = sf::Vector2f(0.f, 0.f);
     auto originAngle = 0.f;
 
-    auto childPos = getPosition(child);
-    auto childAngle = getAngle(child);
+    auto childPos = getGlobalPosition(child);
+    auto childAngle = getGlobalAngle(child);
 
     convertRelativeToAnchor(childPos, childAngle, origin, originAngle);
 
@@ -167,8 +167,8 @@ void TransformSystem::unparentEntity(const Entity& child) const
     childTransform->position = childPos;
 
 
-    auto childNextPos = getNextPosition(child);
-    auto childNextAngle = getNextAngle(child);
+    auto childNextPos = getNextGlobalPosition(child);
+    auto childNextAngle = getNextGlobalAngle(child);
 
     convertRelativeToAnchor(childNextPos, childNextAngle, origin, originAngle);
 

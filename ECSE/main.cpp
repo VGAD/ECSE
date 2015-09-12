@@ -34,7 +34,7 @@ public:
         world.addSystem<TransformSystem>();
 
         Entity::ID test = world.createEntity();
-        world.attachComponent<TransformComponent>(test)->setNextPosition(sf::Vector2f(240.f, 180.f), true);
+        world.attachComponent<TransformComponent>(test)->setNextLocalPosition(sf::Vector2f(240.f, 180.f), true);
         world.attachComponent<DepthComponent>(test);
 
         Spritemap* sprite = &world.attachComponent<SpriteComponent>(test)->sprite;

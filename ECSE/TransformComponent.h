@@ -18,7 +18,7 @@ public:
     * \param alpha The amount of interpolation (0.0 - 1.0).
     * \return The interpolated position.
     */
-    inline sf::Vector2f interpolatePosition(float alpha) const
+    inline sf::Vector2f getInterpLocalPosition(float alpha) const
     {
         return discretePosition ? nextPosition : lerp(position, nextPosition, alpha);
     }
@@ -28,7 +28,7 @@ public:
     * \param alpha The amount of interpolation (0.0 - 1.0).
     * \return The interpolated angle.
     */
-    inline float interpolateAngle(float alpha) const
+    inline float getInterpLocalAngle(float alpha) const
     {
         return discreteAngle ? nextAngle : angularLerp(angle, nextAngle, alpha);
     }
@@ -40,7 +40,7 @@ public:
     * \param newPosition The position to move to.
     * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
     */
-    inline void setNextPosition(const sf::Vector2f& newPosition, bool discrete = false)
+    inline void setNextLocalPosition(const sf::Vector2f& newPosition, bool discrete = false)
     {
         nextPosition = newPosition;
         discretePosition = discrete;
@@ -53,7 +53,7 @@ public:
     * \param newAngle The angle to rotate to.
     * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
     */
-    inline void setNextAngle(float newAngle, bool discrete = false)
+    inline void setNextLocalAngle(float newAngle, bool discrete = false)
     {
         nextAngle = newAngle;
         discreteAngle = discrete;
@@ -63,7 +63,7 @@ public:
     /*!
     * \return A reference to the current position.
     */
-    inline const sf::Vector2f& getPosition() const
+    inline const sf::Vector2f& getLocalPosition() const
     {
         return position;
     }
@@ -72,7 +72,7 @@ public:
     /*!
     * \return The current angle.
     */
-    inline float getAngle() const
+    inline float getLocalAngle() const
     {
         return angle;
     }
@@ -81,7 +81,7 @@ public:
     /*!
     * \return A reference to the next position.
     */
-    inline const sf::Vector2f& getNextPosition() const
+    inline const sf::Vector2f& getNextLocalPosition() const
     {
         return nextPosition;
     }
@@ -90,7 +90,7 @@ public:
     /*!
     * \return The next angle.
     */
-    inline float getNextAngle() const
+    inline float getNextLocalAngle() const
     {
         return nextAngle;
     }
@@ -99,7 +99,7 @@ public:
     /*!
     * \return Whether the position change is discrete.
     */
-    inline bool getDiscretePosition() const
+    inline bool isPositionDiscrete() const
     {
         return discretePosition;
     }
@@ -108,7 +108,7 @@ public:
     /*!
     * \return Whether the angle change is discrete.
     */
-    inline bool getDiscreteAngle() const
+    inline bool isAngleDiscrete() const
     {
         return discreteAngle;
     }

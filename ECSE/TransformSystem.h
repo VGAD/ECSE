@@ -33,28 +33,28 @@ public:
     * \param e The Entity.
     * \return The Entity's current global position.
     */
-    sf::Vector2f getPosition(const Entity& e) const;
+    sf::Vector2f getGlobalPosition(const Entity& e) const;
 
     //! Get the current global angle of a given Entity.
     /*!
     * \param e The Entity.
     * \return The Entity's current global angle.
     */
-    float getAngle(const Entity& e) const;
+    float getGlobalAngle(const Entity& e) const;
 
     //! Get the next global position of a given Entity.
     /*!
     * \param e The Entity.
     * \return The Entity's next global position.
     */
-    sf::Vector2f getNextPosition(const Entity& e) const;
+    sf::Vector2f getNextGlobalPosition(const Entity& e) const;
 
     //! Get the next global angle of a given Entity.
     /*!
     * \param e The Entity.
     * \return The Entity's next global angle.
     */
-    float getNextAngle(const Entity& e) const;
+    float getNextGlobalAngle(const Entity& e) const;
 
     //! Get an Entity's global position interpolated between its current and next value.
     /*!
@@ -62,7 +62,7 @@ public:
     * \param alpha The amount of interpolation (0.0 - 1.0).
     * \return The interpolated position.
     */
-    sf::Vector2f interpolatePosition(const Entity& e, float alpha) const;
+    sf::Vector2f getInterpGlobalPosition(const Entity& e, float alpha) const;
 
     //! Get an Entity's global angle interpolated between its current and next value.
     /*!
@@ -70,7 +70,7 @@ public:
     * \param alpha The amount of interpolation (0.0 - 1.0).
     * \return The interpolated angle.
     */
-    float interpolateAngle(const Entity& e, float alpha) const;
+    float getInterpGlobalAngle(const Entity& e, float alpha) const;
 
     //! Set an entity's parent.
     /*!
