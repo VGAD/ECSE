@@ -20,6 +20,9 @@ public:
 
         transA = a->getComponent<ECSE::TransformComponent>();
         transB = b->getComponent<ECSE::TransformComponent>();
+
+        world.update(sf::seconds(0.f));
+        world.advance();
     }
 
     const ECSE::Entity* createEntity()
@@ -27,7 +30,7 @@ public:
         auto entId = world.createEntity();
         world.attachComponent<ECSE::TransformComponent>(entId);
 
-        return world.getEntity(entId);
+        return  world.registerEntity(entId);
     }
 
     ECSE::World world;
