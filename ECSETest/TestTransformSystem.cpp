@@ -175,3 +175,54 @@ TEST_F(TransformSystemTest, ChildRevertLocalAnglePositionTest)
     ASSERT_NEAR_TRANS(globalPos.y, localPos.y);
     ASSERT_NEAR_TRANS(globalAngle, transA->getLocalAngle());
 }
+
+TEST_F(TransformSystemTest, ChildConvertLocalAngleNextPositionTest)
+{
+    auto globalPos = sf::Vector2f{ 5.f, 1.f };
+    auto globalAngle = ECSE::quarterPi;
+
+    transA->setNextLocalPosition(globalPos);
+    transA->setNextLocalAngle(globalAngle);
+
+    transB->setNextLocalPosition(sf::Vector2f(1.f, 2.f));
+    transB->setNextLocalAngle(ECSE::halfPi);
+
+    system->parentEntity(*a, *b);
+
+    auto localPos = transA->getNextLocalPosition();
+    auto newGlobalPos = system->getNextGlobalPosition(*a);
+
+    ASSERT_NEAR_TRANS(globalPos.x, newGlobalPos.x);
+    ASSERT_NEAR_TRANS(globalPos.y, newGlobalPos.y);
+    ASSERT_NEAR_TRANS(globalAngle, system->getNextGlobalAngle(*a));
+
+    ASSERT_NEAR_TRANS(-1.f, localPos.x);
+    ASSERT_NEAR_TRANS(-4.f, localPos.y);
+    ASSERT_NEAR_TRANS(-ECSE::quarterPi, transA->getNextLocalAngle());
+}
+
+TEST_F(TransformSystemTest, ChildConvertLocalAngleInterpPositionTest)
+{
+    auto globalPos = sf::Vector2f(0.f, 1.f);
+    auto globalAngle = -ECSE::halfPi;
+
+    transA->setNextLocalPosition(globalPos);
+    transA->setNextLocalAngle(globalAngle);
+
+    transB->setNextLocalPosition(sf::Vector2f(1.f, 0.f));
+    transB->setNextLocalAngle(ECSE::halfPi);
+
+    system->parentEntity(*a, *b);
+
+    float delta = 0.5f;
+    auto localPos = transA->getInterpLocalPosition(delta);
+    auto newGlobalPos = system->getInterpGlobalPosition(*a, delta);
+
+    ASSERT_NEAR_TRANS(0.5, newGlobalPos.x);
+    ASSERT_NEAR_TRANS(0.70710678, newGlobalPos.y);
+    ASSERT_NEAR_TRANS(-0.7853975f, system->getInterpGlobalAngle(*a, delta));
+
+    ASSERT_NEAR_TRANS(0.5f, localPos.x);
+    ASSERT_NEAR_TRANS(0.5f, localPos.y);
+    ASSERT_NEAR_TRANS(-ECSE::halfPi, transA->getInterpLocalAngle(delta));
+}
