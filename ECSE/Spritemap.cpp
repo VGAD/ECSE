@@ -61,6 +61,15 @@ void Spritemap::update(sf::Time deltaTime)
 
     // Calculate new frame
     m_currentTime += deltaTime;
+
+    // If frame time is 0, we just want the first frame
+    if (frameTime == sf::seconds(0))
+    {
+        m_currentFrame = 0;
+        setIndex(m_currentAnim->frames[m_currentFrame]);
+        return;
+    }
+
     if (m_currentTime > frameTime)
     {
         size_t frameIncrease = static_cast<size_t>(m_currentTime / frameTime);
