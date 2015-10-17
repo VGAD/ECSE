@@ -52,7 +52,7 @@ void System::advance()
 
 void System::inspectEntity(Entity& e)
 {
-    LOG(DEBUG) << "Inspecting Entity #" << e.getID();
+    VLOG(2) << "Inspecting Entity #" << e.getID();
 
     if (checkRequirements(e))
     {
@@ -76,7 +76,7 @@ void System::markToRemove(Entity& e)
 
     toRemove.insert(&e);
 
-    LOG(DEBUG) << "Marked Entity #" << e.getID() << " to be removed";
+    VLOG(2) << "Marked Entity #" << e.getID() << " to be removed";
 }
 
 void System::markToAdd(Entity& e)
@@ -95,7 +95,7 @@ void System::markToAdd(Entity& e)
 
     toAdd.insert(&e);
 
-    LOG(DEBUG) << "Marked Entity #" << e.getID() << " to be added";
+    VLOG(2) << "Marked Entity #" << e.getID() << " to be added";
 }
 
 World* System::getWorld() const

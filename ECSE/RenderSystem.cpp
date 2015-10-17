@@ -78,7 +78,7 @@ void RenderSystem::renderEntity(float alpha, sf::RenderTarget& renderTarget, Ent
 
 void RenderSystem::internalAddEntity(Entity& e)
 {
-    LOG(DEBUG) << "Entity #" << e.getID() << " added to RenderSystem";
+    VLOG(2) << "Entity #" << e.getID() << " added to RenderSystem";
 
     int layer = e.getComponent<DepthComponent>()->depth;
 
@@ -88,7 +88,7 @@ void RenderSystem::internalAddEntity(Entity& e)
 
 void RenderSystem::internalRemoveEntity(Entity& e)
 {
-    LOG(DEBUG) << "Entity #" << e.getID() << " removed from RenderSystem";
+    VLOG(2) << "Entity #" << e.getID() << " removed from RenderSystem";
 
     int layer = e.getComponent<DepthComponent>()->depth;
 
