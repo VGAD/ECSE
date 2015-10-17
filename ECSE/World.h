@@ -43,6 +43,21 @@ public:
     */
     virtual void render(float alpha, sf::RenderTarget& renderTarget);
 
+    //! Get a pointer to an Entity by its ID.
+    /*!
+    * Note that Entity::invalidID (0) is never a valid ID.
+    *
+    * \param id The ID of the entity to be removed.
+    * \return The Entity with this ID. If it's not in the EntityManager, nullptr is returned.
+    */
+    virtual Entity* getEntity(Entity::ID id) override;
+
+    //! Get a vector of all the Entities.
+    /*!
+    * \return A vector of all Entities.
+    */
+    virtual const std::vector<Entity*> getEntities() const override;
+
     //! Destroy an Entity, removing it from the simulation.
     /*!
     * Automatically removes the Entity's Components.
@@ -134,6 +149,7 @@ private:
     boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
     std::vector<System*> orderedSystems;                            //!< Vector of Systems in preferred call order.
     bool systemsAdded = false;                                      //!< Whether Systems are finished being added.
+    std::set<Entity::ID> toDestroy;                                 //!< Entities to be destroyed at the end of the advance step.
 };
 
 /////////////////

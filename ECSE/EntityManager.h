@@ -52,7 +52,7 @@ public:
     /*!
     * \return A vector of all Entities.
     */
-    virtual inline const std::vector<Entity*>& getEntities() const
+    virtual inline const std::vector<Entity*> getEntities() const
     {
         return entities;
     }

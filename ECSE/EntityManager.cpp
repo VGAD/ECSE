@@ -53,7 +53,7 @@ Entity* EntityManager::getEntity(Entity::ID id)
 
 void EntityManager::destroyEntity(Entity::ID id)
 {
-    Entity* e = getEntity(id);
+    Entity* e = idMap[id];
 
     if (!e)
     {

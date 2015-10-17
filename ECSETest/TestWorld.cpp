@@ -303,3 +303,22 @@ TEST_F(WorldTest, TestDestroyEntity)
     ASSERT_EQ(0, sys->getEntities().size());
     ASSERT_EQ(nullptr, world.getEntity(id));
 }
+
+TEST_F(WorldTest, TestDestroyEntityDoesNotExist)
+{
+    DummyWorldSystem* sys = world.addSystem<DummyWorldSystem>();
+    sys->passChecks = true;
+
+    ECSE::Entity::ID id = world.createEntity();
+    world.registerEntity(id);
+
+    // Allow system to update internal list
+    world.update(sf::Time::Zero);
+    world.advance();
+
+    world.destroyEntity(id);
+    ASSERT_EQ(nullptr, world.getEntity(id));
+
+    world.update(sf::Time::Zero);
+    world.advance();
+}

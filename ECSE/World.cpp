@@ -39,6 +39,27 @@ void World::advance()
     {
         system->advance();
     }
+
+    for (auto eId : toDestroy)
+    {
+        Entity* e = EntityManager::getEntity(eId);
+
+        // Move components into a set so duplicate components don't get destroyed twice
+        // (which happens if a component was added polymorphically)
+        std::set<Component*> componentsToDestroy;
+        for (const auto& pair : e->getComponents())
+        {
+            componentsToDestroy.insert(pair.second);
+        }
+
+        for (auto* component : componentsToDestroy)
+        {
+            destroyComponent(component);
+        }
+
+        EntityManager::destroyEntity(eId);
+    }
+    toDestroy.clear();
 }
 
 void World::render(float alpha, sf::RenderTarget& renderTarget)
@@ -47,6 +68,31 @@ void World::render(float alpha, sf::RenderTarget& renderTarget)
     {
         system->render(alpha, renderTarget);
     }
+}
+
+Entity* World::getEntity(Entity::ID id)
+{
+    if (toDestroy.empty()) return EntityManager::getEntity(id);
+    if (toDestroy.find(id) != toDestroy.end()) return nullptr;
+        
+    return EntityManager::getEntity(id);
+}
+
+const std::vector<Entity*> World::getEntities() const
+{
+    auto entities = EntityManager::getEntities();
+    if (toDestroy.empty()) return entities;
+
+    auto validEntities = EntityManager::getEntities();
+
+    for (auto ent : entities)
+    {
+        if (toDestroy.find(ent->getID()) != toDestroy.end()) continue;
+
+        validEntities.push_back(ent);
+    }
+
+    return validEntities;
 }
 
 Entity* World::registerEntity(Entity::ID id)
@@ -88,18 +134,7 @@ void World::destroyEntity(Entity::ID id)
         throw std::runtime_error(ss.str());
     }
 
-    // Move components into a set so duplicate components don't get destroyed twice
-    // (which happens if a component was added polymorphically)
-    std::set<Component*> toDestroy;
-    for (const auto& pair : e->getComponents())
-    {
-        toDestroy.insert(pair.second);
-    }
-
-    for (auto* component : toDestroy)
-    {
-        destroyComponent(component);
-    }
+    toDestroy.insert(id);
 
     for (auto system : orderedSystems)
     {
@@ -108,8 +143,6 @@ void World::destroyEntity(Entity::ID id)
             system->markToRemove(*e);
         }
     }
-
-    EntityManager::destroyEntity(id);
 }
 
 int World::getSystemCount()
