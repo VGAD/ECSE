@@ -25,7 +25,9 @@ public:
     * higher value from getDamage() when its speed is higher. When you call entity->getComponent<Damage>() later,
     * a pointer to the SpeedDamage component will be returned.
     *
-    * If the type is Component, it doesn't extend anything.
+    * If the type is Component, it doesn't extend anything. Note that it is possible to have multiple levels of
+    * extension (e.g. ComponentC extends ComponentB extends ComponentA), though it's recommended to maintain
+    * a fairly flat Component hierarchy.
     */
     using ExtendsComponent = Component;
 

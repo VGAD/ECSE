@@ -38,7 +38,7 @@ public:
     /*!
     * \param name The name of the prefab.
     * \param world The world in which the entity exists.
-    * \param entId The entity.
+    * \param entity The entity.
     */
     void applyPrefab(std::string name, World& world, ECSE::Entity& entity) const;
 
