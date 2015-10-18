@@ -13,7 +13,7 @@ TEST_F(SystemTest, TestInspect)
     ECSE::Entity e;
 
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -27,7 +27,7 @@ TEST_F(SystemTest, TestInspectFailRequirements)
 
     system.passChecks = false;
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -41,7 +41,7 @@ TEST_F(SystemTest, TestInspectTwice)
 
     system.inspectEntity(e);
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -54,10 +54,10 @@ TEST_F(SystemTest, TestAddTwice)
     ECSE::Entity e;
 
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -73,7 +73,7 @@ TEST_F(SystemTest, TestAddMultiple)
     {
         system.inspectEntity(e);
     }
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
     ASSERT_EQ(5, entities.size()) << "Entities should be added";
@@ -89,7 +89,7 @@ TEST_F(SystemTest, TestHasEntity)
     ECSE::Entity e;
 
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     ASSERT_TRUE(system.hasEntity(e)) << "Entity was added but hasEntity returned false";
 }
@@ -106,10 +106,10 @@ TEST_F(SystemTest, TestRemove)
     ECSE::Entity e;
 
     system.inspectEntity(e);
-    system.advance();
+    system.addAndRemove();
 
     system.markToRemove(e);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -123,11 +123,11 @@ TEST_F(SystemTest, TestMarkToRemoveTwice)
 
     system.inspectEntity(e1);
     system.inspectEntity(e2);
-    system.advance();
+    system.addAndRemove();
 
     system.markToRemove(e1);
     system.markToRemove(e1);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -142,13 +142,13 @@ TEST_F(SystemTest, TestRemoveTwice)
 
     system.inspectEntity(e1);
     system.inspectEntity(e2);
-    system.advance();
+    system.addAndRemove();
 
     system.markToRemove(e1);
-    system.advance();
+    system.addAndRemove();
 
     system.markToRemove(e1);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
 
@@ -164,11 +164,11 @@ TEST_F(SystemTest, TestRemoveMultiple)
     {
         system.inspectEntity(e);
     }
-    system.advance();
+    system.addAndRemove();
 
     system.markToRemove(added[1]);
     system.markToRemove(added[4]);
-    system.advance();
+    system.addAndRemove();
 
     auto entities = system.getEntities();
     ASSERT_TRUE(system.hasEntity(added[0])) << "Entity should not have been removed";

@@ -57,10 +57,11 @@ public:
     /*!
     * First, updates the internal list of Entities.
     * Next, each Entity should update its current state to advance the simulation.
-    * 
-    * If you override this, make sure to call System::advance() before your own code.
     */
     virtual void advance();
+
+    //! Called before and after each update and advance step to add new entities and remove old ones.
+    virtual void addAndRemove();
 
     //! Check whether an Entity needs to be tracked by this System, and if so, mark it to be added on the next advance.
     /*!
@@ -73,7 +74,7 @@ public:
     */
     void inspectEntity(Entity& e);
 
-    //! Mark an Entity to be removed from the System on the next advance step.
+    //! Mark an Entity to be removed from the System on the next call to addAndRemove.
     /*!
     * \param e The Entity to remove.
     */
@@ -122,8 +123,8 @@ private:
     */
     void markToAdd(Entity& e);
 
-    std::set<Entity*> toAdd;    //!< Entities to be added to the System on the advance step.
-    std::set<Entity*> toRemove; //!< Entities to be removed from the System on the advance step.
+    std::set<Entity*> toAdd;    //!< Entities to be added to the System on the next call to addAndRemove.
+    std::set<Entity*> toRemove; //!< Entities to be removed from the System on the next call to addAndRemove.
 };
 
 }

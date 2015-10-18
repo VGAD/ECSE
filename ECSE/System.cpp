@@ -32,6 +32,11 @@ void System::render(float, sf::RenderTarget&)
 
 void System::advance()
 {
+
+}
+
+void System::addAndRemove()
+{
     for (const auto& e : toAdd)
     {
         // If we've reached this point, we should be able to assume that the Entity isn't

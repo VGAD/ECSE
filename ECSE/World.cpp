@@ -29,7 +29,17 @@ void World::update(sf::Time deltaTime)
 
     for (auto& system : orderedSystems)
     {
+        system->addAndRemove();
+    }
+
+    for (auto& system : orderedSystems)
+    {
         system->update(deltaTime);
+    }
+
+    for (auto& system : orderedSystems)
+    {
+        system->addAndRemove();
     }
 }
 
@@ -37,7 +47,17 @@ void World::advance()
 {
     for (auto& system : orderedSystems)
     {
+        system->addAndRemove();
+    }
+
+    for (auto& system : orderedSystems)
+    {
         system->advance();
+    }
+
+    for (auto& system : orderedSystems)
+    {
+        system->addAndRemove();
     }
 
     for (auto eId : toDestroy)
@@ -132,6 +152,12 @@ void World::destroyEntity(Entity::ID id)
         std::stringstream ss;
         ss << "Tried to destroy an Entity with an invalid ID (" << id << ")";
         throw std::runtime_error(ss.str());
+    }
+
+    // Disable all components
+    for (const auto& pair : e->getComponents())
+    {
+        pair.second->enabled = false;
     }
 
     toDestroy.insert(id);
