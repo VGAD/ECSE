@@ -23,17 +23,17 @@ Entity::ID PrefabManager::createEntity(std::string name, World& world) const
         world.attachComponent<PrefabComponent>(entId)->prefabName = name;
     }
 
-    applyPrefab(name, world, entId);
+    applyPrefab(name, world, world.getEntity(entId));
     world.registerEntity(entId);
 
     return entId;
 }
 
-void PrefabManager::applyPrefab(std::string name, World& world, Entity::ID entId) const
+void PrefabManager::applyPrefab(std::string name, World& world, ECSE::Entity* entity) const
 {
     auto& prefab = getPrefab(name);
 
-    prefab(world, entId);
+    prefab(world, entity);
 }
 
 const PrefabManager::Prefab& PrefabManager::getPrefab(std::string name) const

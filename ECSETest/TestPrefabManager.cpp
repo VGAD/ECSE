@@ -25,16 +25,16 @@ TEST_F(PrefabTest, AddPrefabTest)
 
 TEST_F(PrefabTest, ApplyPrefabTest)
 {
-    manager.addPrefab("AC", [](ECSE::World& world, ECSE::Entity::ID entId)
+    manager.addPrefab("AC", [](ECSE::World& world, ECSE::Entity* entity)
     {
-        world.attachComponent<ComponentA>(entId);
-        world.attachComponent<ComponentC>(entId);
+        world.attachComponent<ComponentA>(entity->getID());
+        world.attachComponent<ComponentC>(entity->getID());
     });
 
     auto testEntId = world.createEntity();
-    manager.applyPrefab("AC", world, testEntId);
-
     auto testEnt = world.getEntity(testEntId);
+
+    manager.applyPrefab("AC", world, testEnt);
 
     ASSERT_NE(nullptr, testEnt->getComponent<ComponentA>());
     ASSERT_EQ(nullptr, testEnt->getComponent<ComponentB>());
@@ -43,14 +43,13 @@ TEST_F(PrefabTest, ApplyPrefabTest)
 
 TEST_F(PrefabTest, CreateEntityTest)
 {
-    manager.addPrefab("BC", [](ECSE::World& world, ECSE::Entity::ID entId)
+    manager.addPrefab("BC", [](ECSE::World& world, ECSE::Entity* entity)
     {
-        world.attachComponent<ComponentB>(entId);
-        world.attachComponent<ComponentC>(entId);
+        world.attachComponent<ComponentB>(entity->getID());
+        world.attachComponent<ComponentC>(entity->getID());
     });
 
     auto testEntId = manager.createEntity("BC", world);
-
     auto testEnt = world.getEntity(testEntId);
 
     ASSERT_EQ(nullptr, testEnt->getComponent<ComponentA>());
