@@ -13,11 +13,11 @@ class PrefabManager
 public:
     //! A function which applies prefab settings to an entity.
     /*!
-    * This function receives a pointer to a pre-created Entity which exists in the
+    * This function receives a reference to a pre-created Entity which exists in the
     * given World and should add components and configure them. The function should
     * not register the Entity, as other prefabs may also be applied afterward.
     */
-    using Prefab = std::function<void(World& world, ECSE::Entity* entity)>;
+    using Prefab = std::function<void(World& world, ECSE::Entity& entity)>;
 
     //! Add a prefab to the manager.
     /*!
@@ -40,7 +40,7 @@ public:
     * \param world The world in which the entity exists.
     * \param entId The entity.
     */
-    void applyPrefab(std::string name, World& world, ECSE::Entity* entity) const;
+    void applyPrefab(std::string name, World& world, ECSE::Entity& entity) const;
 
     //! Set whether or not to store prefab names in entities created using createEntity().
     /*!
