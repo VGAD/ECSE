@@ -246,10 +246,30 @@ TEST_F(WorldTest, TestAttachComponent)
     ASSERT_NE(nullptr, e->getComponent<DummyComponent>());
 }
 
+TEST_F(WorldTest, TestAttachComponentByReference)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<DummyComponent>(*world.getEntity(id));
+    ECSE::Entity* e = world.registerEntity(id);
+
+    ASSERT_NE(nullptr, e->getComponent<DummyComponent>());
+}
+
 TEST_F(WorldTest, TestAttachPolymorphicComponent)
 {
     ECSE::Entity::ID id = world.createEntity();
     world.attachComponent<TestComponentChild, TestComponentBase>(id);
+    ECSE::Entity* e = world.registerEntity(id);
+
+    ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentChild>());
+    ASSERT_EQ(10, e->getComponent<TestComponentBase>()->getValue());
+}
+
+TEST_F(WorldTest, TestAttachPolymorphicComponentByReference)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<TestComponentChild, TestComponentBase>(*world.getEntity(id));
     ECSE::Entity* e = world.registerEntity(id);
 
     ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());

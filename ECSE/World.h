@@ -212,7 +212,7 @@ ComponentType* World::attachComponent(Entity::ID id)
 template <typename ComponentType>
 ComponentType* World::attachComponent(Entity& entity)
 {
-    attachComponent<ComponentType>(entity.getID());
+    return attachComponent<ComponentType>(entity.getID());
 }
 
 template <typename ComponentType, typename BaseType>
@@ -232,7 +232,7 @@ ComponentType* World::attachComponent(Entity::ID id)
 template <typename ComponentType, typename BaseType>
 ComponentType* World::attachComponent(Entity& entity)
 {
-    attachComponent<ComponentType, BaseType>(entity.getID());
+    return attachComponent<ComponentType, BaseType>(entity.getID());
 }
 
 template <typename SystemType>
