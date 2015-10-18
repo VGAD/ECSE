@@ -59,6 +59,28 @@ public:
         discreteAngle = discrete;
     }
 
+    //! Set the current position.
+    /*!
+    * \param newPosition The position to move to.
+    * \param setNext If true, set the next position to this position as well.
+    */
+    inline void setLocalPosition(const sf::Vector2f& newPosition, bool setNext = true)
+    {
+        position = newPosition;
+        if (setNext) setNextLocalPosition(newPosition);
+    }
+
+    //! Set the current angle.
+    /*!
+    * \param newAngle The angle to rotate to.
+    * \param setNext If true, set the next angle to this angle as well.
+    */
+    inline void setLocalAngle(float newAngle, bool setNext = true)
+    {
+        angle = newAngle;
+        if (setNext) setNextLocalAngle(newAngle);
+    }
+
     //! Get the current position.
     /*!
     * \return A reference to the current position.

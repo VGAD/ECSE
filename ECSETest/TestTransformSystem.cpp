@@ -39,6 +39,34 @@ public:
     ECSE::TransformComponent* transA, * transB;
 };
 
+TEST_F(TransformSystemTest, SetLocalPositionImmediateTest)
+{
+    transA->setLocalPosition(sf::Vector2f(15.f, 21.f));
+
+    ASSERT_EQ(sf::Vector2f(15.f, 21.f), transA->getLocalPosition());
+}
+
+TEST_F(TransformSystemTest, SetGlobalPositionImmediateTest)
+{
+    system->setGlobalPosition(*a, sf::Vector2f(25.f, 56.f));
+
+    ASSERT_EQ(sf::Vector2f(25.f, 56.f), system->getGlobalPosition(*a));
+}
+
+TEST_F(TransformSystemTest, SetLocalAngleImmediateTest)
+{
+    transA->setLocalAngle(0.3f);
+
+    ASSERT_EQ(0.3f, transA->getLocalAngle());
+}
+
+TEST_F(TransformSystemTest, SetGlobalAngleImmediateTest)
+{
+    system->setGlobalAngle(*a, 0.5f);
+
+    ASSERT_EQ(0.5f, system->getGlobalAngle(*a));
+}
+
 TEST_F(TransformSystemTest, GlobalPositionTest)
 {
     transA->setNextLocalPosition(sf::Vector2f(200.f, 100.f));

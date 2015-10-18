@@ -94,6 +94,24 @@ public:
     */
     void setNextGlobalAngle(const Entity& e, float newAngle, bool discrete = false) const;
 
+    //! Set the current global position of a given Entity.
+    /*!
+    * \param e The Entity.
+    * \param newPosition The position to move to.
+    * \param setNext If true, set the next position to this position as well.
+    */
+    void setGlobalPosition(const Entity& e, sf::Vector2f newPosition, bool setNext = true) const;
+
+    //! Set the current global angle of a given Entity.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param e The Entity.
+    * \param newAngle The angle to rotate to.
+    * \param setNext If true, set the next angle to this angle as well.
+    */
+    void setGlobalAngle(const Entity& e, float newAngle, bool setNext = true) const;
+
     //! Set an entity's parent.
     /*!
     * The child entity's position and angle will now be relative to the parent's

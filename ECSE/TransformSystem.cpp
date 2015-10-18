@@ -161,6 +161,45 @@ void TransformSystem::setNextGlobalAngle(const Entity& e, float newAngle, bool d
     trans->setNextLocalAngle(newAngle, discrete);
 }
 
+void TransformSystem::setGlobalPosition(const Entity& e, sf::Vector2f newPosition, bool setNext) const
+{
+    auto trans = e.getComponent<TransformComponent>();
+
+    if (trans->parent == Entity::invalidID)
+    {
+        trans->setLocalPosition(newPosition, setNext);
+        return;
+    }
+
+    auto parent = world->getEntity(trans->parent);
+
+    auto parentPos = getGlobalPosition(*parent);
+    auto parentAngle = getGlobalAngle(*parent);
+
+    convertPositionRelativeToAnchor(newPosition, parentPos, parentAngle);
+
+    trans->setLocalPosition(newPosition, setNext);
+}
+
+void TransformSystem::setGlobalAngle(const Entity& e, float newAngle, bool setNext) const
+{
+    auto trans = e.getComponent<TransformComponent>();
+
+    if (trans->parent == Entity::invalidID)
+    {
+        trans->setLocalAngle(newAngle, setNext);
+        return;
+    }
+
+    auto parent = world->getEntity(trans->parent);
+
+    auto parentAngle = getGlobalAngle(*parent);
+
+    convertAngleRelativeToAnchor(newAngle, parentAngle);
+
+    trans->setLocalAngle(newAngle, setNext);
+}
+
 void TransformSystem::parentEntity(const Entity& child, const Entity& parent) const
 {
     auto childTransform = child.getComponent<TransformComponent>();
