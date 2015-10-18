@@ -84,18 +84,16 @@ TEST_F(SpecializationComponentTest, SetSpecializationTwiceTest)
 
 TEST_F(SpecializationTest, AdvanceTest)
 {
+    // Need to update first to add it to the system
+    world.update(sf::seconds(0.1f));
     world.advance();
 
     ASSERT_TRUE(spec->initialized);
     ASSERT_TRUE(spec->advanced);
-    ASSERT_FALSE(spec->updated);
-    ASSERT_FALSE(spec->rendered);
 }
 
 TEST_F(SpecializationTest, UpdateTest)
 {
-    // Need to advance first to add it to the system
-    world.advance();
     world.update(sf::seconds(0.1f));
 
     ASSERT_TRUE(spec->updated);
@@ -103,8 +101,8 @@ TEST_F(SpecializationTest, UpdateTest)
 
 TEST_F(SpecializationTest, RenderTest)
 {
-    // Need to advance first to add it to the system
-    world.advance();
+    // Need to update first to add it to the system
+    world.update(sf::seconds(0.1f));
 
     sf::RenderTexture target;
     world.render(0.f, target);

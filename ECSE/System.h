@@ -60,7 +60,10 @@ public:
     */
     virtual void advance();
 
-    //! Called before and after each update and advance step to add new entities and remove old ones.
+    //! Add new entities and remove old ones.
+    /*!
+    * Called when the system is added and after each advance step.
+    */
     virtual void addAndRemove();
 
     //! Check whether an Entity needs to be tracked by this System, and if so, mark it to be added on the next advance.

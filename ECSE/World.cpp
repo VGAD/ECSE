@@ -22,6 +22,7 @@ void World::update(sf::Time deltaTime)
         for (auto& system : orderedSystems)
         {
             system->added();
+            system->addAndRemove();
         }
 
         systemsAdded = true;
@@ -29,30 +30,7 @@ void World::update(sf::Time deltaTime)
 
     for (auto& system : orderedSystems)
     {
-        system->addAndRemove();
-    }
-
-    for (auto& system : orderedSystems)
-    {
         system->update(deltaTime);
-    }
-
-    for (auto& system : orderedSystems)
-    {
-        system->addAndRemove();
-    }
-}
-
-void World::advance()
-{
-    for (auto& system : orderedSystems)
-    {
-        system->addAndRemove();
-    }
-
-    for (auto& system : orderedSystems)
-    {
-        system->advance();
     }
 
     for (auto& system : orderedSystems)
@@ -80,6 +58,14 @@ void World::advance()
         EntityManager::destroyEntity(eId);
     }
     toDestroy.clear();
+}
+
+void World::advance()
+{
+    for (auto& system : orderedSystems)
+    {
+        system->advance();
+    }
 }
 
 void World::render(float alpha, sf::RenderTarget& renderTarget)
