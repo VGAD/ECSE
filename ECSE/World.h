@@ -242,11 +242,10 @@ void World::recursivelyAttachComponent(Entity& entity, Component& component)
     static_assert(std::is_base_of<Component, ComponentType>::value,
                   "ComponentType must be a descendant of Component!");
 
-    entity.attachComponent(dynamic_cast<ComponentType*>(&component));
-
     // Reached the most basic type
     if (std::is_same<ComponentType, Component>::value) return;
 
+    entity.attachComponent(dynamic_cast<ComponentType*>(&component));
     recursivelyAttachComponent<ComponentType::ExtendsComponent>(entity, component);
 }
 

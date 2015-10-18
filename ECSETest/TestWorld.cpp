@@ -139,6 +139,26 @@ public:
     }
 };
 
+class TestComponentSeparateBase : public ECSE::Component
+{
+public:
+    virtual int getValue() const
+    {
+        return 1;
+    }
+};
+
+class TestComponentSeparateChild : public TestComponentSeparateBase
+{
+public:
+    using ExtendsComponent = TestComponentSeparateBase;
+
+    virtual int getValue() const
+    {
+        return 2;
+    }
+};
+
 
 
 TEST_F(WorldTest, TestAddSystems)
@@ -277,6 +297,19 @@ TEST_F(WorldTest, TestAttachPolymorphicComponent)
     ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
     ASSERT_NE(nullptr, e->getComponent<TestComponentChild>());
     ASSERT_EQ(10, e->getComponent<TestComponentBase>()->getValue());
+}
+
+TEST_F(WorldTest, TestAttachMultiplePolymorphicComponents)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<TestComponentChild>(id);
+    world.attachComponent<TestComponentSeparateChild>(id);
+    ECSE::Entity* e = world.registerEntity(id);
+
+    ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentChild>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentSeparateBase>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentSeparateChild>());
 }
 
 TEST_F(WorldTest, TestAttacHierarchicalPolymorphicComponent)
