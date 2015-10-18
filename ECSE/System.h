@@ -62,7 +62,7 @@ public:
 
     //! Add new entities and remove old ones.
     /*!
-    * Called when the system is added and after each advance step.
+    * Called when the system is added and after each update step.
     */
     virtual void addAndRemove();
 
