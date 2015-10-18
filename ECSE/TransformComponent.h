@@ -123,6 +123,12 @@ public:
         discreteAngle = false;
     }
 
+    //! Get the children parented to this component.
+    inline const std::vector<Entity::ID> getChildren() const
+    {
+        return children;
+    }
+
 private:
     sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
     float nextAngle = 0.f;                      //!< Next angle in radians.
@@ -134,6 +140,7 @@ private:
     bool discreteAngle = false;                 //!< Whether the angle change in this timestep should be a discrete jump.
 
     Entity::ID parent = Entity::invalidID;      //!< The id of the Entity to which this is parented.
+    std::vector<Entity::ID> children;           //!< Entity ids parented to this component.
 };
 
 }

@@ -260,3 +260,23 @@ TEST_F(TransformSystemTest, SetGlobalPositionWithParentTest)
     ASSERT_FLOAT_EQ(15.f, nextGlobalPos.x);
     ASSERT_FLOAT_EQ(-5.f, nextGlobalPos.y);
 }
+
+TEST_F(TransformSystemTest, AddChildTest)
+{
+    system->parentEntity(*a, *b);
+
+    auto& children = transB->getChildren();
+
+    ASSERT_EQ(1, children.size());
+    ASSERT_EQ(a->getID(), children[0]);
+}
+
+TEST_F(TransformSystemTest, RemoveChildTest)
+{
+    system->parentEntity(*a, *b);
+    system->unparentEntity(*a);
+
+    auto& children = transB->getChildren();
+
+    ASSERT_EQ(0, children.size());
+}

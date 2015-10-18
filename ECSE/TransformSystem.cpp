@@ -179,21 +179,30 @@ void TransformSystem::parentEntity(const Entity& child, const Entity& parent) co
     childTransform->nextAngle = childNextAngle;
     childTransform->nextPosition = childNextPos;
 
+
     childTransform->parent = parent.getID();
+    parentTransform->children.push_back(child.getID());
 }
 
 void TransformSystem::unparentEntity(const Entity& child) const
 {
     auto childTransform = child.getComponent<TransformComponent>();
+    auto childId = child.getID();
 
     if (childTransform == nullptr)
     {
-        throw std::runtime_error("Child entity (#" + std::to_string(child.getID()) + ") does not have a transform component");
+        throw std::runtime_error("Child entity (#" + std::to_string(childId) + ") does not have a transform component");
     }
 
     if (childTransform->parent == Entity::invalidID)
     {
-        throw std::runtime_error("Tried to unparent parentless entity (#" + std::to_string(child.getID()) + ")");
+        throw std::runtime_error("Tried to unparent parentless entity (#" + std::to_string(childId) + ")");
+    }
+
+    auto parent = world->getEntity(childTransform->parent);
+    if (parent == nullptr)
+    {
+        throw std::runtime_error("Parent entity (#" + std::to_string(childTransform->parent) + ") does not exist");
     }
 
     auto origin = sf::Vector2f(0.f, 0.f);
@@ -218,8 +227,19 @@ void TransformSystem::unparentEntity(const Entity& child) const
     childTransform->nextAngle = childNextAngle;
     childTransform->nextPosition = childNextPos;
 
-
     childTransform->parent = Entity::invalidID;
+
+
+    auto parentTransform = parent->getComponent<TransformComponent>();
+    auto& parentChildren = parentTransform->children;
+    auto it = std::find(parentChildren.begin(), parentChildren.end(), childId);
+
+    if (it == parentChildren.end())
+    {
+        throw std::runtime_error("Parent entity (#" + std::to_string(childTransform->parent) + ") does not have child #" + std::to_string(childId));
+    }
+
+    parentChildren.erase(it);
 }
 
 void TransformSystem::convertAngleRelativeToAnchor(float& angle, float anchorAngle)
