@@ -93,42 +93,6 @@ public:
     template <typename ComponentType>
     ComponentType* attachComponent(Entity& entity);
 
-    //! Attach a Component to an Entity, marking it also as its base type.
-    /*!
-    * This allows for component polymorphism. This component will be returned when entity->getComponent() is
-    * called for both ComponentType and BaseType.
-    * 
-    * Usage example: you may have a Damage component with a function getDamage() that returns the damage dealt.
-    * You could use this function add a SpeedDamage component that descends from Damage and that returns a
-    * higher value from getDamage() when its speed is higher. When you call entity->getComponent<Damage>() later,
-    * a pointer to the SpeedDamage component will be returned.
-    * 
-    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
-    * \tparam BaseType The Component type from which ComponentType descends. Must be a descendant of Component.
-    * \param id The ID of the Entity.
-    * \return A pointer to the Component.
-    */
-    template <typename ComponentType, typename BaseType>
-    ComponentType* attachComponent(Entity::ID id);
-
-    //! Attach a Component to an Entity, marking it also as its base type.
-    /*!
-    * This allows for component polymorphism. This component will be returned when entity->getComponent() is
-    * called for both ComponentType and BaseType.
-    *
-    * Usage example: you may have a Damage component with a function getDamage() that returns the damage dealt.
-    * You could use this function add a SpeedDamage component that descends from Damage and that returns a
-    * higher value from getDamage() when its speed is higher. When you call entity->getComponent<Damage>() later,
-    * a pointer to the SpeedDamage component will be returned.
-    *
-    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
-    * \tparam BaseType The Component type from which ComponentType descends. Must be a descendant of Component.
-    * \param entity A reference to the Entity.
-    * \return A pointer to the Component.
-    */
-    template <typename ComponentType, typename BaseType>
-    ComponentType* attachComponent(Entity& entity);
-
     //! Add a System of this type to the World.
     /*!
     * Note that the order in which Systems are added also determines the order in which they are updated.
@@ -172,6 +136,34 @@ protected:
     WorldState* worldState = nullptr;   //!< The WorldState to which this belongs.
 
 private:
+    //! Attach a Component to an Entity.
+    /*!
+    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
+    * \param id The ID of the Entity.
+    * \return A pointer to the Component.
+    */
+    template <typename ComponentType>
+    ComponentType* internalAttachComponent(Entity::ID id);
+
+    //! Attach a Component to an Entity, marking it also as its base type.
+    /*!
+    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
+    * \tparam BaseType The Component type from which ComponentType descends. Must be a descendant of Component.
+    * \param id The ID of the Entity.
+    * \return A pointer to the Component.
+    */
+    template <typename ComponentType, typename BaseType>
+    ComponentType* internalAttachComponent(Entity::ID id);
+
+    //! Recursively attach the same component as its base types.
+    /*!
+    * \tparam ComponentType The type of the component to add. Must be a descendant of Component.
+    * \param entity The Entity to attach to.
+    * \param component The Component.
+    */
+    template <typename ComponentType>
+    void recursivelyAttachComponent(Entity& entity, Component& component);
+
     // Use a boost unordered map because MSVC's STL unordered map is slower than molasses on a cold winter's day.
     boost::unordered_map<size_t, std::unique_ptr<System>> systems;  //!< Map from System type hash code to the System itself.
     std::vector<System*> orderedSystems;                            //!< Vector of Systems in preferred call order.
@@ -184,6 +176,26 @@ private:
 
 template <typename ComponentType>
 ComponentType* World::attachComponent(Entity::ID id)
+{
+    Entity* entity = getEntity(id);
+
+    // This component extends another type, so we need to add it as both types
+    if (!std::is_same<ComponentType::ExtendsComponent, Component>::value)
+    {
+        return internalAttachComponent<ComponentType, ComponentType::ExtendsComponent>(id);
+    }
+    
+    return internalAttachComponent<ComponentType>(id);
+}
+
+template <typename ComponentType>
+ComponentType* World::attachComponent(Entity& entity)
+{
+    return attachComponent<ComponentType>(entity.getID());
+}
+
+template <typename ComponentType>
+ComponentType* World::internalAttachComponent(Entity::ID id)
 {
     Entity* entity = getEntity(id);
 
@@ -209,30 +221,33 @@ ComponentType* World::attachComponent(Entity::ID id)
     return component;
 }
 
-template <typename ComponentType>
-ComponentType* World::attachComponent(Entity& entity)
-{
-    return attachComponent<ComponentType>(entity.getID());
-}
-
 template <typename ComponentType, typename BaseType>
-ComponentType* World::attachComponent(Entity::ID id)
+ComponentType* World::internalAttachComponent(Entity::ID id)
 {
     static_assert(std::is_base_of<BaseType, ComponentType>::value,
                   "ComponentType must be a descendant of BaseType!");
 
-    auto* component = attachComponent<ComponentType>(id);
+    auto* component = internalAttachComponent<ComponentType>(id);
 
+    // Attach it again with the base type
     Entity* entity = getEntity(id);
-    entity->attachComponent(dynamic_cast<BaseType*>(component));
+    recursivelyAttachComponent<BaseType>(*entity, *component);
 
     return component;
 }
 
-template <typename ComponentType, typename BaseType>
-ComponentType* World::attachComponent(Entity& entity)
+template <typename ComponentType>
+void World::recursivelyAttachComponent(Entity& entity, Component& component)
 {
-    return attachComponent<ComponentType, BaseType>(entity.getID());
+    static_assert(std::is_base_of<Component, ComponentType>::value,
+                  "ComponentType must be a descendant of Component!");
+
+    entity.attachComponent(dynamic_cast<ComponentType*>(&component));
+
+    // Reached the most basic type
+    if (std::is_same<ComponentType, Component>::value) return;
+
+    recursivelyAttachComponent<ComponentType::ExtendsComponent>(entity, component);
 }
 
 template <typename SystemType>

@@ -15,6 +15,20 @@ public:
     friend class Entity;
     virtual ~Component() {}
 
+    //! Redefine this in subclasses to indicate that they are a polymorphic extension of a given Component type.
+    /*!
+    * This allows for component polymorphism. This component will be returned when entity->getComponent() is
+    * called for both its own type and ExtendsComponent.
+    *
+    * Usage example: you may have a Damage component with a function getDamage() that returns the damage dealt.
+    * You could use this function add a SpeedDamage component that descends from Damage and that returns a
+    * higher value from getDamage() when its speed is higher. When you call entity->getComponent<Damage>() later,
+    * a pointer to the SpeedDamage component will be returned.
+    *
+    * If the type is Component, it doesn't extend anything.
+    */
+    using ExtendsComponent = Component;
+
     //! Whether Systems should update this.
     /*!
     * Effectively, the System should behave as if this was not attached to its Entity.

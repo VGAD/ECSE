@@ -120,9 +120,22 @@ public:
 class TestComponentChild : public TestComponentBase
 {
 public:
+    using ExtendsComponent = TestComponentBase;
+
     virtual int getValue() const override
     {
         return 10;
+    }
+};
+
+class TestComponentChildChild : public TestComponentChild
+{
+public:
+    using ExtendsComponent = TestComponentChild;
+
+    virtual int getValue() const override
+    {
+        return 15;
     }
 };
 
@@ -258,7 +271,7 @@ TEST_F(WorldTest, TestAttachComponentByReference)
 TEST_F(WorldTest, TestAttachPolymorphicComponent)
 {
     ECSE::Entity::ID id = world.createEntity();
-    world.attachComponent<TestComponentChild, TestComponentBase>(id);
+    world.attachComponent<TestComponentChild>(id);
     ECSE::Entity* e = world.registerEntity(id);
 
     ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
@@ -266,10 +279,22 @@ TEST_F(WorldTest, TestAttachPolymorphicComponent)
     ASSERT_EQ(10, e->getComponent<TestComponentBase>()->getValue());
 }
 
+TEST_F(WorldTest, TestAttacHierarchicalPolymorphicComponent)
+{
+    ECSE::Entity::ID id = world.createEntity();
+    world.attachComponent<TestComponentChildChild>(id);
+    ECSE::Entity* e = world.registerEntity(id);
+
+    ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentChild>());
+    ASSERT_NE(nullptr, e->getComponent<TestComponentChildChild>());
+    ASSERT_EQ(15, e->getComponent<TestComponentBase>()->getValue());
+}
+
 TEST_F(WorldTest, TestAttachPolymorphicComponentByReference)
 {
     ECSE::Entity::ID id = world.createEntity();
-    world.attachComponent<TestComponentChild, TestComponentBase>(*world.getEntity(id));
+    world.attachComponent<TestComponentChild>(*world.getEntity(id));
     ECSE::Entity* e = world.registerEntity(id);
 
     ASSERT_NE(nullptr, e->getComponent<TestComponentBase>());
@@ -280,7 +305,7 @@ TEST_F(WorldTest, TestAttachPolymorphicComponentByReference)
 TEST_F(WorldTest, TestAttachPolymorphicComponentDestroy)
 {
     ECSE::Entity::ID id = world.createEntity();
-    world.attachComponent<TestComponentChild, TestComponentBase>(id);
+    world.attachComponent<TestComponentChild>(id);
     ECSE::Entity* e = world.registerEntity(id);
     world.destroyEntity(id);
 }
