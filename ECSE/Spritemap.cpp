@@ -43,6 +43,7 @@ void Spritemap::playAnimation(std::string name, bool reset)
     // Start playing
     m_currentAnim = &newAnim;
     m_currentTime = sf::Time::Zero;
+    setIndex(0, false);
     m_playing = true;
 }
 
