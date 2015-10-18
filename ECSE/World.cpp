@@ -146,8 +146,6 @@ void World::destroyEntity(Entity::ID id)
         pair.second->enabled = false;
     }
 
-    toDestroy.insert(id);
-
     for (auto system : orderedSystems)
     {
         if (system->hasEntity(*e))
@@ -155,6 +153,8 @@ void World::destroyEntity(Entity::ID id)
             system->markToRemove(*e);
         }
     }
+
+    toDestroy.insert(id);
 }
 
 int World::getSystemCount()

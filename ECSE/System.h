@@ -81,7 +81,7 @@ public:
     /*!
     * \param e The Entity to remove.
     */
-    void markToRemove(Entity& e);
+    virtual void markToRemove(Entity& e);
 
     //! Returns the System's world.
     /*!
