@@ -30,7 +30,7 @@ public:
         auto entId = world.createEntity();
         world.attachComponent<ECSE::TransformComponent>(entId);
 
-        return  world.registerEntity(entId);
+        return world.registerEntity(entId);
     }
 
     ECSE::World world;
@@ -279,4 +279,34 @@ TEST_F(TransformSystemTest, RemoveChildTest)
     auto& children = transB->getChildren();
 
     ASSERT_EQ(0, children.size());
+}
+
+TEST_F(TransformSystemTest, DestroyWithParentTest)
+{
+    auto childId = a->getID();
+    auto parentId = b->getID();
+
+    system->parentEntity(*a, *b);
+    transA->destroyWithParent = true;
+    world.destroyEntity(parentId);
+
+    world.update(sf::seconds(0.f));
+
+    ASSERT_EQ(nullptr, world.getEntity(parentId));
+    ASSERT_EQ(nullptr, world.getEntity(childId));
+}
+
+TEST_F(TransformSystemTest, DontDestroyWithParentTest)
+{
+    auto childId = a->getID();
+    auto parentId = b->getID();
+
+    system->parentEntity(*a, *b);
+    transA->destroyWithParent = false;
+    world.destroyEntity(parentId);
+
+    world.update(sf::seconds(0.f));
+
+    ASSERT_EQ(nullptr, world.getEntity(parentId));
+    ASSERT_NE(nullptr, world.getEntity(childId));
 }

@@ -27,6 +27,9 @@ public:
     */
     bool checkRequirements(const Entity& e) const override;
 
+    //! Mark an Entity to be removed from the System.
+    void markToRemove(Entity& e) override;
+
     //! Get the current global position of a given Entity.
     /*!
     * \param e The Entity.

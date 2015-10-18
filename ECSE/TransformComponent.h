@@ -129,6 +129,8 @@ public:
         return children;
     }
 
+    bool destroyWithParent = true;              //!< If true, this will be removed when the parent is removed from TransformSystem. If false, it will just be unparented.
+
 private:
     sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
     float nextAngle = 0.f;                      //!< Next angle in radians.

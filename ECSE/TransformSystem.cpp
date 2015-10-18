@@ -25,6 +25,31 @@ bool TransformSystem::checkRequirements(const Entity& e) const
     return true;
 }
 
+void TransformSystem::markToRemove(Entity& e)
+{
+    auto trans = e.getComponent<TransformComponent>();
+    for (auto childId : trans->getChildren())
+    {
+        auto child = world->getEntity(childId);
+        if (child == nullptr)
+        {
+            throw std::runtime_error("Child with id #" + std::to_string(childId) + " does not exist");
+        }
+
+        auto childTrans = child->getComponent<TransformComponent>();
+        if (childTrans->destroyWithParent)
+        {
+            world->destroyEntity(childId);
+        }
+        else
+        {
+            unparentEntity(*child);
+        }
+    }
+
+    SetSystem::markToRemove(e);
+}
+
 sf::Vector2f TransformSystem::getGlobalPosition(const Entity& e) const
 {
     auto trans = e.getComponent<TransformComponent>();
