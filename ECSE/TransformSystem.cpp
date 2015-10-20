@@ -28,6 +28,12 @@ bool TransformSystem::checkRequirements(const Entity& e) const
 void TransformSystem::markToRemove(Entity& e)
 {
     auto trans = e.getComponent<TransformComponent>();
+
+    if (trans->parent != Entity::invalidID) unparentEntity(e);
+
+    // Copy the vector so that children removed by unparentEntity don't affect the following loop
+    auto children = std::vector<Entity::ID>(trans->getChildren());
+
     for (auto childId : trans->getChildren())
     {
         auto child = world->getEntity(childId);

@@ -289,7 +289,7 @@ TEST_F(TransformSystemTest, SetGlobalPositionWithParentTest)
     ASSERT_FLOAT_EQ(-5.f, nextGlobalPos.y);
 }
 
-TEST_F(TransformSystemTest, AddChildTest)
+TEST_F(TransformSystemTest, ParentTest)
 {
     system->parentEntity(*a, *b);
 
@@ -299,10 +299,22 @@ TEST_F(TransformSystemTest, AddChildTest)
     ASSERT_EQ(a->getID(), children[0]);
 }
 
-TEST_F(TransformSystemTest, RemoveChildTest)
+TEST_F(TransformSystemTest, UnparentChildTest)
 {
     system->parentEntity(*a, *b);
     system->unparentEntity(*a);
+
+    auto& children = transB->getChildren();
+
+    ASSERT_EQ(0, children.size());
+}
+
+TEST_F(TransformSystemTest, DestroyChildTest)
+{
+    system->parentEntity(*a, *b);
+    
+    world.destroyEntity(a->getID());
+    world.update(sf::seconds(0.f));
 
     auto& children = transB->getChildren();
 
@@ -324,6 +336,28 @@ TEST_F(TransformSystemTest, DestroyWithParentTest)
     ASSERT_EQ(nullptr, world.getEntity(childId));
 }
 
+TEST_F(TransformSystemTest, DestroyWithParentMultipleTest)
+{
+    auto c = createEntity();
+    auto transC = c->getComponent<ECSE::TransformComponent>();
+
+    auto childId1 = a->getID();
+    auto parentId = b->getID();
+    auto childId2 = c->getID();
+
+    system->parentEntity(*a, *b);
+    system->parentEntity(*c, *b);
+    transA->destroyWithParent = true;
+    transC->destroyWithParent = true;
+    world.destroyEntity(parentId);
+
+    world.update(sf::seconds(0.f));
+
+    ASSERT_EQ(nullptr, world.getEntity(parentId));
+    ASSERT_EQ(nullptr, world.getEntity(childId1));
+    ASSERT_EQ(nullptr, world.getEntity(childId2));
+}
+
 TEST_F(TransformSystemTest, DontDestroyWithParentTest)
 {
     auto childId = a->getID();
@@ -337,4 +371,26 @@ TEST_F(TransformSystemTest, DontDestroyWithParentTest)
 
     ASSERT_EQ(nullptr, world.getEntity(parentId));
     ASSERT_NE(nullptr, world.getEntity(childId));
+}
+
+TEST_F(TransformSystemTest, DontDestroyWithParentMultipleTest)
+{
+    auto c = createEntity();
+    auto transC = c->getComponent<ECSE::TransformComponent>();
+
+    auto childId1 = a->getID();
+    auto parentId = b->getID();
+    auto childId2 = c->getID();
+
+    system->parentEntity(*a, *b);
+    system->parentEntity(*c, *b);
+    transA->destroyWithParent = false;
+    transC->destroyWithParent = false;
+    world.destroyEntity(parentId);
+
+    world.update(sf::seconds(0.f));
+
+    ASSERT_EQ(nullptr, world.getEntity(parentId));
+    ASSERT_NE(nullptr, world.getEntity(childId1));
+    ASSERT_NE(nullptr, world.getEntity(childId2));
 }
