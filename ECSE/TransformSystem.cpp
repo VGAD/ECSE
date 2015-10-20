@@ -148,13 +148,13 @@ void TransformSystem::setNextGlobalPosition(const Entity& e, sf::Vector2f newPos
     trans->setNextLocalPosition(newPosition, discrete);
 }
 
-void TransformSystem::setNextGlobalAngle(const Entity& e, float newAngle, bool discrete) const
+void TransformSystem::setNextGlobalAngle(const Entity& e, float newAngle, bool discrete, bool clockwise) const
 {
     auto trans = e.getComponent<TransformComponent>();
 
     if (trans->parent == Entity::invalidID)
     {
-        trans->setNextLocalAngle(newAngle, discrete);
+        trans->setNextLocalAngle(newAngle, discrete, clockwise);
         return;
     }
 
@@ -164,7 +164,7 @@ void TransformSystem::setNextGlobalAngle(const Entity& e, float newAngle, bool d
 
     convertAngleRelativeToAnchor(newAngle, parentAngle);
 
-    trans->setNextLocalAngle(newAngle, discrete);
+    trans->setNextLocalAngle(newAngle, discrete, clockwise);
 }
 
 void TransformSystem::setGlobalPosition(const Entity& e, sf::Vector2f newPosition, bool setNext) const
@@ -246,8 +246,8 @@ void TransformSystem::parentEntity(const Entity& child, const Entity& parent) co
     convertAngleRelativeToAnchor(childNextAngle, parentNextAngle);
     convertPositionRelativeToAnchor(childNextPos, parentNextPos, parentNextAngle);
 
-    childTransform->nextAngle = childNextAngle;
-    childTransform->nextPosition = childNextPos;
+    childTransform->setNextLocalAngle(childNextAngle);
+    childTransform->setNextLocalPosition(childNextPos);
 
 
     childTransform->parent = parent.getID();
@@ -294,11 +294,11 @@ void TransformSystem::unparentEntity(const Entity& child) const
     convertAngleRelativeToAnchor(childNextAngle, originAngle);
     convertPositionRelativeToAnchor(childNextPos, origin, originAngle);
 
-    childTransform->nextAngle = childNextAngle;
-    childTransform->nextPosition = childNextPos;
+    childTransform->setNextLocalAngle(childNextAngle);
+    childTransform->setNextLocalPosition(childNextPos);
+
 
     childTransform->parent = Entity::invalidID;
-
 
     auto parentTransform = parent->getComponent<TransformComponent>();
     auto& parentChildren = parentTransform->children;

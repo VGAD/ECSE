@@ -20,7 +20,7 @@ public:
     */
     inline sf::Vector2f getInterpLocalPosition(float alpha) const
     {
-        return discretePosition ? nextPosition : lerp(position, nextPosition, alpha);
+        return discretePosition ? getNextLocalPosition() : (position + deltaPosition * alpha);
     }
 
     //! Get the angle interpolated between its current and next value.
@@ -30,7 +30,7 @@ public:
     */
     inline float getInterpLocalAngle(float alpha) const
     {
-        return discreteAngle ? nextAngle : angularLerp(angle, nextAngle, alpha);
+        return discreteAngle ? getNextLocalAngle() : (angle + deltaAngle * alpha);
     }
 
     //! Set the next position.
@@ -42,20 +42,47 @@ public:
     */
     inline void setNextLocalPosition(const sf::Vector2f& newPosition, bool discrete = false)
     {
-        nextPosition = newPosition;
+        deltaPosition = newPosition - position;
         discretePosition = discrete;
     }
 
     //! Set the next angle.
     /*!
-    * Only the last call to this function in a given timestep will actually affect the next position.
+    * Only the last call to this function in a given timestep will actually affect the next angle.
     *
     * \param newAngle The angle to rotate to.
     * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    * \param clockwise If true, the angle will be rotated to clockwise; otherwise, it will be rotated to counter-clockwise.
     */
-    inline void setNextLocalAngle(float newAngle, bool discrete = false)
+    inline void setNextLocalAngle(float newAngle, bool discrete = false, bool clockwise = false)
     {
-        nextAngle = newAngle;
+        deltaAngle = newAngle - angle;
+        discreteAngle = discrete;
+    }
+
+    //! Set the change in position.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next position.
+    *
+    * \param newDeltaPosition The change in position.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    inline void setDeltaPosition(const sf::Vector2f& newDeltaPosition, bool discrete = false)
+    {
+        deltaPosition = newDeltaPosition;
+        discretePosition = discrete;
+    }
+
+    //! Set the change in angle.
+    /*!
+    * Only the last call to this function in a given timestep will actually affect the next angle.
+    *
+    * \param newDeltaAngle The change in angle.
+    * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    */
+    inline void setDeltaAngle(float newDeltaAngle, bool discrete = false)
+    {
+        deltaAngle = newDeltaAngle;
         discreteAngle = discrete;
     }
 
@@ -67,7 +94,7 @@ public:
     inline void setLocalPosition(const sf::Vector2f& newPosition, bool setNext = true)
     {
         position = newPosition;
-        if (setNext) setNextLocalPosition(newPosition);
+        if (setNext) setDeltaPosition(sf::Vector2f());
     }
 
     //! Set the current angle.
@@ -78,7 +105,7 @@ public:
     inline void setLocalAngle(float newAngle, bool setNext = true)
     {
         angle = newAngle;
-        if (setNext) setNextLocalAngle(newAngle);
+        if (setNext) setDeltaAngle(0.f);
     }
 
     //! Get the current position.
@@ -101,11 +128,11 @@ public:
 
     //! Get the next position.
     /*!
-    * \return A reference to the next position.
+    * \return The next position.
     */
-    inline const sf::Vector2f& getNextLocalPosition() const
+    inline sf::Vector2f getNextLocalPosition() const
     {
-        return nextPosition;
+        return position + deltaPosition;
     }
 
     //! Get the next angle.
@@ -114,7 +141,25 @@ public:
     */
     inline float getNextLocalAngle() const
     {
-        return nextAngle;
+        return angle + deltaAngle;
+    }
+
+    //! Get the change in position.
+    /*!
+    * \return A reference to the next position.
+    */
+    inline sf::Vector2f getLocalDeltaPosition() const
+    {
+        return deltaPosition;
+    }
+
+    //! Get the change in angle.
+    /*!
+    * \return The change in angle.
+    */
+    inline float getLocalDeltaAngle() const
+    {
+        return deltaAngle;
     }
 
     //! Check if the position change is discrete.
@@ -138,8 +183,11 @@ public:
     //! Set the current values to their next values and sets movement back to linear for the new timestep.
     inline void advance()
     {
-        position = nextPosition;
-        angle = nextAngle;
+        position = getNextLocalPosition();
+        angle = getNextLocalAngle();
+
+        deltaPosition = sf::Vector2f();
+        deltaAngle = 0.f;
 
         discretePosition = false;
         discreteAngle = false;
@@ -154,10 +202,10 @@ public:
     bool destroyWithParent = true;              //!< If true, this will be removed when the parent is removed from TransformSystem. If false, it will just be unparented.
 
 private:
-    sf::Vector2f nextPosition = sf::Vector2f(); //!< Next position in pixels.
-    float nextAngle = 0.f;                      //!< Next angle in radians.
+    sf::Vector2f deltaPosition;                 //!< Change in position in pixels.
+    float deltaAngle = 0.f;                     //!< Change in angle in radians.
 
-    sf::Vector2f position = sf::Vector2f();     //!< Current position in pixels.
+    sf::Vector2f position;                      //!< Current position in pixels.
     float angle = 0.f;                          //!< Current angle in radians.
 
     bool discretePosition = false;              //!< Whether the position change in this timestep should be a discrete jump.

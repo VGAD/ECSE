@@ -91,8 +91,9 @@ public:
     * \param e The Entity.
     * \param newAngle The angle to rotate to.
     * \param discrete Whether the move should be a discrete jump. If false, the movement is linearly interpolated.
+    * \param clockwise If true, the angle will be rotated to clockwise; otherwise, it will be rotated to counter-clockwise.
     */
-    void setNextGlobalAngle(const Entity& e, float newAngle, bool discrete = false) const;
+    void setNextGlobalAngle(const Entity& e, float newAngle, bool discrete = false, bool clockwise = false) const;
 
     //! Set the current global position of a given Entity.
     /*!
