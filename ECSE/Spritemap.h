@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "AnimationSet.h"
@@ -106,7 +107,7 @@ public:
     // Data
 
     //! Callback function for when the animation completes.
-    void (*callback)();
+    std::function<void()> callback;
 
 private:
     //! Determine the number of rows and columns.
