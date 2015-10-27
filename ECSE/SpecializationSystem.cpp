@@ -7,7 +7,10 @@ void SpecializationSystem::update(sf::Time deltaTime)
 {
     for (Entity* e : getEntities())
     {
-        auto spec = e->getComponent<SpecializationComponent>()->getSpecialization();
+        auto specComponent = e->getComponent<SpecializationComponent>();
+        if (!specComponent->enabled) continue;
+
+        auto spec = specComponent->getSpecialization();
         assert(spec != nullptr);
 
         spec->update(deltaTime);
@@ -20,7 +23,10 @@ void SpecializationSystem::advance()
 
     for (Entity* e : getEntities())
     {
-        auto spec = e->getComponent<SpecializationComponent>()->getSpecialization();
+        auto specComponent = e->getComponent<SpecializationComponent>();
+        if (!specComponent->enabled) continue;
+
+        auto spec = specComponent->getSpecialization();
         assert(spec != nullptr);
 
         spec->advance();
@@ -31,7 +37,10 @@ void SpecializationSystem::render(float alpha, sf::RenderTarget& renderTarget)
 {
     for (Entity* e : getEntities())
     {
-        auto spec = e->getComponent<SpecializationComponent>()->getSpecialization();
+        auto specComponent = e->getComponent<SpecializationComponent>();
+        if (!specComponent->enabled) continue;
+
+        auto spec = specComponent->getSpecialization();
         assert(spec != nullptr);
 
         spec->render(alpha, renderTarget);

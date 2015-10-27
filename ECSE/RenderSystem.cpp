@@ -32,7 +32,10 @@ void RenderSystem::update(sf::Time deltaTime)
 {
     for (auto& pair : layers)
     {
-        Spritemap& sprite = pair.first->getComponent<SpriteComponent>()->sprite;
+        auto spriteComponent = pair.first->getComponent<SpriteComponent>();
+        if (!spriteComponent->enabled) continue;
+
+        auto& sprite = spriteComponent->sprite;
         sprite.update(deltaTime);
     }
 }
