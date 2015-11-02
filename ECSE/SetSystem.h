@@ -23,7 +23,7 @@ public:
     * \param e The Entity to check.
     * \return Whether the Entity is already in the System's set.
     */
-    inline bool hasEntity(const Entity& e) const override
+    virtual inline bool hasEntity(const Entity& e) const override
     {
         return entities.find(const_cast<Entity*>(&e)) != entities.end();
     }
@@ -39,7 +39,7 @@ protected:
     /*!
     * \param e The Entity to add.
     */
-    inline void internalAddEntity(Entity& e) override
+    virtual inline void internalAddEntity(Entity& e) override
     {
         VLOG(2) << "Entity #" << e.getID() << " added to SetSystem";
 
@@ -50,7 +50,7 @@ protected:
     /*!
     * \param e The Entity to remove.
     */
-    inline void internalRemoveEntity(Entity& e) override
+    virtual inline void internalRemoveEntity(Entity& e) override
     {
         VLOG(2) << "Entity #" << e.getID() << " removed from SetSystem";
 
