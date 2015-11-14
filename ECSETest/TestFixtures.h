@@ -16,7 +16,7 @@ public:
 
     virtual void activate() override { ++activateCount; }
     virtual void deactivate() override { ++deactivateCount; }
-    virtual void update(sf::Time) override { ++updateCount; }
+    virtual void update(sf::Time time) override { State::update(time); ++updateCount; }
     virtual void render(float, sf::RenderTarget&) override { ++renderCount; }
     virtual void advance() override { ++advanceCount; }
 
