@@ -8,7 +8,7 @@ void State::update(sf::Time deltaTime)
     for (auto it = sideRoutines.begin(); it != sideRoutines.end();)
     {
         // Execute coroutine
-        bool stopRoutine = (*it)();
+        bool stopRoutine = (*it)(deltaTime);
 
         if (stopRoutine)
         {

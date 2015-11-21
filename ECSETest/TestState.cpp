@@ -15,7 +15,7 @@ public:
 TEST_F(StateTest, TestCoroutine)
 {
     int x = 0;
-    state.startSideRoutine([&x]()
+    state.startSideRoutine([&x](sf::Time)
     {
         ++x;
 
@@ -29,19 +29,34 @@ TEST_F(StateTest, TestCoroutine)
     ASSERT_EQ(3, x);
 }
 
+TEST_F(StateTest, TestCoroutineDeltaTime)
+{
+    sf::Time x;
+    state.startSideRoutine([&x](sf::Time deltaTime)
+    {
+        x = deltaTime;
+
+        return false;
+    });
+
+    state.update(sf::seconds(2.f));
+
+    ASSERT_FLOAT_EQ(2.f, x.asSeconds());
+}
+
 TEST_F(StateTest, TestMultipleCoroutine)
 {
     int x = 0;
     int y = 0;
 
-    state.startSideRoutine([&x]()
+    state.startSideRoutine([&x](sf::Time)
     {
         x += 1;
 
         return false;
     });
 
-    state.startSideRoutine([&y]()
+    state.startSideRoutine([&y](sf::Time)
     {
         y += 2;
 
@@ -59,7 +74,7 @@ TEST_F(StateTest, TestMultipleCoroutine)
 TEST_F(StateTest, TestStopCoroutine)
 {
     int x = 0;
-    state.startSideRoutine([&x]()
+    state.startSideRoutine([&x](sf::Time)
     {
         ++x;
 
@@ -81,14 +96,14 @@ TEST_F(StateTest, TestStopMultipleCoroutines)
     int y = 0;
     int z = 0;
 
-    state.startSideRoutine([&x]()
+    state.startSideRoutine([&x](sf::Time)
     {
         x += 1;
 
         return true;
     });
 
-    state.startSideRoutine([&y]()
+    state.startSideRoutine([&y](sf::Time)
     {
         y += 2;
 
@@ -97,7 +112,7 @@ TEST_F(StateTest, TestStopMultipleCoroutines)
         return false;
     });
 
-    state.startSideRoutine([&z]()
+    state.startSideRoutine([&z](sf::Time)
     {
         z += 3;
 

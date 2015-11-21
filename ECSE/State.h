@@ -15,13 +15,14 @@ class State
 public:
     /*!
     * Side routines allow you to have a function called continuously at the end of update().
-    * The function will keep being called once per update as long as it returns false; when
-    * it returns true, it will be removed from the side routine list.
+    * The function takes the update step's delta time as a parameter. It will keep being
+    * called once per update as long as it returns false; when it returns true, it will be
+    * removed from the side routine list.
     *
     * Side routines are similar to the idea of coroutines, but named differently to avoid
     * confusion with a true coroutine which can arbitrarily pause execution.
     */
-    typedef std::function<bool()> SideRoutine;
+    typedef std::function<bool(sf::Time)> SideRoutine;
 
     //! Create the State in the given Engine.
     /*!
