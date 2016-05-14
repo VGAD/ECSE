@@ -94,6 +94,7 @@ void InputManager::update()
         {
             writeDemoChanges(changes);
         }
+        mousePosition = newMousePosition;
     }
 
     if (playingDemo || recording)
