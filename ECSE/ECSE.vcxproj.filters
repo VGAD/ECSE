@@ -113,6 +113,9 @@
     <ClCompile Include="TagSystem.cpp">
       <Filter>Source Files\Engine\System\Implementation</Filter>
     </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files\Engine\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">

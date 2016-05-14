@@ -257,6 +257,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SpecializationSystem.cpp" />
     <ClCompile Include="Spritemap.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TagSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />

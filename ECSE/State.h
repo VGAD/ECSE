@@ -2,6 +2,7 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <functional>
 
 namespace ECSE
 {
@@ -12,6 +13,17 @@ class State
     friend class Engine;
 
 public:
+    /*!
+    * Side routines allow you to have a function called continuously at the end of update().
+    * The function takes the update step's delta time as a parameter. It will keep being
+    * called once per update as long as it returns false; when it returns true, it will be
+    * removed from the side routine list.
+    *
+    * Side routines are similar to the idea of coroutines, but named differently to avoid
+    * confusion with a true coroutine which can arbitrarily pause execution.
+    */
+    typedef std::function<bool(sf::Time)> SideRoutine;
+
     //! Create the State in the given Engine.
     /*!
     * \param engine The State's engine.
@@ -34,7 +46,7 @@ public:
     /*!
     * \param deltaTime The time elapsed in this update.
     */
-    virtual void update(sf::Time deltaTime) = 0;
+    virtual void update(sf::Time deltaTime);
 
     //! Perform the advance step.
     virtual void advance() = 0;
@@ -52,6 +64,12 @@ public:
     */  
     virtual std::string getName() = 0;
 
+    //! Start a side routine.
+    /*!
+    * \param fn The function to run.
+    */
+    virtual void startSideRoutine(SideRoutine fn);
+
     //! Get the Engine to which this belongs.
     /*!
     * \return A pointer to the Engine to which this belongs.
@@ -62,8 +80,8 @@ public:
     }
 
 protected:
-    //! The Engine to which this belongs.
-    Engine* engine = nullptr;
+    Engine* engine = nullptr;               //! The Engine to which this belongs.
+    std::vector<SideRoutine> sideRoutines;  //! List of currently running side routines.
 };
 
 }

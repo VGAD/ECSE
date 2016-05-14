@@ -20,6 +20,7 @@ std::string WorldState::getName()
 void WorldState::update(sf::Time deltaTime)
 {
     world.update(deltaTime);
+    State::update(deltaTime);
 }
 
 void WorldState::advance()
