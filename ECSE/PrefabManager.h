@@ -42,6 +42,13 @@ public:
     */
     void applyPrefab(std::string name, World& world, ECSE::Entity& entity) const;
 
+    //! Check if a prefab exists.
+    /*!
+    * \param name The prefab's name
+    * \return Whether or not the prefab exists.
+    */
+    bool hasPrefab(std::string name) const;
+
     //! Set whether or not to store prefab names in entities created using createEntity().
     /*!
     * \param storeNames If true, a PrefabComponent with the prefab name will be added automatically

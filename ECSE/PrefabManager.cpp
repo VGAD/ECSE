@@ -36,6 +36,11 @@ void PrefabManager::applyPrefab(std::string name, World& world, ECSE::Entity& en
     prefab(world, entity);
 }
 
+bool PrefabManager::hasPrefab(std::string name) const
+{
+    return prefabs.find(name) != prefabs.end();
+}
+
 const PrefabManager::Prefab& PrefabManager::getPrefab(std::string name) const
 {
     auto it = prefabs.find(name);
