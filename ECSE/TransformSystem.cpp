@@ -63,9 +63,9 @@ sf::Vector2f TransformSystem::getGlobalPosition(const Entity& e) const
 
     if (trans->parent == Entity::invalidID) return pos;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getLocalPosition() + rotate(pos, parentTrans->getLocalAngle());
+    return getGlobalPosition(parent) + rotate(pos, getGlobalAngle(parent));
 }
 
 float TransformSystem::getGlobalAngle(const Entity& e) const
@@ -75,9 +75,9 @@ float TransformSystem::getGlobalAngle(const Entity& e) const
 
     if (trans->parent == Entity::invalidID) return angle;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getLocalAngle() + angle;
+    return getGlobalAngle(parent) + angle;
 }
 
 sf::Vector2f TransformSystem::getNextGlobalPosition(const Entity& e) const
@@ -87,9 +87,9 @@ sf::Vector2f TransformSystem::getNextGlobalPosition(const Entity& e) const
 
     if (trans->parent == Entity::invalidID) return pos;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getNextLocalPosition() + rotate(pos, parentTrans->getNextLocalAngle());
+    return getNextGlobalPosition(parent) + rotate(pos, getNextGlobalAngle(parent));
 }
 
 float TransformSystem::getNextGlobalAngle(const Entity& e) const
@@ -99,9 +99,9 @@ float TransformSystem::getNextGlobalAngle(const Entity& e) const
 
     if (trans->parent == Entity::invalidID) return angle;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getNextLocalAngle() + angle;
+    return getNextGlobalAngle(parent) + angle;
 }
 
 sf::Vector2f TransformSystem::getInterpGlobalPosition(const Entity& e, float alpha) const
@@ -111,9 +111,9 @@ sf::Vector2f TransformSystem::getInterpGlobalPosition(const Entity& e, float alp
 
     if (trans->parent == Entity::invalidID) return pos;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getInterpLocalPosition(alpha) + rotate(pos, parentTrans->getInterpLocalAngle(alpha));
+    return getInterpGlobalPosition(parent, alpha) + rotate(pos, getInterpGlobalAngle(parent, alpha));
 }
 
 float TransformSystem::getInterpGlobalAngle(const Entity& e, float alpha) const
@@ -123,9 +123,9 @@ float TransformSystem::getInterpGlobalAngle(const Entity& e, float alpha) const
 
     if (trans->parent == Entity::invalidID) return angle;
 
-    auto parentTrans = getParentTransform(*trans);
+    auto& parent = *world->getEntity(trans->parent);
 
-    return parentTrans->getInterpLocalAngle(alpha) + angle;
+    return getInterpGlobalAngle(parent, alpha) + angle;
 }
 
 void TransformSystem::setNextGlobalPosition(const Entity& e, sf::Vector2f newPosition, bool discrete) const

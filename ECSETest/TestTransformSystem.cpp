@@ -17,9 +17,11 @@ public:
 
         a = createEntity();
         b = createEntity();
+        c = createEntity();
 
         transA = a->getComponent<ECSE::TransformComponent>();
         transB = b->getComponent<ECSE::TransformComponent>();
+        transC = c->getComponent<ECSE::TransformComponent>();
 
         world.update(sf::seconds(0.f));
         world.advance();
@@ -35,8 +37,8 @@ public:
 
     ECSE::World world;
     ECSE::TransformSystem* system;
-    const ECSE::Entity* a, * b;
-    ECSE::TransformComponent* transA, * transB;
+    const ECSE::Entity* a, * b, * c;
+    ECSE::TransformComponent* transA, * transB, * transC;
 };
 
 TEST_F(TransformSystemTest, SetLocalPositionImmediateTest)
@@ -287,6 +289,29 @@ TEST_F(TransformSystemTest, SetGlobalPositionWithParentTest)
 
     ASSERT_FLOAT_EQ(15.f, nextGlobalPos.x);
     ASSERT_FLOAT_EQ(-5.f, nextGlobalPos.y);
+}
+
+TEST_F(TransformSystemTest, GetGlobalPositionWithNestedParentsTest)
+{
+    system->setGlobalPosition(*a, sf::Vector2f(10.f, 20.f));
+    system->setGlobalPosition(*b, sf::Vector2f(40.f, 50.f));
+    system->setGlobalPosition(*c, sf::Vector2f(-70.f, -20.f));
+
+    system->parentEntity(*a, *b);
+    system->parentEntity(*b, *c);
+
+    auto posA = system->getGlobalPosition(*a);
+    auto posB = system->getGlobalPosition(*b);
+    auto posC = system->getGlobalPosition(*c);
+
+    ASSERT_FLOAT_EQ(10.f, posA.x);
+    ASSERT_FLOAT_EQ(20.f, posA.y);
+
+    ASSERT_FLOAT_EQ(40.f, posB.x);
+    ASSERT_FLOAT_EQ(50.f, posB.y);
+
+    ASSERT_FLOAT_EQ(-70.f, posC.x);
+    ASSERT_FLOAT_EQ(-20.f, posC.y);
 }
 
 TEST_F(TransformSystemTest, ParentTest)
