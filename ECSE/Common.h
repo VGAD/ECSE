@@ -104,6 +104,54 @@ inline T lerp(T from, T to, float amount)
     return from + (to - from) * amount;
 }
 
+//! Smoothly interpolate between two values, easing both in and out.
+/*!
+* Reference: http://wiki.unity3d.com/index.php?title=Mathfx
+*
+* \param from The first value.
+* \param to The second value.
+* \param amount The interpolation amount.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T easeInOutLerp(T from, T to, float amount)
+{
+    static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
+    return lerp(from, to, amount * amount * (3.0f - 2.0f * amount));
+}
+
+//! Smoothly interpolate between two values, easing in.
+/*!
+* Reference: http://wiki.unity3d.com/index.php?title=Mathfx
+*
+* \param from The first value.
+* \param to The second value.
+* \param amount The interpolation amount.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T easeInLerp(T from, T to, float amount)
+{
+    static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
+    return lerp(from, to, sin(amount * ECSE::halfPi));
+}
+
+//! Smoothly interpolate between two values, easing out.
+/*!
+* Reference: http://wiki.unity3d.com/index.php?title=Mathfx
+*
+* \param from The first value.
+* \param to The second value.
+* \param amount The interpolation amount.
+* \return The interpolated value.
+*/
+template <typename T>
+inline T easeOutLerp(T from, T to, float amount)
+{
+    static_assert(!std::numeric_limits<T>::is_exact, "Floating-point type expected");
+    return lerp(from, to, 1.f - cos(amount * ECSE::halfPi));
+}
+
 //! Find the midpoint between two values.
 /*!
 * \param from The first value.
