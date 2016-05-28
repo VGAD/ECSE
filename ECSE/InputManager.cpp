@@ -95,7 +95,11 @@ void InputManager::update()
         {
             writeDemoChanges(changes);
         }
-        mousePosition = newMousePosition;
+        else
+        {
+            // This is only used in non-demo mode, because writeDemoChanges will handle updating otherwise
+            mousePosition = newMousePosition;
+        }
     }
 
     if (playingDemo || recording)
