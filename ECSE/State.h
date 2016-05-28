@@ -80,8 +80,8 @@ public:
     }
 
 protected:
-    Engine* engine = nullptr;               //! The Engine to which this belongs.
-    std::vector<SideRoutine> sideRoutines;  //! List of currently running side routines.
+    Engine* engine = nullptr;               //!< The Engine to which this belongs.
+    std::vector<SideRoutine> sideRoutines;  //!< List of currently running side routines.
 };
 
 }
