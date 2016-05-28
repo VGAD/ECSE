@@ -18,7 +18,7 @@
 // The lower this is, the more precise input will be, but the larger replays will be.
 // The input will be rounded into "chunks" of size 1 << ECSE_INPUT_PRECISION.
 #ifndef ECSE_INPUT_PRECISION
-#define ECSE_INPUT_PRECISION 3
+#define ECSE_INPUT_PRECISION 4
 #endif
 
 namespace ECSE
