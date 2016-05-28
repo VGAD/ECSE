@@ -1,5 +1,6 @@
 #include "InputManager.h"
 #include "Logging.h"
+#include "VectorMath.h"
 
 namespace ECSE
 {
@@ -130,6 +131,38 @@ void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick,
         return sf::Joystick::getAxisPosition(joystick, axis) / 100.f;
     };
     bindInput(bindingId, mode, poll, sensitivity);
+}
+
+void InputManager::bindRadialInput(uint8_t bindingId1, uint8_t bindingId2, uint8_t mode, unsigned joystick, sf::Joystick::Axis axis1,
+                        sf::Joystick::Axis axis2, float sensitivity)
+{
+    std::function<float()> isPastThreshold = [joystick, sensitivity, axis1, axis2]()
+    {
+        float pos1 = sf::Joystick::getAxisPosition(joystick, axis1) / 100.f;
+        float pos2 = sf::Joystick::getAxisPosition(joystick, axis2) / 100.f;
+
+        return getMagnitude(sf::Vector2f(pos1, pos2)) > sensitivity;
+    };
+
+    bindInput(bindingId1, mode, static_cast<std::function<float()>>([joystick, axis1, isPastThreshold]()
+    {
+        if (isPastThreshold())
+        {
+            return sf::Joystick::getAxisPosition(joystick, axis1) / 100.f;
+        }
+
+        return 0.f;
+    }));
+
+    bindInput(bindingId2, mode, static_cast<std::function<float()>>([joystick, axis2, isPastThreshold]()
+    {
+        if (isPastThreshold())
+        {
+            return sf::Joystick::getAxisPosition(joystick, axis2) / 100.f;
+        }
+
+        return 0.f;
+    }));
 }
 
 void InputManager::bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, unsigned button)

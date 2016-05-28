@@ -103,6 +103,25 @@ public:
     */
     void bindInput(uint8_t bindingId, uint8_t mode, unsigned joystick, sf::Joystick::Axis axis, float sensitivity = 0.f);
 
+    //! Bind two joystick axes to two ids (scaled to [-1 .. 1] instead of [-100 .. 100]), sharing sensitivity.
+    /*!
+    * When sensitivity is shared, both axes will return their actual values as long as the magnitude of
+    * both axes passes the sensitivity threshold. This is useful for radial inputs, because it stops the inputs
+    * from getting "stuck" at 90-degree angles.
+    *
+    * \param bindingId1 The id used to refer to the first input source.
+    * \param bindingId2 The id used to refer to the second input source.
+    * \param mode The input mode in which this binding is active.
+    * \param joystick The joystick to check.
+    * \param axis1 The first axis to check.
+    * \param axis2 The second axis to check.
+    * \param sensitivity The minimum absolute float value above which the inputs are returned as non-zero.
+    *                    If <= 0, all values are considered non-zero.
+    *                    If the input type is non-floating-point, this is ignored.
+    */
+    void bindRadialInput(uint8_t bindingId1, uint8_t bindingId2, uint8_t mode, unsigned joystick, sf::Joystick::Axis axis1,
+                            sf::Joystick::Axis axis2, float sensitivity = 0.f);
+
     //! Bind a joystick button to an id.
     /*!
     * \param bindingId The id used to refer to this input source.
