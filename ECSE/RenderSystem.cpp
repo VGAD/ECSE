@@ -50,6 +50,7 @@ void RenderSystem::render(float alpha, sf::RenderTarget& renderTarget)
     {
         for (auto& entity : pair.second)
         {
+            updateSpritePos(alpha, *entity);
             renderEntity(alpha, renderTarget, *entity);
         }
     }
@@ -64,19 +65,25 @@ bool RenderSystem::checkRequirements(const Entity& e) const
     return true;
 }
 
-void RenderSystem::renderEntity(float alpha, sf::RenderTarget& renderTarget, Entity& entity)
+void RenderSystem::updateSpritePos(float alpha, Entity& entity)
 {
-    SpriteComponent* sc = entity.getComponent<SpriteComponent>();
-    if (!sc->enabled) return;
+    SpriteComponent& sc = *entity.getComponent<SpriteComponent>();
+    if (!sc.enabled) return;
 
-    Spritemap& sprite = sc->sprite;
+    Spritemap& sprite = sc.sprite;
 
     // Update sprite transform
     sprite.setPosition(ts->getInterpGlobalPosition(entity, alpha));
     sprite.setRotation(radToDeg(ts->getInterpGlobalAngle(entity, alpha)));
+}
+
+void RenderSystem::renderEntity(float alpha, sf::RenderTarget& renderTarget, Entity& entity)
+{
+    SpriteComponent& sc = *entity.getComponent<SpriteComponent>();
+    if (!sc.enabled) return;
 
     // Render it
-    renderTarget.draw(sprite);
+    renderTarget.draw(sc.sprite);
 }
 
 void RenderSystem::internalAddEntity(Entity& e)

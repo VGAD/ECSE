@@ -55,11 +55,20 @@ public:
     virtual bool checkRequirements(const Entity& e) const override;
 
 protected:
+    //! Update the position of an entity's sprite.
+    /*!
+    * This is called before renderEntity.
+    *
+    * \param alpha The amount of interpolation between the current and next states.
+    * \param entity The entity to render.
+    */
+    virtual void updateSpritePos(float alpha, Entity& entity);
+    
     //! Render an entity to the screen.
     /*!
     * This can be overridden to add effects.
     *
-    * \param alpha The amount of interpolation between the two states.
+    * \param alpha The amount of interpolation between the current and next states.
     * \param renderTarget The RenderTarget to draw to.
     * \param entity The entity to render.
     */
