@@ -11,13 +11,16 @@ namespace ECSE
 class PrefabManager
 {
 public:
+    using Properties = std::map<std::string, std::string>;
+
     //! A function which applies prefab settings to an entity.
     /*!
     * This function receives a reference to a pre-created Entity which exists in the
     * given World and should add components and configure them. The function should
     * not register the Entity, as other prefabs may also be applied afterward.
+    * Optionally, the prefab may make use of values in the props map.
     */
-    using Prefab = std::function<void(World& world, ECSE::Entity& entity)>;
+    using Prefab = std::function<void(World& world, ECSE::Entity& entity, Properties props)>;
 
     //! Add a prefab to the manager.
     /*!
@@ -30,17 +33,19 @@ public:
     /*!
     * \param name The prefab's name.
     * \param world The world to which the entity should be added.
+    * \param props A map from optional property names to string values.
     * \return The new entity's ID.
     */
-    Entity::ID createEntity(std::string name, World& world) const;
+    Entity::ID createEntity(std::string name, World& world, Properties props = Properties()) const;
 
     //! Apply a prefab's settings to an entity.
     /*!
     * \param name The name of the prefab.
     * \param world The world in which the entity exists.
     * \param entity The entity.
+    * \param props A map from optional property names to string values.
     */
-    void applyPrefab(std::string name, World& world, ECSE::Entity& entity) const;
+    void applyPrefab(std::string name, World& world, ECSE::Entity& entity, Properties props = Properties()) const;
 
     //! Check if a prefab exists.
     /*!
