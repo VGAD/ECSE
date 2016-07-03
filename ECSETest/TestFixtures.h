@@ -58,7 +58,7 @@ class EngineTest : public ::testing::Test
 public:
     EngineTest()
     {
-        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, true, true);
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 1.f, 60, true, true);
     }
 
     ECSE::Engine* engine;
@@ -96,7 +96,7 @@ class RenderEngineTest : public ::testing::Test
 public:
     RenderEngineTest()
     {
-        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 60, false, true);
+        engine = new ECSE::Engine(sf::Vector2i(800, 600), "", 1.f, 60, false, true);
     }
 
     ECSE::Engine* engine;
