@@ -22,27 +22,16 @@ public:
     ////////////
     // Functions
 
-    //! Create the game window and initialize the Engine.
-    /*!
-    * \param size The window dimensions.
-    * \param name The window name.
-    * \param fps The target FPS.
-    * \param noRender If true, no window is created and rendering is not performed.
-    * \param lockstep If true, one timestep is simulated per frame no matter what.
-    */
-    explicit Engine(sf::Vector2i size, std::string name = "", unsigned int fps = 60,
-                    bool noRender = false, bool lockstep = false);
-
     //! Create the game window and initialize the Engine with a scaled resolution.
     /*!
     * \param size The unscaled window dimensions.
-    * \param scale The scale of the window.
     * \param name The window name.
+    * \param scale The scale of the window.
     * \param fps The target FPS.
     * \param noRender If true, no window is created and rendering is not performed.
     * \param lockstep If true, one timestep is simulated per frame no matter what.
     */
-    explicit Engine(sf::Vector2i size, float scale, std::string name = "", unsigned int fps = 60,
+    explicit Engine(sf::Vector2i size, std::string name = "", float scale = 1.f, unsigned int fps = 60,
                     bool noRender = false, bool lockstep = false);
 
     //! Destroy all game objects, clean up resources and stop the game.

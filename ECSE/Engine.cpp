@@ -7,12 +7,17 @@
 namespace ECSE
 {
 
-Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRender, bool lockstep)
+Engine::Engine(sf::Vector2i size, std::string name, float scale, unsigned int fps, bool noRender, bool lockstep)
 {
+    sf::Vector2i windowSize = {
+        static_cast<int>(size.x * scale),
+        static_cast<int>(size.y * scale)
+    };
+
     if (!noRender)
     {
         sf::Uint32 style = sf::Style::Close;
-        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(size.x, size.y), name, style);
+        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(windowSize.x, windowSize.y), name, style);
         LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
         if (!renderTarget.create(size.x, size.y))
@@ -31,11 +36,7 @@ Engine::Engine(sf::Vector2i size, std::string name, unsigned int fps, bool noRen
     this->noRender = noRender;
     this->lockstep = lockstep;
     this->size = size;
-}
 
-Engine::Engine(sf::Vector2i size, float scale, std::string name, unsigned int fps, bool noRender, bool lockstep)
-    : Engine(sf::Vector2i(static_cast<int>(size.x * scale), static_cast<int>(size.y * scale)), name, fps, noRender, lockstep)
-{
     setScale(scale);
 }
 
