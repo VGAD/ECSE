@@ -117,7 +117,11 @@ void Engine::saveScreenshot()
     while (boost::filesystem::exists(filename));
 
     // Save the image
-    sf::Image screenshot = window->capture();
+	sf::Vector2u windowSize = window->getSize();
+	sf::Texture texture;
+	texture.create(windowSize.x, windowSize.y);
+	texture.update(*window);
+	sf::Image screenshot = texture.copyToImage();
     screenshot.saveToFile(filename);
 
     LOG(INFO) << "Saved screenshot to \"" << filename << "\"";
