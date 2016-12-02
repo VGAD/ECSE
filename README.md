@@ -8,9 +8,9 @@ ECSE was built using Visual Studio Community 2013. You can build it by
 opening `ECSE.sln`.
 Note that the following libraries are required:
 
-- SFML 2.2 (statically compiled and installed in `C:\Program Files (x86)\SFML`)
-- Boost 1.57.0 (installed in `C:\boost_1_57_0`)
-- For unit testing, Google Test (installed in `C:\gtest-1.7.0` with `msvc\gtest-md.sln` built)
+- SFML 2.4.1 (statically compiled and installed in `C:\Program Files (x86)\SFML`)
+- Boost 1.62.0 (installed in `C:\boost_1_62_0`)
+- For unit testing, Google Test (installed in `C:\gtest-1.7.0` with `msvc\gtest-md.sln` and `msvc\gtest.sln` built)
 
 If you have these libraries installed in a different location, modify the
 settings for your game project. Include directories are set in
