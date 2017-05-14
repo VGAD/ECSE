@@ -193,3 +193,6 @@ FakesAssemblies/
 
 # Databases
 *VC.*db
+
+# Visual Studio user settings
+.vs/
