@@ -258,7 +258,6 @@
     <ClCompile Include="PrefabManager.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="SpecializationSystem.cpp" />
     <ClCompile Include="Spritemap.cpp" />
     <ClCompile Include="State.cpp" />

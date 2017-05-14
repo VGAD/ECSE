@@ -1,10 +1,10 @@
-#include "Engine.h"
-#include "Common.h"
-#include "WorldState.h"
-#include "TransformSystem.h"
-#include "RenderSystem.h"
-#include "SpriteComponent.h"
-#include "DepthComponent.h"
+#include "ECSE/Engine.h"
+#include "ECSE/Common.h"
+#include "ECSE/WorldState.h"
+#include "ECSE/TransformSystem.h"
+#include "ECSE/RenderSystem.h"
+#include "ECSE/SpriteComponent.h"
+#include "ECSE/DepthComponent.h"
 
 // Memory leak debug
 #if defined(_MSC_VER) && defined(_WIN32) && defined(_DEBUG)
@@ -18,9 +18,7 @@
     #endif
 #endif
 
-//! Contains all ECSE-related code.
-namespace ECSE
-{
+using namespace ECSE;
 
 //! Adds some text to the screen to test rendering.
 class TestState : public WorldState
@@ -48,8 +46,6 @@ public:
 
     virtual std::string getName() override { return "TestState"; }
 };
-
-}
 
 int main(int argv, char* argc[])
 {
