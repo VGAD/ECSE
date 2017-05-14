@@ -28,10 +28,11 @@ Contribution Conventions
 ========================
 * Unless you're a repo admin, pull request everything, even if it's a simple change.
 * Before submitting a PR, run the unit tests and confirm that they're passing.
+* If you're adding new functionality, make sure to add corresponding unit tests as well.
 
 Coding Conventions
 ==================
 * No "naked news." Any time memory is allocated it should be wrapped in a smart pointer (even if it's just going to be passed to another function).
-* The owner should always maintain a smart pointer. Non-owners should use a regular pointer.
-* References should be used when passing objects that must exists (i.e. in cases where the pointer will never be null).
+* The owner of allocated memory should always maintain a smart pointer to that memory so it is automatically deallocated. Non-owners should use a regular pointer.
+* References should be used when passing objects that must exist (i.e. in cases where the pointer will never be null).
 * Null pointers should be set to `nullptr`, **not** 0 or `NULL`.
