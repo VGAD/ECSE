@@ -247,6 +247,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationSet.cpp" />
+    <ClCompile Include="CollisionDebugSystem.cpp" />
+    <ClCompile Include="CollisionMath.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -267,6 +270,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSet.h" />
+    <ClInclude Include="CircleColliderComponent.h" />
+    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="CollisionDebugSystem.h" />
+    <ClInclude Include="CollisionMath.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentManager.h" />
@@ -275,6 +283,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LineColliderComponent.h" />
     <ClInclude Include="PrefabComponent.h" />
     <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="RenderSystem.h" />

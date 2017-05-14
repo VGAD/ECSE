@@ -116,6 +116,15 @@
     <ClCompile Include="State.cpp">
       <Filter>Source Files\Engine\State</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDebugSystem.cpp">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMath.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spritemap.h">
@@ -210,6 +219,24 @@
     </ClInclude>
     <ClInclude Include="TagSystem.h">
       <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="LineColliderComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleColliderComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDebugSystem.h">
+      <Filter>Source Files\Engine\System\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMath.h">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Source Files\Engine\Component\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

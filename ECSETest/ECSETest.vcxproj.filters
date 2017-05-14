@@ -51,6 +51,12 @@
     <ClCompile Include="TestState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestCollisionMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCollisionSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestFixtures.h">
