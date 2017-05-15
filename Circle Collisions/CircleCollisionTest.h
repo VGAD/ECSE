@@ -16,7 +16,7 @@ public:
     void advance() override;
 
     //! Get the state's name.
-    std::string getName() override { return "CollisionTestStateA"; }
+    std::string getName() override { return "CircleCollisionTestState"; }
 
 private:
     //! Create a debug circle and add it to the world.
