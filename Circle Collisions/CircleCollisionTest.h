@@ -2,15 +2,15 @@
 
 #include "ECSE/WorldState.h"
 
-namespace Magnaut
+namespace CircleCollisionTest
 {
 
 //! Tests circle-circle collisions.
-class CollisionTestStateA : public ECSE::WorldState
+class CircleCollisionTestState : public ECSE::WorldState
 {
 public:
     //! Construct the state.
-    explicit CollisionTestStateA(ECSE::Engine* engine);
+    explicit CircleCollisionTestState(ECSE::Engine* engine);
 
     //! Perform the advance step.
     void advance() override;

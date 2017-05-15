@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Simple Example", "Simple Ex
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F} = {8E417687-094F-4865-AABE-CEBDCAB9E30F}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Basic Collisions", "Circle Collisions\Circle Collisions.vcxproj", "{62C42243-943E-4FE1-97BA-307A06F80B04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (No Iterator Debugging)|Win32 = Debug (No Iterator Debugging)|Win32
@@ -59,6 +61,14 @@ Global
 		{0E4D2500-C874-40C2-857B-7A0DC5DDD59A}.Doxygen|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
 		{0E4D2500-C874-40C2-857B-7A0DC5DDD59A}.Release|Win32.ActiveCfg = Release|Win32
 		{0E4D2500-C874-40C2-857B-7A0DC5DDD59A}.Release|Win32.Build.0 = Release|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Debug (No Iterator Debugging)|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Debug (No Iterator Debugging)|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Debug|Win32.ActiveCfg = Debug|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Debug|Win32.Build.0 = Debug|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Doxygen|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Doxygen|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Release|Win32.ActiveCfg = Release|Win32
+		{62C42243-943E-4FE1-97BA-307A06F80B04}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +78,6 @@ Global
 		{0D9F8718-5B69-41FF-9ADA-755DE202EC9A} = {D06097A3-3D5E-4B56-B582-70B0EEEC8E2A}
 		{C4CED68D-9844-47BD-8D88-11066C6B4C13} = {D06097A3-3D5E-4B56-B582-70B0EEEC8E2A}
 		{0E4D2500-C874-40C2-857B-7A0DC5DDD59A} = {71E02549-4750-438C-8037-5633CA8E0C01}
+		{62C42243-943E-4FE1-97BA-307A06F80B04} = {71E02549-4750-438C-8037-5633CA8E0C01}
 	EndGlobalSection
 EndGlobal

@@ -1,22 +1,23 @@
 #include "ECSE/Engine.h"
 #include "ECSE/TransformSystem.h"
-#include "CollisionTestA.h"
+#include "ECSE/CollisionSystem.h"
+#include "ECSE/CollisionDebugSystem.h"
+#include "ECSE/CircleColliderComponent.h"
+#include "CircleCollisionTest.h"
 #include "TestUtil.h"
-#include "CollisionSystem.h"
-#include "CollisionDebugSystem.h"
-#include "CircleColliderComponent.h"
 #include <random>
 
-namespace Magnaut {
+namespace CircleCollisionTest
+{
 
-ECSE::Entity::ID CollisionTestStateA::createFlashingCircle(sf::Vector2f start, sf::Vector2f end, float radius, bool discrete)
+ECSE::Entity::ID CircleCollisionTestState::createFlashingCircle(sf::Vector2f start, sf::Vector2f end, float radius, bool discrete)
 {
     ECSE::Entity::ID id = createCircle(world, start, end, radius, discrete);
-    
+
     ECSE::Entity* entity = world.getEntity(id);
 
-    auto collider = entity->getComponent<CircleColliderComponent>();
-    collider->addCallback([&, collider, entity](const Collision& collision) -> ColliderComponent::ChangeSet
+    auto collider = entity->getComponent<ECSE::CircleColliderComponent>();
+    collider->addCallback([&, collider, entity](const ECSE::Collision& collision) -> ECSE::ColliderComponent::ChangeSet
     {
         // Ignore collisions
         if (getEngine()->getTimeSteps() % 120 < 60)
@@ -33,22 +34,22 @@ ECSE::Entity::ID CollisionTestStateA::createFlashingCircle(sf::Vector2f start, s
     return id;
 }
 
-void CollisionTestStateA::advance()
+void CircleCollisionTestState::advance()
 {
     // Re-enable colliders
     for (auto entity : world.getEntities())
     {
-        entity->getComponent<CircleColliderComponent>()->enabled = true;
+        entity->getComponent<ECSE::CircleColliderComponent>()->enabled = true;
     }
 
     WorldState::advance();
 }
 
-CollisionTestStateA::CollisionTestStateA(ECSE::Engine* engine)
+CircleCollisionTestState::CircleCollisionTestState(ECSE::Engine* engine)
     : WorldState(engine)
 {
-    world.addSystem<CollisionDebugSystem>();
-    world.addSystem<CollisionSystem>();
+    world.addSystem<ECSE::CollisionDebugSystem>();
+    world.addSystem<ECSE::CollisionSystem>();
     world.addSystem<ECSE::TransformSystem>();
 
     // One stationary
