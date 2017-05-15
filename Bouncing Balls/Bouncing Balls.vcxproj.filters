@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BallSystem.cpp">
+      <Filter>Ball</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Ball">
+      <UniqueIdentifier>{937e68f1-85b8-410f-973e-3e14a6033d24}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BallComponent.h">
+      <Filter>Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="BallSystem.h">
+      <Filter>Ball</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
