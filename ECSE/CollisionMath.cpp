@@ -164,6 +164,12 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
     sf::Vector2f velocityTowardLine = velocity;
     project(velocityTowardLine, normal);
 
+    // We're actually moving away from the line
+    if (ECSE::getDotProduct(velocityTowardLine, closeToCircle - centerA) < 0)
+    {
+        return -1.f;
+    }
+
     // Circle will go this far toward line
     float speedTowardLine = getMagnitude(velocityTowardLine);
 

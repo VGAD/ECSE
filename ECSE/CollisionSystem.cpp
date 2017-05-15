@@ -200,7 +200,7 @@ float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
                             moveVec);
     }
     
-    /// Circle-line collision
+    // Circle-line collision
     if (typeA == EntityCache::CIRCLE && typeB == EntityCache::LINE)
     {
         auto circleA = dynamic_cast<CircleColliderComponent*>(pc.first->collider);

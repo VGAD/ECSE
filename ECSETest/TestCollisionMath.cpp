@@ -282,3 +282,13 @@ TEST(CircleLineTest, ParallelMissTest)
 
     ASSERT_EQ(collisionTime, -1.f);
 }
+
+// Moving away from the line
+TEST(CircleLineTest, MovingAwayTest)
+{
+    float collisionTime = ECSE::circleLine(sf::Vector2f(5.f, 0.f), 3.f,
+                                           sf::Vector2f(0.f, 10.f), sf::Vector2f(0.f, -10.f),
+                                           sf::Vector2f(20.f, 0.f));
+
+    ASSERT_FLOAT_EQ(collisionTime, -1.f);
+}

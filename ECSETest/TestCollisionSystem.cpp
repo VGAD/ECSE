@@ -255,7 +255,7 @@ TEST_F(CollisionSystemTest, DiscreteJumpTest)
 TEST_F(CollisionSystemTest, CircleLineHitTest)
 {
     auto debugA = createCircle(sf::Vector2f(20.f, 0.f), sf::Vector2f(20.f, 40.f), 3.f);
-    auto debugB = createLine(sf::Vector2f(0.f, 20.f), sf::Vector2f(40.f, 20.f), sf::Vector2f(10.f, 5.f));
+    auto debugB = createLine(sf::Vector2f(0.f, 20.f), sf::Vector2f(0.f, 20.f), sf::Vector2f(100.f, 0.f));
 
     world.update(sf::Time::Zero);
     world.advance();
