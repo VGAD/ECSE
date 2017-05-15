@@ -2,6 +2,8 @@
 
 #include "SFML/System.hpp"
 #include "ECSE/Component.h"
+#include "ECSE/LineColliderComponent.h"
+#include "ECSE/VectorMath.h"
 
 namespace BouncingBalls
 {
@@ -25,10 +27,29 @@ public:
         {
             auto tc = e->getComponent<ECSE::TransformComponent>();
 
+            // How far were we originally going to move?
+            auto speed = ECSE::getMagnitude(tc->getLocalDeltaPosition());
+
             // Move to collision position
             tc->setLocalPosition(collision.position);
 
-            velocity = sf::Vector2f();
+            auto line = collision.other->getComponent<ECSE::LineColliderComponent>();
+            if (line)
+            {
+                auto lineHeading = ECSE::getHeading(line->vec);
+                auto velocityHeading = ECSE::getHeading(velocity);
+
+                // Mirror the velocity about the line
+                auto newHeading = lineHeading + (lineHeading - velocityHeading);
+                ECSE::setHeading(velocity, newHeading);
+            }
+
+            // Update next position based on velocity (using the remaining fraction of time)
+            auto remainder = velocity;
+            ECSE::normalize(remainder);
+            remainder *= speed * (1 - collision.time);
+
+            tc->setNextLocalPosition(collision.position + remainder);
 
             return { e };
         });
