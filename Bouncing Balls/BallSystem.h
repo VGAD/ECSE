@@ -65,6 +65,9 @@ private:
 
     //! The CollisionSystem of this System's World.
     ECSE::CollisionSystem* collisionSystem;
+
+    //! Speed of ball movement.
+    float ballSpeed = 300.f;
 };
 
 }

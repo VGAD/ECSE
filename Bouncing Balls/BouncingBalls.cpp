@@ -12,7 +12,8 @@
 namespace BouncingBalls
 {
 
-ECSE::Entity::ID createBall(ECSE::World& world, sf::Vector2f start, sf::Vector2f velocity, float radius)
+// Create a bouncing ball
+ECSE::Entity::ID createBall(ECSE::World& world, sf::Vector2f start, sf::Vector2f direction, float radius)
 {
     auto id = world.createEntity();
     auto* tc = world.attachComponent<ECSE::TransformComponent>(id);
@@ -22,13 +23,15 @@ ECSE::Entity::ID createBall(ECSE::World& world, sf::Vector2f start, sf::Vector2f
     collider->radius = radius;
 
     auto bc = world.attachComponent<BallComponent>(id);
-    bc->velocity = velocity;
+    ECSE::normalize(direction);
+    bc->direction = direction;
 
     world.registerEntity(id);
 
     return id;
 }
 
+// Create a wall
 ECSE::Entity::ID createWall(ECSE::World& world, sf::Vector2f start, sf::Vector2f vec)
 {
     ECSE::Entity::ID id = world.createEntity();
@@ -56,8 +59,8 @@ BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
     createWall(world, sf::Vector2f(800.f, 600.f), sf::Vector2f(-800.f, 0.f));
     createWall(world, sf::Vector2f(0.f, 600.f), sf::Vector2f(0.f, -600.f));
 
-    createBall(world, sf::Vector2f(200.f, 300.f), sf::Vector2f(-300.f, -300.f), 40.f);
-    createBall(world, sf::Vector2f(600.f, 300.f), sf::Vector2f(300.f, 300.f), 40.f);
+    createBall(world, sf::Vector2f(200.f, 300.f), sf::Vector2f(-1.f, -1.f), 40.f);
+    createBall(world, sf::Vector2f(600.f, 300.f), sf::Vector2f(1.f, 1.f), 40.f);
 }
 
 }

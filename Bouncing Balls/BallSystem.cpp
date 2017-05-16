@@ -32,12 +32,14 @@ void BallSystem::update(sf::Time deltaTime)
 {
     SetSystem::update(deltaTime);
 
+    float speed = ballSpeed * deltaTime.asSeconds();
+
     for (auto* e : getEntities())
     {
         // Move balls
         auto ball = e->getComponent<BallComponent>();
         auto lastPos = transformSystem->getGlobalPosition(*e);
-        transformSystem->setNextGlobalPosition(*e, lastPos + ball->velocity * deltaTime.asSeconds());
+        transformSystem->setNextGlobalPosition(*e, lastPos + ball->direction * speed);
     }
 }
 

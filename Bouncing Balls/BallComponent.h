@@ -12,7 +12,7 @@ namespace BouncingBalls
 class BallComponent : public ECSE::Component
 {
 public:
-    sf::Vector2f velocity;  //!< Current velocity in pixels per second.
+    sf::Vector2f direction;     //!< Current direction vector.
 
     //! Called when this is attached to an Entity.
     virtual void attached(ECSE::Entity* e)
@@ -60,13 +60,13 @@ public:
 
             // Mirror the velocity about the tangent
             auto tanHeading = ECSE::getHeading(tangent);
-            auto velHeading = ECSE::getHeading(velocity);
-            auto newHeading = tanHeading + (tanHeading - velHeading);
-            ECSE::setHeading(velocity, newHeading);
+            auto dirHeading = ECSE::getHeading(direction);
+            auto newHeading = tanHeading + (tanHeading - dirHeading);
+            ECSE::setHeading(direction, newHeading);
+            ECSE::normalize(direction);
 
             // Update next position based on velocity (using the remaining fraction of time)
-            auto remainder = velocity;
-            ECSE::normalize(remainder);
+            auto remainder = direction;
             remainder *= speed * (1 - collision.time);
 
             tc->setNextLocalPosition(collision.position + remainder);
