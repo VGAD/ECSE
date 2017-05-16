@@ -7,7 +7,8 @@
 namespace ECSE
 {
 
-Engine::Engine(sf::Vector2i size, std::string name, float scale, unsigned int fps, bool noRender, bool lockstep)
+Engine::Engine(sf::Vector2i size, std::string name, float scale, unsigned int fps, bool noRender, bool lockstep,
+               unsigned int antialiasing)
 {
     sf::Vector2i windowSize = {
         static_cast<int>(size.x * scale),
@@ -16,8 +17,11 @@ Engine::Engine(sf::Vector2i size, std::string name, float scale, unsigned int fp
 
     if (!noRender)
     {
+        sf::ContextSettings settings;
+        settings.antialiasingLevel = antialiasing;
+
         sf::Uint32 style = sf::Style::Close;
-        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(windowSize.x, windowSize.y), name, style);
+        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(windowSize.x, windowSize.y), name, style, settings);
         LOG(INFO) << "Initialized window at size " << size.x << "x" << size.y;
 
         if (!renderTarget.create(size.x, size.y))

@@ -30,9 +30,10 @@ public:
     * \param fps The target FPS.
     * \param noRender If true, no window is created and rendering is not performed.
     * \param lockstep If true, one timestep is simulated per frame no matter what.
+    * \param antialiasing The antialiasing level.
     */
     explicit Engine(sf::Vector2i size, std::string name = "", float scale = 1.f, unsigned int fps = 60,
-                    bool noRender = false, bool lockstep = false);
+                    bool noRender = false, bool lockstep = false, unsigned int antialiasing = 0);
 
     //! Destroy all game objects, clean up resources and stop the game.
     virtual ~Engine();
