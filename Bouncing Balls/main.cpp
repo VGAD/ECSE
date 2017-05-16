@@ -9,16 +9,7 @@
 
 /*
 
-This example demonstrates circle/circle collision detection in ECSE.
-
-GLOSSARY:
-    Green circles:      Starting positions
-    Red circles:        Target end positions
-    Yellow lines:       Path swept out by the circle while moving from start to target position
-    Magenta lines:      Indicates a circle that was set to make a discrete jump, i.e. it should only
-                        collide at the end points, not along its path
-    Cyan circles:       Collision positions; if flashing, this a secondary collision that
-                        occurs if the objects are allowed to pass through each other after colliding
+This example demonstrates continuous collision detection in ECSE.
 
 */
 
