@@ -56,7 +56,8 @@ BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
     createWall(world, sf::Vector2f(800.f, 600.f), sf::Vector2f(-800.f, 0.f));
     createWall(world, sf::Vector2f(0.f, 600.f), sf::Vector2f(0.f, -600.f));
 
-    createBall(world, sf::Vector2f(400.f, 300.f), sf::Vector2f(300.f, 300.f), 10.f);
+    createBall(world, sf::Vector2f(200.f, 300.f), sf::Vector2f(-300.f, -300.f), 40.f);
+    createBall(world, sf::Vector2f(600.f, 300.f), sf::Vector2f(300.f, 300.f), 40.f);
 }
 
 }

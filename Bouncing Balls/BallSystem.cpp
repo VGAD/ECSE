@@ -7,7 +7,7 @@ namespace BouncingBalls
 BallSystem::BallSystem(ECSE::World* world)
     : SetSystem(world), renderTarget(*world->getEngine()->getRenderTarget())
 {
-    circleShape.setOutlineThickness(2.f);
+    circleShape.setOutlineThickness(1.f);
     circleShape.setFillColor(sf::Color::Transparent);
 }
 
