@@ -50,6 +50,8 @@ void BallSystem::update(sf::Time deltaTime)
     {
         // Move balls
         auto ball = e->getComponent<BallComponent>();
+        ball->speed = speed;
+
         auto lastPos = transformSystem->getGlobalPosition(*e);
         transformSystem->setNextGlobalPosition(*e, lastPos + ball->direction * speed);
     }

@@ -13,6 +13,7 @@ class BallComponent : public ECSE::Component
 {
 public:
     sf::Vector2f direction;     //!< Current direction vector.
+    float speed;                //!< Movement speed. Updated by BallSystem each frame.
 
     //! Called when this is attached to an Entity.
     virtual void attached(ECSE::Entity* e)
@@ -26,9 +27,6 @@ public:
         collider->addCallback([&, collider, e](const ECSE::Collision& collision) -> ECSE::ColliderComponent::ChangeSet
         {
             auto tc = e->getComponent<ECSE::TransformComponent>();
-
-            // How far were we originally going to move?
-            auto speed = ECSE::getMagnitude(tc->getLocalDeltaPosition());
 
             // Move to collision position
             tc->setLocalPosition(collision.position);
@@ -46,10 +44,7 @@ public:
             // Update next position based on velocity (using the remaining fraction of time)
             auto remainder = direction;
             remainder *= speed * (1 - collision.time);
-
-            tc->setNextLocalPosition(collision.position + remainder);
-
-            lastHit = collision.other;
+            tc->setDeltaPosition(remainder);
 
             return { e };
         });
