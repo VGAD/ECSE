@@ -265,8 +265,17 @@ ColliderComponent::ChangeSet CollisionSystem::resolve(const PotentialCollision& 
     auto collision = Collision(pc.first->entity,
                                pc.second->entity,
                                pc.time,
-                               transformSystem->getInterpGlobalPosition(*pc.first->entity, pc.time),
-                               transformSystem->getInterpGlobalPosition(*pc.second->entity, pc.time),
+
+                               // We need to scale the time here to account for changing positions in mid-frame
+                               transformSystem->getInterpGlobalPosition(
+                                   *pc.first->entity,
+                                   (pc.time - pc.first->startTime) / (1 - pc.first->startTime)
+                               ),
+                               transformSystem->getInterpGlobalPosition(
+                                   *pc.second->entity,
+                                   (pc.time - pc.second->startTime) / (1 - pc.second->startTime)
+                               ),
+
                                pc.normal);
     
     ColliderComponent::ChangeSet changes;

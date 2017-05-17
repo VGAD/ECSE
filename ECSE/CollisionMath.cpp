@@ -4,6 +4,15 @@
 namespace ECSE
 {
 
+//! Ignore time 0 collisions with an overlap less than this.
+/*!
+* This avoids collisions happening multiple times because of floating-point error.
+*/
+const float collisionFudge = 0.1f;
+
+//! Square of collisionFudge.
+const float collisionFudgeSqr = collisionFudge * collisionFudge;
+
 LineIntersection findLineIntersection(sf::Vector2f startA, sf::Vector2f endA,
                                       sf::Vector2f startB, sf::Vector2f endB)
 {
@@ -53,7 +62,8 @@ void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, flo
     float sumRadii = radiusA + radiusB;
 
     // Already colliding
-    if (getSqrMagnitude(distVec) < sumRadii * sumRadii)
+    float overlap = sumRadii * sumRadii - getSqrMagnitude(distVec);
+    if (overlap > collisionFudgeSqr)
     {
         time = 0.f;
     }
@@ -118,7 +128,7 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     float distSqr = getSqrMagnitude(centerA - closeToCircle);
 
     // Circle is already touching the line
-    if (distSqr < radiusASqr && t >= 0 && t <= 1)
+    if (distSqr + collisionFudgeSqr < radiusASqr && t >= 0 && t <= 1)
     {
         time = 0.f;
 

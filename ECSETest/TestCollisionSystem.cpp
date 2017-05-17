@@ -370,4 +370,6 @@ TEST_F(CollisionSystemTest, RedirectTest)
     ASSERT_EQ(2, debugA->collisions.size());
     ASSERT_EQ(entB, debugA->collisions[0].other);
     ASSERT_EQ(entC, debugA->collisions[1].other);
+    ASSERT_FLOAT_EQ(40.f, debugA->collisions[1].position.x);
+    ASSERT_FLOAT_EQ(30.f, debugA->collisions[1].position.y);
 }
