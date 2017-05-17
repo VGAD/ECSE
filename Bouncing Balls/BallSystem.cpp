@@ -1,5 +1,6 @@
 #include "BallSystem.h"
 #include "BallComponent.h"
+#include "Bindings.h"
 
 namespace BouncingBalls
 {
@@ -7,16 +8,19 @@ namespace BouncingBalls
 BallSystem::BallSystem(ECSE::World* world)
     : SetSystem(world), renderTarget(*world->getEngine()->getRenderTarget())
 {
+    // Set up circle
     circleShape.setOutlineThickness(1.f);
     circleShape.setFillColor(sf::Color::Transparent);
 
+    // Set up text
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
-
     text.setFont(font);
     text.setFillColor(sf::Color(255, 255, 255, 255));
     text.setOutlineColor(sf::Color(0, 0, 0, 255));
     text.setOutlineThickness(1.f);
     text.setCharacterSize(16);
+
+    inputMan = &(world->getEngine()->inputManager);
 }
 
 void BallSystem::added()
@@ -49,6 +53,9 @@ void BallSystem::update(sf::Time deltaTime)
         auto lastPos = transformSystem->getGlobalPosition(*e);
         transformSystem->setNextGlobalPosition(*e, lastPos + ball->direction * speed);
     }
+
+    ballSpeed += inputMan->getIntValue(Bindings::ChangeSpeed) * ballSpeedChange;
+    if (ballSpeed < 0.f) ballSpeed = 0.f;
 }
 
 void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)

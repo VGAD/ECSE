@@ -72,8 +72,14 @@ private:
     //! The CollisionSystem of this System's World.
     ECSE::CollisionSystem* collisionSystem;
 
+    //! The input manager.
+    ECSE::InputManager* inputMan;
+
     //! Speed of ball movement.
     float ballSpeed = 300.f;
+
+    //! Rate of change for ballSpeed when input key is pressed.
+    float ballSpeedChange = 25.f;
 };
 
 }

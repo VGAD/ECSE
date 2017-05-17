@@ -5,6 +5,7 @@
 #include "ECSE/RenderSystem.h"
 #include "ECSE/SpriteComponent.h"
 #include "ECSE/DepthComponent.h"
+#include "Bindings.h"
 #include "BouncingBalls.h"
 
 /*
@@ -26,11 +27,10 @@ This example demonstrates continuous collision detection in ECSE.
     #endif
 #endif
 
-using namespace ECSE;
-
 int main(int argv, char* argc[])
 {
     using namespace ECSE;
+    using namespace BouncingBalls;
 
 #if defined(_MSC_VER) && defined(_WIN32) && defined(_DEBUG)
     // Memory leak debug
@@ -45,10 +45,9 @@ int main(int argv, char* argc[])
 
     try
     {
-        // Run the game
         Engine engine(size, "Circle Collision Example");
+        bindInputs(engine.inputManager);
         engine.pushState<BouncingBalls::BouncingBallsState>();
-
         engine.run();
     }
     catch (const std::runtime_error& e)
@@ -60,4 +59,5 @@ int main(int argv, char* argc[])
     LOG(INFO) << "Exiting";
 
     return 0;
+
 }

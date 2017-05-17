@@ -5,10 +5,17 @@
     <ClCompile Include="BallSystem.cpp">
       <Filter>Ball</Filter>
     </ClCompile>
+    <ClCompile Include="BouncingBalls.cpp" />
+    <ClCompile Include="Bindings.cpp">
+      <Filter>Bindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Ball">
       <UniqueIdentifier>{937e68f1-85b8-410f-973e-3e14a6033d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bindings">
+      <UniqueIdentifier>{937c8c44-96c3-4f16-80a4-9a6948b576de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,6 +24,10 @@
     </ClInclude>
     <ClInclude Include="BallSystem.h">
       <Filter>Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="BouncingBalls.h" />
+    <ClInclude Include="Bindings.h">
+      <Filter>Bindings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,12 +16,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BallSystem.cpp" />
+    <ClCompile Include="Bindings.cpp" />
     <ClCompile Include="BouncingBalls.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BallComponent.h" />
     <ClInclude Include="BallSystem.h" />
+    <ClInclude Include="Bindings.h" />
     <ClInclude Include="BouncingBalls.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
