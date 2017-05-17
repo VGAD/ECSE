@@ -12,15 +12,16 @@ namespace ECSE
 //! Represents a collision between two Entities.
 struct Collision
 {
-    Entity* self;             //!< The Entity that collided.
-    Entity* other;            //!< The Entity that self collided with.
+    Entity* self;                   //!< The Entity that collided.
+    Entity* other;                  //!< The Entity that self collided with.
     float time;                     //!< The inter-frame time at which the collision occurred (between 0 and 1).
     sf::Vector2f position;          //!< The position of this Entity when the collision occurred.
     sf::Vector2f otherPosition;     //!< The position of the other Entity when the collision occurred.
+    sf::Vector2f normal;            //!< The normal of the collision (direction is from self to other).
 
     //! Construct a Collision.
-    Collision(Entity* self, Entity* other, float time, sf::Vector2f position, sf::Vector2f otherPosition)
-        : self(self), other(other), time(time), position(position), otherPosition(otherPosition)
+    Collision(Entity* self, Entity* other, float time, sf::Vector2f position, sf::Vector2f otherPosition, sf::Vector2f normal)
+        : self(self), other(other), time(time), position(position), otherPosition(otherPosition), normal(normal)
     {
     }
 

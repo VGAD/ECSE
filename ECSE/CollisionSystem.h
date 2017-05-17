@@ -59,7 +59,7 @@ private:
     //! Stores data about an Entity so we can avoid using iterators (which slow down debug mode a lot).
     struct EntityCache
     {
-        Entity* entity;               //!< The Entity.
+        Entity* entity;                     //!< The Entity.
         ColliderComponent* collider;        //!< The Entity's ColliderComponent.
         sf::Vector2f start;                 //!< The Entity's start position.
         sf::Vector2f end;                   //!< The Entity's next position.
@@ -95,10 +95,12 @@ private:
         EntityCache* first;     //!< The first Entity in the collision.
         EntityCache* second;    //!< The second Entity in the collision.
         float time;             //!< The time at which the collision will occur, or <0 if it won't occur.
+        sf::Vector2f normal;    //!< The normal of the collision direction.
 
         //! Construct a PotentialCollision.
-        PotentialCollision(EntityCache* first, EntityCache* second, float time)
-            : first(first), second(second), time(time)
+        PotentialCollision(EntityCache* first, EntityCache* second, float time = -1.f,
+                           sf::Vector2f normal = sf::Vector2f())
+            : first(first), second(second), time(time), normal(normal)
         {
         }
 
@@ -138,14 +140,13 @@ private:
     */
     std::vector<PotentialCollision> getPotentialCollisions(std::vector<EntityCache>& caches) const;
 
-    //! Find the time of collision for a potential collision between two entities.
+    //! Find the time and normal for a potential collision between two entities.
     /*!
-    * Sets the time value of the PotentialCollision to the found value if there was
-    * a collision.
+    * Sets the time and normal values of the PotentialCollision to the found value if there was
+    * a collision, or <0 if no collision.
     * \param pc The PotentialCollision.
-    * \return The time at which the collision occurred, or <0 if no collision.
     */
-    float findCollisionTime(const PotentialCollision& pc) const;
+    void findCollisionTime(PotentialCollision& pc) const;
 
     //! Notify colliders of a collision that actually happened.
     /*!

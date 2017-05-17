@@ -38,9 +38,7 @@ void CollisionSystem::advance()
                 changes.find(pc.first->entity) != changes.end() ||
                 changes.find(pc.second->entity) != changes.end())
             {
-                // Find the new collision time
-                float time = findCollisionTime(pc);
-                pc.time = time;
+                findCollisionTime(pc);
             }
         }
         changes.clear();
@@ -154,7 +152,7 @@ std::vector<CollisionSystem::PotentialCollision> CollisionSystem::getPotentialCo
         while (cacheB != caches.end())
         {
             // These two entities are able to collide
-            collisions.push_back(PotentialCollision(&*cacheA, &*cacheB, -1.f));
+            collisions.push_back(PotentialCollision(&*cacheA, &*cacheB));
 
             ++cacheB;
         }
@@ -166,7 +164,7 @@ std::vector<CollisionSystem::PotentialCollision> CollisionSystem::getPotentialCo
 }
 
 // http://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php
-float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
+void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
 {
     auto colliderA = pc.first->collider;
     auto colliderB = pc.second->collider;
@@ -178,7 +176,11 @@ float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
     auto typeB = pc.second->type;
 
     // No colliders
-    if (!aHasCollider || !bHasCollider) return -1.f;
+    if (!aHasCollider || !bHasCollider)
+    {
+        pc.time = -1.f;
+        return;
+    }
 
     sf::Vector2f startA = pc.first->start;
     sf::Vector2f endA = pc.first->end;
@@ -195,9 +197,9 @@ float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
         auto circleA = dynamic_cast<CircleColliderComponent*>(pc.first->collider);
         auto circleB = dynamic_cast<CircleColliderComponent*>(pc.second->collider);
 
-        return circleCircle(startA, circleA->radius,
-                            startB, circleB->radius,
-                            moveVec);
+        circleCircle(startA, circleA->radius, startB, circleB->radius, moveVec,
+                     pc.time, pc.normal);
+        return;
     }
     
     // Circle-line collision
@@ -206,9 +208,9 @@ float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
         auto circleA = dynamic_cast<CircleColliderComponent*>(pc.first->collider);
         auto lineB = dynamic_cast<LineColliderComponent*>(pc.second->collider);
 
-        return circleLine(startA, circleA->radius,
-                          startB, startB + lineB->vec,
-                          moveVec);
+        circleLine(startA, circleA->radius, startB, startB + lineB->vec, moveVec,
+                   pc.time, pc.normal);
+        return;
     }
     
     // Line-circle collision
@@ -217,13 +219,14 @@ float CollisionSystem::findCollisionTime(const PotentialCollision& pc) const
         auto lineA = dynamic_cast<LineColliderComponent*>(pc.first->collider);
         auto circleB = dynamic_cast<CircleColliderComponent*>(pc.second->collider);
 
-        return circleLine(startB, circleB->radius,
-                          startA, startA + lineA->vec,
-                          -moveVec);
+        circleLine(startB, circleB->radius, startA, startA + lineA->vec, -moveVec,
+                   pc.time, pc.normal);
+        return;
     }
 
     // No collision detection for this type (yet?)
-    return -1.f;
+    pc.time = -1.f;
+    return;
 }
 
 ColliderComponent::ChangeSet CollisionSystem::resolve(const PotentialCollision& pc) const
@@ -239,7 +242,8 @@ ColliderComponent::ChangeSet CollisionSystem::resolve(const PotentialCollision& 
                                pc.second->entity,
                                pc.time,
                                transformSystem->getInterpGlobalPosition(*pc.first->entity, pc.time),
-                               transformSystem->getInterpGlobalPosition(*pc.second->entity, pc.time));
+                               transformSystem->getInterpGlobalPosition(*pc.second->entity, pc.time),
+                               pc.normal);
     
     ColliderComponent::ChangeSet changes;
     auto newChanges = colliderA->callCallbacks(collision);

@@ -148,137 +148,222 @@ TEST(ProjectPointOnLineTest, AngleTest)
 
 TEST(CircleCircleTest, CollideTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
-                                             sf::Vector2f(15.f, 0.f), 5.f,
-                                             sf::Vector2f(10.f, 0.f));
+    float collisionTime;
+    sf::Vector2f normal;
+    
+    ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                       sf::Vector2f(15.f, 0.f), 5.f,
+                       sf::Vector2f(10.f, 0.f),
+                       collisionTime, normal);
+
     ASSERT_FLOAT_EQ(0.5f, collisionTime);
+    ASSERT_FLOAT_EQ(1.f, normal.x);
+    ASSERT_FLOAT_EQ(0.f, normal.y);
 }
 
 TEST(CircleCircleTest, AlreadyCollidingTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
-                                             sf::Vector2f(1.f, 1.f), 4.f,
-                                             sf::Vector2f(10.f, -6.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+   ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                      sf::Vector2f(1.f, 1.f), 4.f,
+                      sf::Vector2f(10.f, -6.f),
+                      collisionTime, normal);
 
     ASSERT_FLOAT_EQ(0.f, collisionTime);
+    ASSERT_FLOAT_EQ(sqrt(0.5f), normal.x);
+    ASSERT_FLOAT_EQ(sqrt(0.5f), normal.y);
 }
 
 TEST(CircleCircleTest, PassThroughTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(25.f, 0.f), 10.f,
-                                             sf::Vector2f(25.f, 100.f), 10.f,
-                                             sf::Vector2f(0.f, 200.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleCircle(sf::Vector2f(25.f, 0.f), 10.f,
+                       sf::Vector2f(25.f, 100.f), 10.f,
+                       sf::Vector2f(0.f, 200.f),
+                       collisionTime, normal);
+
     ASSERT_FLOAT_EQ(0.4f, collisionTime);
+    ASSERT_FLOAT_EQ(0.f, normal.x);
+    ASSERT_FLOAT_EQ(1.f, normal.y);
 }
 
 // moveDist < betweenDist
 TEST(CircleCircleTest, TooSlowTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
-                                             sf::Vector2f(15.f, 0.f), 5.f,
-                                             sf::Vector2f(0.f, 1.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                       sf::Vector2f(15.f, 0.f), 5.f,
+                       sf::Vector2f(0.f, 1.f),
+                       collisionTime, normal);
+
     ASSERT_FLOAT_EQ(-1.f, collisionTime);
 }
 
 // towardDist <= 0
 TEST(CircleCircleTest, OppositeDirectionTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
-                                             sf::Vector2f(15.f, 0.f), 5.f,
-                                             sf::Vector2f(-10.f, 0.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                       sf::Vector2f(15.f, 0.f), 5.f,
+                       sf::Vector2f(-10.f, 0.f),
+                       collisionTime, normal);
+
     ASSERT_FLOAT_EQ(-1.f, collisionTime);
 }
 
 // shortestDistSqr >= sumRadiiSqr
 TEST(CircleCircleTest, WrongDirectionTest)
 {
-    float collisionTime = ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
-                                             sf::Vector2f(15.f, 0.f), 5.f,
-                                             sf::Vector2f(50.f, 50.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                       sf::Vector2f(15.f, 0.f), 5.f,
+                       sf::Vector2f(50.f, 50.f),
+                       collisionTime, normal);
+
     ASSERT_FLOAT_EQ(-1.f, collisionTime);
 }
 
 TEST(CircleLineTest, AlreadyCollidingTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(2.f, 2.f), 3.f,
-                                           sf::Vector2f(0.f, 0.f), sf::Vector2f(0.f, 5.f),
-                                           sf::Vector2f(2.f, 5.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(2.f, 2.f), 3.f,
+                     sf::Vector2f(0.f, 0.f), sf::Vector2f(0.f, 5.f),
+                     sf::Vector2f(2.f, 5.f),
+                     collisionTime, normal);
 
     ASSERT_FLOAT_EQ(0.f, collisionTime);
+    ASSERT_FLOAT_EQ(-1.f, normal.x);
+    ASSERT_FLOAT_EQ(0.f, normal.y);
 }
 
 TEST(CircleLineTest, VelocityIntersectTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(-5.f, 5.f), 1.f,
-                                           sf::Vector2f(-5.f, 0.f), sf::Vector2f(5.f, 0.f),
-                                           sf::Vector2f(10.f, -10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(-5.f, 5.f), 1.f,
+                     sf::Vector2f(-5.f, 0.f), sf::Vector2f(5.f, 0.f),
+                     sf::Vector2f(10.f, -10.f),
+                     collisionTime, normal);
 
     ASSERT_FLOAT_EQ(0.4f, collisionTime);
+    ASSERT_FLOAT_EQ(0.f, normal.x);
+    ASSERT_FLOAT_EQ(-1.f, normal.y);
 }
 
 TEST(CircleLineTest, FallShortTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(-5.f, 5.f), 1.f,
-                                           sf::Vector2f(-5.f, 0.f), sf::Vector2f(5.f, 0.f),
-                                           sf::Vector2f(2.f, -2.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(-5.f, 5.f), 1.f,
+                     sf::Vector2f(-5.f, 0.f), sf::Vector2f(5.f, 0.f),
+                     sf::Vector2f(2.f, -2.f),
+                     collisionTime, normal);
 
     ASSERT_FLOAT_EQ(-1.f, collisionTime);
 }
 
 TEST(CircleLineTest, GrazeStartTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(0.f, 0.f), 2.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(11.f, 10.f),
-                                           sf::Vector2f(0.f, 10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(0.f, 0.f), 2.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(11.f, 10.f),
+                     sf::Vector2f(0.f, 10.f),
+                     collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+    ASSERT_GT(normal.y, 0.f);
 }
 
 TEST(CircleLineTest, GrazeEndTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(12.f, 0.f), 2.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(11.f, 10.f),
-                                           sf::Vector2f(0.f, 10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(12.f, 0.f), 2.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(11.f, 10.f),
+                     sf::Vector2f(0.f, 10.f),
+                     collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
+    ASSERT_LT(normal.x, 0.f);
+    ASSERT_GT(normal.y, 0.f);
 }
 
 // Only start point is hit
 TEST(CircleLineTest, ParallelStartTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(0.f, 0.f), 3.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
-                                           sf::Vector2f(0.f, 10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(0.f, 0.f), 3.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
+                     sf::Vector2f(0.f, 10.f),
+                     collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+    ASSERT_GT(normal.y, 0.f);
 }
 
 // Only end point is hit
 TEST(CircleLineTest, ParallelEndTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(0.f, 30.f), 3.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
-                                           sf::Vector2f(0.f, -10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(0.f, 30.f), 3.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
+                     sf::Vector2f(0.f, -10.f),
+                     collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+    ASSERT_LT(normal.y, 0.f);
 }
 
 // Both endpoints are hit; min is chosen
 TEST(CircleLineTest, ParallelMinTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(0.f, 0.f), 3.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
-                                           sf::Vector2f(0.f, 30.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(0.f, 0.f), 3.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
+                     sf::Vector2f(0.f, 30.f),
+                     collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+    ASSERT_GT(normal.y, 0.f);
 }
 
 // Neither point is hit
 TEST(CircleLineTest, ParallelMissTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(15.f, 0.f), 3.f,
-                                           sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
-                                           sf::Vector2f(0.f, 10.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(15.f, 0.f), 3.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
+                     sf::Vector2f(0.f, 10.f),
+                     collisionTime, normal);
 
     ASSERT_EQ(collisionTime, -1.f);
 }
@@ -286,9 +371,13 @@ TEST(CircleLineTest, ParallelMissTest)
 // Moving away from the line
 TEST(CircleLineTest, MovingAwayTest)
 {
-    float collisionTime = ECSE::circleLine(sf::Vector2f(5.f, 0.f), 3.f,
-                                           sf::Vector2f(0.f, 10.f), sf::Vector2f(0.f, -10.f),
-                                           sf::Vector2f(20.f, 0.f));
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(5.f, 0.f), 3.f,
+                     sf::Vector2f(0.f, 10.f), sf::Vector2f(0.f, -10.f),
+                     sf::Vector2f(20.f, 0.f),
+                     collisionTime, normal);
 
     ASSERT_FLOAT_EQ(collisionTime, -1.f);
 }

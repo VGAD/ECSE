@@ -45,55 +45,67 @@ float projectPointOntoLine(sf::Vector2f& point, sf::Vector2f start, sf::Vector2f
     return t;
 }
 
-float circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB,
-                    float radiusB, sf::Vector2f velocity)
+void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, float radiusB,
+                  sf::Vector2f velocity, float &time, sf::Vector2f &normal)
 {
     sf::Vector2f distVec = centerB - centerA;
     float sumRadii = radiusA + radiusB;
 
     // Already colliding
-    if (getSqrMagnitude(distVec) < sumRadii * sumRadii) return 0.f;
+    if (getSqrMagnitude(distVec) < sumRadii * sumRadii)
+    {
+        time = 0.f;
+    }
+    else
+    {
+        // Invalid until proven otherwise
+        time = -1.f;
 
-    float centerDist = getMagnitude(distVec);
-    float moveDist = getMagnitude(velocity);
-    float betweenDist = centerDist - sumRadii;
+        float centerDist = getMagnitude(distVec);
+        float moveDist = getMagnitude(velocity);
+        float betweenDist = centerDist - sumRadii;
 
-    // Not moving far enough to close the distance
-    if (moveDist < betweenDist) return -1.f;
+        // Not moving far enough to close the distance
+        if (moveDist < betweenDist) return;
 
-    sf::Vector2f moveNormal(velocity);
-    normalize(moveNormal);
+        sf::Vector2f moveNormal(velocity);
+        normalize(moveNormal);
 
-    // Distance moved toward collider B
-    float towardDist = getDotProduct(moveNormal, distVec);
+        // Distance moved toward collider B
+        float towardDist = getDotProduct(moveNormal, distVec);
 
-    // Not moving toward each other
-    if (towardDist <= 0) return -1.f;
+        // Not moving toward each other
+        if (towardDist <= 0) return;
 
-    float shortestDistSqr = (centerDist * centerDist) - (towardDist * towardDist);
-    float sumRadiiSqr = sumRadii * sumRadii;
+        float shortestDistSqr = (centerDist * centerDist) - (towardDist * towardDist);
+        float sumRadiiSqr = sumRadii * sumRadii;
 
-    // colliderA will never get close enough to colliderB
-    if (shortestDistSqr >= sumRadiiSqr) return -1.f;
+        // colliderA will never get close enough to colliderB
+        if (shortestDistSqr >= sumRadiiSqr) return;
 
-    // sumRadiiSqr is the hypotenuse squared, shortestDistSqr one of the other sides squared
-    // and this is the third (a^2 = c^2 - b^2)
-    float thirdSideSqr = sumRadiiSqr - shortestDistSqr;
+        // sumRadiiSqr is the hypotenuse squared, shortestDistSqr one of the other sides squared
+        // and this is the third (a^2 = c^2 - b^2)
+        float thirdSideSqr = sumRadiiSqr - shortestDistSqr;
 
-    // Can't take a negative square root
-    if (thirdSideSqr < 0) return -1.f;
+        // Can't take a negative square root
+        if (thirdSideSqr < 0) return;
 
-    // The actual distance travelled forward to collide
-    float collideDist = towardDist - sqrt(thirdSideSqr);
+        // The actual distance travelled forward to collide
+        float collideDist = towardDist - sqrt(thirdSideSqr);
 
-    // Not going to move that far
-    if (moveDist < collideDist) return -1.f;
+        // Not going to move that far
+        if (moveDist < collideDist) return;
 
-    return collideDist / moveDist;
+        time = collideDist / moveDist;
+    }
+
+    // If we're here, there was a valid collision, so set the normal
+    normal = distVec;
+    ECSE::normalize(normal);
 }
 
-float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
-                 sf::Vector2f endB, sf::Vector2f velocity)
+void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Vector2f endB,
+                sf::Vector2f velocity, float &time, sf::Vector2f &normal)
 {
     // Based loosely on http://ericleong.me/research/circle-line/
 
@@ -105,7 +117,19 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
     float distSqr = getSqrMagnitude(centerA - closeToCircle);
 
     // Circle is already touching the line
-    if (distSqr < radiusASqr && t >= 0 && t <= 1) return 0.f;
+    if (distSqr < radiusASqr && t >= 0 && t <= 1)
+    {
+        time = 0.f;
+
+        // Normal is the line's normal
+        normal = closeToCircle - centerA;
+        ECSE::normalize(normal);
+
+        return;
+    }
+
+    // Invalid until proven otherwise
+    time = -1.f;
 
     auto intersectResult = findLineIntersection(startB, endB,
                                                 centerA, centerA + velocity);
@@ -124,7 +148,7 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
             // Aleady passed end point as well
             if (dotEnd < 0)
             {
-                return -1.f;
+                return;
             }
 
             // Already passed start, but not end
@@ -141,7 +165,9 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
             endpoint = (dotStart < dotEnd) ? &startB : &endB;
         }
 
-        return circleCircle(centerA, radiusA, *endpoint, 0.f, velocity);
+        // We're colliding with an endpoint, so the problem reduces to a collision with a 0-radius circle
+        circleCircle(centerA, radiusA, *endpoint, 0.f, velocity, time, normal);
+        return;
     }
 
     // Circle might have grazed an endpoint
@@ -154,20 +180,22 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
             nearEndpoint = endB;
         }
 
-        return circleCircle(centerA, radiusA, nearEndpoint, 0.f, velocity);
+        // We're colliding with an endpoint, so the problem reduces to a collision with a 0-radius circle
+        circleCircle(centerA, radiusA, nearEndpoint, 0.f, velocity, time, normal);
+        return;
     }
 
     // Circle's velocity intersects line, so it may move through or stop at the line
-    sf::Vector2f normal = startB - endB;
-    rotate90(normal);
+    sf::Vector2f tempNormal = startB - endB;
+    rotate90(tempNormal);
 
     sf::Vector2f velocityTowardLine = velocity;
-    project(velocityTowardLine, normal);
+    project(velocityTowardLine, tempNormal);
 
     // We're actually moving away from the line
     if (ECSE::getDotProduct(velocityTowardLine, closeToCircle - centerA) < 0)
     {
-        return -1.f;
+        return;
     }
 
     // Circle will go this far toward line
@@ -179,10 +207,12 @@ float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
     // Circle will not move close enough to the line
     if (speedTowardLine < distMinusRadius)
     {
-        return -1.f;
+        return;
     }
 
-    return distMinusRadius / speedTowardLine;
+    time = distMinusRadius / speedTowardLine;
+    normal = closeToCircle - centerA;
+    ECSE::normalize(normal);
 }
 
 }

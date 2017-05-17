@@ -43,10 +43,11 @@ float projectPointOntoLine(sf::Vector2f& point, sf::Vector2f start, sf::Vector2f
 * \param centerB The center of the second circle.
 * \param radiusB The radius of the second circle.
 * \param velocity The velocity of the first circle.
-* \return The time at which the collision occurred, or <0 if no collision.
+* \param time The time at which the collision occurred, or <0 if no collision.
+* \param normal The normal of the collision direction (direction is from circle A to circle B). Value is meaningless if no collision.
 */
-float circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB,
-                   float radiusB, sf::Vector2f velocity);
+void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, float radiusB,
+                  sf::Vector2f velocity, float &time, sf::Vector2f &normal);
 
 //! Find the time of collision between a moving circle and a stationary line.
 /*!
@@ -54,10 +55,10 @@ float circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB,
 * \param radiusA The radius of the circle.
 * \param startB The start point of the line.
 * \param endB The end point of the line.
-* \param velocity The velocity of the first circle.
-* \return The time at which the collision occurred, or <0 if no collision.
+* \param time The time at which the collision occurred, or <0 if no collision.
+* \param normal The normal of the collision direction (direction is from circle to line). Value is meaningless if no collision.
 */
-float circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB,
-                 sf::Vector2f endB, sf::Vector2f velocity);
+void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Vector2f endB,
+                sf::Vector2f velocity, float &time, sf::Vector2f &normal);
 
 }
