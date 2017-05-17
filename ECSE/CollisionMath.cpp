@@ -8,7 +8,7 @@ namespace ECSE
 /*!
 * This avoids collisions happening multiple times because of floating-point error.
 */
-const float collisionFudge = 0.1f;
+const float collisionFudge = 0.5f;
 
 //! Square of collisionFudge.
 const float collisionFudgeSqr = collisionFudge * collisionFudge;
