@@ -60,6 +60,12 @@ private:
     //! The circle shape reused in drawing.
     sf::CircleShape circleShape;
 
+    //! Font used for drawing.
+    sf::Font font;
+
+    //! Text used for drawing.
+    sf::Text text;
+
     //! The TransformSystem of this System's World.
     ECSE::TransformSystem* transformSystem;
 

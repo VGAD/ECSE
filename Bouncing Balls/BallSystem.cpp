@@ -9,6 +9,14 @@ BallSystem::BallSystem(ECSE::World* world)
 {
     circleShape.setOutlineThickness(1.f);
     circleShape.setFillColor(sf::Color::Transparent);
+
+    font.loadFromFile("C:/Windows/Fonts/arial.ttf");
+
+    text.setFont(font);
+    text.setFillColor(sf::Color(255, 255, 255, 255));
+    text.setOutlineColor(sf::Color(0, 0, 0, 255));
+    text.setOutlineThickness(1.f);
+    text.setCharacterSize(16);
 }
 
 void BallSystem::added()
@@ -51,6 +59,15 @@ void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
     {
         drawBall(*e);
     }
+
+    // Draw help text
+    std::stringstream strstr;
+
+    text.setPosition(sf::Vector2f(10.f, 10.f));
+    strstr << "Up/down: change speed (currently " << ballSpeed << " pixels/second)";
+    text.setString(strstr.str());
+
+    renderTarget.draw(text);
 }
 
 bool BallSystem::checkRequirements(const ECSE::Entity& e) const
