@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "TransformSystem.h"
 #include "World.h"
 #include "CollisionSystem.h"
@@ -74,7 +75,7 @@ void CollisionSystem::advance()
             {
                 if (changes.find(cache.entity) != changes.end())
                 {
-                    cache.update(this);
+                    cache.update(this, startTime);
                 }
             }
         }
@@ -163,7 +164,7 @@ std::vector<CollisionSystem::PotentialCollision> CollisionSystem::getPotentialCo
     return collisions;
 }
 
-// http://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php
+// http://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php?page=2
 void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
 {
     auto colliderA = pc.first->collider;
@@ -181,14 +182,34 @@ void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
         pc.time = -1.f;
         return;
     }
+    
+    // If one of the start times is non-zero, then we're dealing with a collision in a smaller
+    // time scale, e.g. if maxStartTime is 0.3, then the collision can only take place in the
+    // last 0.7 units of our frame
+    float startTimeA = pc.first->startTime;
+    float startTimeB = pc.second->startTime;
+
+    float maxStartTime = std::max(startTimeA, startTimeB);
+    float timeScale = 1.f - maxStartTime;
 
     sf::Vector2f startA = pc.first->start;
     sf::Vector2f endA = pc.first->end;
     sf::Vector2f startB = pc.second->start;
     sf::Vector2f endB = pc.second->end;
 
+    // If one start time is greater than the other, then we also need to interpolate the position
+    // of the "earlier" object so they both start at the same time.
+    if (startTimeA < startTimeB)
+    {
+        startA = ECSE::lerp(startA, endA, (startTimeB - startTimeA) / timeScale);
+    }
+    else if (startTimeB < startTimeA)
+    {
+        startB = ECSE::lerp(startB, endB, (startTimeA - startTimeB) / timeScale);
+    }
+
     // Work with relative motion rather than absoute motion to reduce the
-    // problem to one moving circle and one stationary
+    // problem to one moving collider and one stationary
     sf::Vector2f moveVec = (endA - startA) - (endB - startB);
 
     // Circle-circle collision
@@ -199,33 +220,36 @@ void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
 
         circleCircle(startA, circleA->radius, startB, circleB->radius, moveVec,
                      pc.time, pc.normal);
-        return;
     }
-    
     // Circle-line collision
-    if (typeA == EntityCache::CIRCLE && typeB == EntityCache::LINE)
+    else if (typeA == EntityCache::CIRCLE && typeB == EntityCache::LINE)
     {
         auto circleA = dynamic_cast<CircleColliderComponent*>(pc.first->collider);
         auto lineB = dynamic_cast<LineColliderComponent*>(pc.second->collider);
 
         circleLine(startA, circleA->radius, startB, startB + lineB->vec, moveVec,
                    pc.time, pc.normal);
-        return;
     }
-    
     // Line-circle collision
-    if (typeA == EntityCache::LINE && typeB == EntityCache::CIRCLE)
+    else if (typeA == EntityCache::LINE && typeB == EntityCache::CIRCLE)
     {
         auto lineA = dynamic_cast<LineColliderComponent*>(pc.first->collider);
         auto circleB = dynamic_cast<CircleColliderComponent*>(pc.second->collider);
 
         circleLine(startB, circleB->radius, startA, startA + lineA->vec, -moveVec,
                    pc.time, pc.normal);
+    }
+    else
+    {
+        // No collision detection for this pair of types (yet?)
+        pc.time = -1.f;
         return;
     }
 
-    // No collision detection for this type (yet?)
-    pc.time = -1.f;
+    // If we started this collision check at a later time than 0.f, then we need to modify
+    // the time value accordingly. Note that if maxStartTime is 0.f, nothing happens here.
+    pc.time = maxStartTime + timeScale * pc.time;
+
     return;
 }
 
@@ -262,11 +286,12 @@ CollisionSystem::EntityCache::EntityCache(Entity* entity, CollisionSystem* cs)
     : entity(entity)
 {
     setupCollider();
-    update(cs);
+    update(cs, 0.f);
 }
 
-void CollisionSystem::EntityCache::update(CollisionSystem* cs)
+void CollisionSystem::EntityCache::update(CollisionSystem* cs, float time)
 {
+    startTime = time;
     start = cs->getColliderPosition(*entity);
 
     if (entity->getComponent<TransformComponent>()->isPositionDiscrete())

@@ -45,6 +45,7 @@ float projectPointOntoLine(sf::Vector2f& point, sf::Vector2f start, sf::Vector2f
     return t;
 }
 
+// http://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php
 void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, float radiusB,
                   sf::Vector2f velocity, float &time, sf::Vector2f &normal)
 {

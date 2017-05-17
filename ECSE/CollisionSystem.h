@@ -63,6 +63,7 @@ private:
         ColliderComponent* collider;        //!< The Entity's ColliderComponent.
         sf::Vector2f start;                 //!< The Entity's start position.
         sf::Vector2f end;                   //!< The Entity's next position.
+        float startTime;                    //!< The inter-step time at which the Entity is at its start position.
 
         enum ColliderType
         {
@@ -81,8 +82,9 @@ private:
         //! Update the cache when the Entity is changed.
         /*!
         * \param cs The CollisionSystem which holds the Entity.
+        * \param time The inter-frame time at which the update happened.
         */
-        void update(CollisionSystem* cs);
+        void update(CollisionSystem* cs, float time);
 
     private:
         //! Get the collider pointer and type.

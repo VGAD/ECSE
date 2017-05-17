@@ -60,20 +60,26 @@ public:
         world.addSystem<ECSE::TransformSystem>();
     }
 
-    CollisionDebugComponent* createCircle(sf::Vector2f start, sf::Vector2f end, float radius, bool discrete = false, sf::Vector2f offset = sf::Vector2f())
+    CollisionDebugComponent* createCircle(sf::Vector2f start, sf::Vector2f end, float radius, bool discrete = false,
+                                          sf::Vector2f offset = sf::Vector2f(), ECSE::Entity** entity = nullptr)
     {
         using namespace std::placeholders;
 
-        ECSE::Entity::ID id = createMovingEntity(world, start, end, discrete);
+        ECSE::Entity::ID newId = createMovingEntity(world, start, end, discrete);
 
-        auto debugComponent = world.attachComponent<CollisionDebugComponent>(id);
+        auto debugComponent = world.attachComponent<CollisionDebugComponent>(newId);
 
-        auto collider = world.attachComponent<ECSE::CircleColliderComponent>(id);
+        auto collider = world.attachComponent<ECSE::CircleColliderComponent>(newId);
         collider->radius = radius;
         collider->offset = offset;
         collider->addCallback(std::bind(&CollisionDebugComponent::onCollide, debugComponent, _1));
 
-        world.registerEntity(id);
+        auto newEntity = world.registerEntity(newId);
+
+        if (entity)
+        {
+            *entity = newEntity;
+        }
 
         return debugComponent;
     }
@@ -322,4 +328,46 @@ TEST_F(CollisionSystemTest, OffsetMissTest)
 
     ASSERT_EQ(0, debugA->collisions.size());
     ASSERT_EQ(0, debugB->collisions.size());
+}
+
+TEST_F(CollisionSystemTest, RedirectTest)
+{
+    ECSE::Entity *entA, *entB, *entC;
+
+    // Circle we'll be moving
+    auto debugA = createCircle(sf::Vector2f(0.f, 0.f), sf::Vector2f(50.f, 0.f), 5.f, false, sf::Vector2f(), &entA);
+
+    // Circle A should hit this first
+    auto debugB = createCircle(sf::Vector2f(50.f, 0.f), sf::Vector2f(50.f, 0.f), 5.f, false, sf::Vector2f(), &entB);
+
+    // Then Circle A should redirect upward and hit this
+    auto debugC = createCircle(sf::Vector2f(40.f, 40.f), sf::Vector2f(40.f, 40.f), 5.f, false, sf::Vector2f(), &entC);
+
+    // The first time circle A hits something, redirect downward
+    bool hasHit = false;
+    auto colliderA = entA->getComponent<ECSE::CircleColliderComponent>();
+    colliderA->addCallback([&](const ECSE::Collision& collision) -> ECSE::ColliderComponent::ChangeSet
+    {
+        if (hasHit)
+        {
+            return { };
+        }
+
+        auto tc = collision.self->getComponent<ECSE::TransformComponent>();
+        tc->setLocalPosition(collision.position, false);
+        tc->setNextLocalPosition(collision.position + sf::Vector2f(0.f, 50.f));
+
+        hasHit = true;
+
+        return { collision.self };
+    });
+
+    auto tc = entA->getComponent<ECSE::TransformComponent>();
+
+    world.update(sf::Time::Zero);
+    world.advance();
+
+    ASSERT_EQ(2, debugA->collisions.size());
+    ASSERT_EQ(entB, debugA->collisions[0].other);
+    ASSERT_EQ(entC, debugA->collisions[1].other);
 }
