@@ -182,11 +182,11 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     }
 
     // Circle might have grazed an endpoint
-    if (intersectResult.t < 0 || intersectResult.t > 1)
+    if (t < 0 || t > 1)
     {
         sf::Vector2f& nearEndpoint = startB;
 
-        if (intersectResult.t > 1)
+        if (t > 1)
         {
             nearEndpoint = endB;
         }
