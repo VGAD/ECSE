@@ -31,6 +31,12 @@ public:
     */
     virtual void update(sf::Time deltaTime) override;
 
+    //! Called on an advance
+    /*!
+    * Balls' last hits are reset.
+    */
+    virtual void advance() override;
+
     //! Called on a render step.
     /*!
     * Each Entity should be drawn, interpolated between its current and next state.

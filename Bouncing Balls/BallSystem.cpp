@@ -60,6 +60,15 @@ void BallSystem::update(sf::Time deltaTime)
     if (ballSpeed < 0.f) ballSpeed = 0.f;
 }
 
+void BallSystem::advance()
+{
+    for (auto* e : getEntities())
+    {
+        auto ball = e->getComponent<BallComponent>();
+        ball->lastHit = nullptr;
+    }
+}
+
 void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
 {
     SetSystem::render(alpha, renderTarget);
@@ -75,7 +84,12 @@ void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
     text.setPosition(sf::Vector2f(10.f, 10.f));
     strstr << "Up/down: change speed (currently " << ballSpeed << " pixels/second)";
     text.setString(strstr.str());
+    renderTarget.draw(text);
 
+    strstr = std::stringstream();
+    text.setPosition(sf::Vector2f(10.f, 30.f));
+    strstr << "Left/right: change ball count (currently " << getEntities().size() << ")";
+    text.setString(strstr.str());
     renderTarget.draw(text);
 }
 

@@ -10,7 +10,8 @@ namespace BouncingBalls
 //! Input binding ids.
 enum Bindings
 {
-    ChangeSpeed
+    ChangeSpeed,
+    ChangeBallCount
 };
 
 //! Possible input modes.

@@ -14,10 +14,13 @@ class BallComponent : public ECSE::Component
 public:
     sf::Vector2f direction;     //!< Current direction vector.
     float speed;                //!< Movement speed. Updated by BallSystem each frame.
+    ECSE::Entity* lastHit;      //!< The last thing this hit.
 
     //! Called when this is attached to an Entity.
     virtual void attached(ECSE::Entity* e)
     {
+        lastHit = nullptr;
+
         auto collider = e->getComponent<ECSE::CircleColliderComponent>();
         if (!collider)
         {
@@ -26,6 +29,13 @@ public:
 
         collider->addCallback([&, collider, e](const ECSE::Collision& collision) -> ECSE::ColliderComponent::ChangeSet
         {
+            // We're stuck inside something, so just ignore the collision.
+            // This can happen if balls spawn inside of each other.
+            if (lastHit == collision.other)
+            {
+                return {};
+            }
+
             auto tc = e->getComponent<ECSE::TransformComponent>();
 
             // Move to collision position
@@ -45,6 +55,8 @@ public:
             auto remainder = direction;
             remainder *= speed * (1 - collision.time);
             tc->setDeltaPosition(remainder);
+
+            lastHit = collision.other;
 
             return { e };
         });

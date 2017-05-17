@@ -7,13 +7,102 @@
 #include "BouncingBalls.h"
 #include "BallComponent.h"
 #include "BallSystem.h"
-#include <random>
+#include "Bindings.h"
 
 namespace BouncingBalls
 {
 
+BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
+    : WorldState(engine)
+{
+    world.addSystem<ECSE::CollisionSystem>();
+    world.addSystem<ECSE::TransformSystem>();
+    world.addSystem<BallSystem>();
+
+    // Create walls around the world
+    createWall(sf::Vector2f(0.f, 0.f), sf::Vector2f(800.f, 0.f));
+    createWall(sf::Vector2f(800.f, 0.f), sf::Vector2f(0.f, 600.f));
+    createWall(sf::Vector2f(800.f, 600.f), sf::Vector2f(-800.f, 0.f));
+    createWall(sf::Vector2f(0.f, 600.f), sf::Vector2f(0.f, -600.f));
+
+    rng.seed(rng.default_seed);
+
+    createRandomBall();
+}
+
+//! Update the state.
+void BouncingBallsState::advance()
+{
+    WorldState::advance();
+
+    int ballChange = engine->inputManager.getIntValue(Bindings::ChangeBallCount);
+    
+    if (ballChange < 0 && balls.size() > minBalls)
+    {
+        world.destroyEntity(balls.back());
+        balls.pop_back();
+    }
+
+    if (ballChange > 0 && balls.size() < maxBalls)
+    {
+        createRandomBall();
+    }
+}
+
 // Create a bouncing ball
-ECSE::Entity::ID createBall(ECSE::World& world, sf::Vector2f start, sf::Vector2f direction, float radius)
+void BouncingBallsState::createRandomBall()
+{
+    auto id = world.createEntity();
+
+    // Pick a random direction
+    std::uniform_real_distribution<float> angleDist(0, ECSE::twoPi);
+    sf::Vector2f direction = sf::Vector2f(1.f, 0.f);
+    ECSE::setHeading(direction, angleDist(rng));
+
+    // Pick a random radius
+    std::uniform_real_distribution<float> radiusDist(5.f, 40.f);
+    float radius = radiusDist(rng);
+    float radiusSqr = radius * radius;
+
+    // Pick a random position
+    std::uniform_real_distribution<float> xDist(1.f + radius, 799.f - radius);
+    std::uniform_real_distribution<float> yDist(1.f + radius, 599.f - radius);
+
+    // Keep trying until we find an unblocked position
+    sf::Vector2f pos;
+    bool blocked = true;
+    while (blocked)
+    {
+        pos = sf::Vector2f(xDist(rng), yDist(rng));
+        blocked = false;
+
+        // Check other balls
+        for (auto id : balls)
+        {
+            auto ent = world.getEntity(id);
+            assert(ent);
+
+            auto coll = ent->getComponent<ECSE::CircleColliderComponent>();
+            assert(coll);
+
+            auto tc = ent->getComponent<ECSE::TransformComponent>();
+            assert(tc);
+
+            auto otherPos = tc->getLocalPosition();
+
+            // These balls overlap, so we need a new position
+            if (ECSE::getMagnitude(otherPos - pos) <= radius + coll->radius)
+            {
+                blocked = true;
+                break;
+            }
+        }
+    }
+
+    createBall(pos, direction, radius);
+}
+
+void BouncingBallsState::createBall(sf::Vector2f start, sf::Vector2f direction, float radius)
 {
     auto id = world.createEntity();
     auto* tc = world.attachComponent<ECSE::TransformComponent>(id);
@@ -28,11 +117,10 @@ ECSE::Entity::ID createBall(ECSE::World& world, sf::Vector2f start, sf::Vector2f
 
     world.registerEntity(id);
 
-    return id;
+    balls.push_back(id);
 }
 
-// Create a wall
-ECSE::Entity::ID createWall(ECSE::World& world, sf::Vector2f start, sf::Vector2f vec)
+void BouncingBallsState::createWall(sf::Vector2f start, sf::Vector2f vec)
 {
     ECSE::Entity::ID id = world.createEntity();
     ECSE::TransformComponent* tc = world.attachComponent<ECSE::TransformComponent>(id);
@@ -42,25 +130,6 @@ ECSE::Entity::ID createWall(ECSE::World& world, sf::Vector2f start, sf::Vector2f
     collider->vec = vec;
 
     world.registerEntity(id);
-
-    return id;
-}
-
-BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
-    : WorldState(engine)
-{
-    world.addSystem<ECSE::CollisionSystem>();
-    world.addSystem<ECSE::TransformSystem>();
-    world.addSystem<BallSystem>();
-
-    // Create walls around the world
-    createWall(world, sf::Vector2f(0.f, 0.f), sf::Vector2f(800.f, 0.f));
-    createWall(world, sf::Vector2f(800.f, 0.f), sf::Vector2f(0.f, 600.f));
-    createWall(world, sf::Vector2f(800.f, 600.f), sf::Vector2f(-800.f, 0.f));
-    createWall(world, sf::Vector2f(0.f, 600.f), sf::Vector2f(0.f, -600.f));
-
-    createBall(world, sf::Vector2f(200.f, 300.f), sf::Vector2f(-1.f, -1.f), 40.f);
-    createBall(world, sf::Vector2f(600.f, 300.f), sf::Vector2f(1.f, 1.f), 40.f);
 }
 
 }
