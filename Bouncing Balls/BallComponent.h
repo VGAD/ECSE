@@ -39,24 +39,8 @@ public:
             // Move to collision position
             tc->setLocalPosition(collision.position);
 
-            sf::Vector2f tangent;
-
-            auto line = collision.other->getComponent<ECSE::LineColliderComponent>();
-            if (line)
-            {
-                tangent = line->vec;
-            }
-            else
-            {
-                auto circle = collision.other->getComponent<ECSE::CircleColliderComponent>();
-                if (circle)
-                {
-                    // Tangent is 90 degrees to the difference in position between the circles
-                    auto diff = collision.position - collision.otherPosition;
-                    ECSE::rotate90(diff);
-                    tangent = diff;
-                }
-            }
+            sf::Vector2f tangent = collision.normal;
+            ECSE::rotate90(tangent);
 
             // Mirror the velocity about the tangent
             auto tanHeading = ECSE::getHeading(tangent);
