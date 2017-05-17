@@ -25,12 +25,6 @@ public:
 
         collider->addCallback([&, collider, e](const ECSE::Collision& collision) -> ECSE::ColliderComponent::ChangeSet
         {
-            // We're stuck inside of something, so don't keep hitting it
-            if (collision.time == 0 && collision.other == lastHit)
-            {
-                return { };
-            }
-
             auto tc = e->getComponent<ECSE::TransformComponent>();
 
             // How far were we originally going to move?
@@ -60,9 +54,6 @@ public:
             return { e };
         });
     }
-
-private:
-    ECSE::Entity *lastHit;  //!< The last thing this ran into.
 };
 
 }
