@@ -201,11 +201,13 @@ void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
     // of the "earlier" object so they both start at the same time.
     if (startTimeA < startTimeB)
     {
-        startA = ECSE::lerp(startA, endA, (startTimeB - startTimeA) / timeScale);
+        float lerpAmt = timeScale == 0.f ? 1.f : (startTimeB - startTimeA) / timeScale;
+        startA = ECSE::lerp(startA, endA, lerpAmt);
     }
     else if (startTimeB < startTimeA)
     {
-        startB = ECSE::lerp(startB, endB, (startTimeA - startTimeB) / timeScale);
+        float lerpAmt = timeScale == 0.f ? 1.f : (startTimeA - startTimeB) / timeScale;
+        startB = ECSE::lerp(startB, endB, lerpAmt);
     }
 
     // Work with relative motion rather than absoute motion to reduce the
@@ -262,6 +264,9 @@ ColliderComponent::ChangeSet CollisionSystem::resolve(const PotentialCollision& 
     if (!colliderA->enabled || !colliderB->enabled) return {};
 
     // Build the collision
+    float firstTime = pc.first->startTime;
+    float secondTime = pc.second->startTime;
+
     auto collision = Collision(pc.first->entity,
                                pc.second->entity,
                                pc.time,
@@ -269,11 +274,11 @@ ColliderComponent::ChangeSet CollisionSystem::resolve(const PotentialCollision& 
                                // We need to scale the time here to account for changing positions in mid-frame
                                transformSystem->getInterpGlobalPosition(
                                    *pc.first->entity,
-                                   (pc.time - pc.first->startTime) / (1 - pc.first->startTime)
+                                   firstTime == 1.f ? 1.f : (pc.time - firstTime) / (1 - firstTime)
                                ),
                                transformSystem->getInterpGlobalPosition(
                                    *pc.second->entity,
-                                   (pc.time - pc.second->startTime) / (1 - pc.second->startTime)
+                                   secondTime == 1.f ? 1.f : (pc.time - secondTime) / (1 - secondTime)
                                ),
 
                                pc.normal);
