@@ -321,6 +321,21 @@ TEST(CircleLineTest, GrazeMiddleTest)
     ASSERT_FLOAT_EQ(normal.y, 1.f);
 }
 
+TEST(CircleLineTest, FarGrazeMiddleTest)
+{
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(-40.f, -8.f), 5.f,
+                     sf::Vector2f(-20.f, 6.f), sf::Vector2f(20.f, 6.f),
+                     sf::Vector2f(50.f, 10.f),
+                     collisionTime, normal);
+
+    ASSERT_FLOAT_EQ(collisionTime, 0.9f);
+    ASSERT_FLOAT_EQ(normal.x, 0.f);
+    ASSERT_FLOAT_EQ(normal.y, 1.f);
+}
+
 // Only start point is hit
 TEST(CircleLineTest, ParallelStartTest)
 {

@@ -1,5 +1,6 @@
 #include "VectorMath.h"
 #include "CollisionMath.h"
+#include "Common.h"
 
 namespace ECSE
 {
@@ -142,8 +143,9 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     // Invalid until proven otherwise
     time = -1.f;
 
+    sf::Vector2f circleEnd = centerA + velocity;
     auto intersectResult = findLineIntersection(startB, endB,
-                                                centerA, centerA + velocity);
+                                                centerA, circleEnd);
 
     // Circle is moving parallel to line, so check the first endpoint to be passed
     if (!intersectResult.intersection)
@@ -181,23 +183,9 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
         return;
     }
 
-    // Circle might have grazed an endpoint
-    if (t < 0 || t > 1)
-    {
-        sf::Vector2f& nearEndpoint = startB;
-
-        if (t > 1)
-        {
-            nearEndpoint = endB;
-        }
-
-        // We're colliding with an endpoint, so the problem reduces to a collision with a 0-radius circle
-        circleCircle(centerA, radiusA, nearEndpoint, 0.f, velocity, time, normal);
-        return;
-    }
-
     // Circle's velocity intersects line, so it may move through or stop at the line
-    sf::Vector2f tempNormal = startB - endB;
+    sf::Vector2f segmentVec = endB - startB;
+    sf::Vector2f tempNormal = segmentVec;
     rotate90(tempNormal);
 
     sf::Vector2f velocityTowardLine = velocity;
@@ -221,9 +209,33 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
         return;
     }
 
+    // The circle will intersect the line at this time (but not necessarily the segment)
     time = distMinusRadius / speedTowardLine;
-    normal = closeToCircle - centerA;
-    ECSE::normalize(normal);
+
+    // The distance along the line segment at time = 1
+    float endT = projectPointOntoLine(circleEnd, startB, endB);
+
+    // The distance along the line segment of the point of intersection
+    float intersectT = ECSE::lerp(t, endT, time);
+
+    // Point of intersection is within segment bounds, so we intersected there
+    if (intersectT >= 0 && intersectT <= 1)
+    {
+        normal = closeToCircle - centerA;
+        ECSE::normalize(normal);
+        return;
+    }
+
+    // We didn't intersect with the line segment, but we may have hit an endpoint
+    sf::Vector2f& nearEndpoint = startB;
+
+    if (t > 1)
+    {
+        nearEndpoint = endB;
+    }
+
+    // We're colliding with an endpoint, so the problem reduces to a collision with a 0-radius circle
+    circleCircle(centerA, radiusA, nearEndpoint, 0.f, velocity, time, normal);
 }
 
 }
