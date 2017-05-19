@@ -250,7 +250,8 @@ void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
 
     // If we started this collision check at a later time than 0.f, then we need to modify
     // the time value accordingly. Note that if maxStartTime is 0.f, nothing happens here.
-    pc.time = maxStartTime + timeScale * pc.time;
+    if (pc.time > 0.f)
+        pc.time = maxStartTime + timeScale * pc.time;
 
     return;
 }
