@@ -202,11 +202,13 @@ void CollisionSystem::findCollisionTime(PotentialCollision& pc) const
     if (startTimeA < startTimeB)
     {
         float lerpAmt = timeScale == 0.f ? 1.f : (startTimeB - startTimeA) / timeScale;
+        lerpAmt = ECSE::clamp(0.f, 1.f, lerpAmt);
         startA = ECSE::lerp(startA, endA, lerpAmt);
     }
     else if (startTimeB < startTimeA)
     {
         float lerpAmt = timeScale == 0.f ? 1.f : (startTimeA - startTimeB) / timeScale;
+        lerpAmt = ECSE::clamp(0.f, 1.f, lerpAmt);
         startB = ECSE::lerp(startB, endB, lerpAmt);
     }
 
