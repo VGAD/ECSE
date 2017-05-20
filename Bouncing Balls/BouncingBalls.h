@@ -32,6 +32,18 @@ private:
     //! Maximum ball size.
     const float maxBallSize = 20.f;
 
+    //! Counter used to delay adding balls.
+    unsigned int ballHoldCount = 0;
+
+    //! Number of steps to hold button before adding a ball.
+    unsigned int ballWaitTime = 7;
+
+    //! Number of steps to hold button before adding a ball after speeding up.
+    unsigned int fastBallWaitTime = 3;
+
+    //! Number of steps of holding ball button after which rate of adding increases.
+    unsigned int ballSpeedupTime = 10;
+
     //! The active balls.
     std::vector<ECSE::Entity::ID> balls;
 

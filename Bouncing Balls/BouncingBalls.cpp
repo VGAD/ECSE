@@ -38,16 +38,30 @@ void BouncingBallsState::advance()
 
     // Add/remove balls
     int ballChange = engine->inputManager.getIntValue(Bindings::ChangeBallCount);
-    
-    if (ballChange < 0 && balls.size() > minBalls)
-    {
-        world.destroyEntity(balls.back());
-        balls.pop_back();
-    }
 
-    if (ballChange > 0 && balls.size() < maxBalls)
+    if (ballChange != 0)
     {
-        createRandomBall();
+        // Only change ball count if the button was either just pressed or has been held for a few steps
+        // Rate will increase after holding for a while
+        if (ballHoldCount % (ballHoldCount > ballSpeedupTime ? fastBallWaitTime : ballWaitTime) == 0)
+        {
+            if (ballChange < 0 && balls.size() > minBalls)
+            {
+                world.destroyEntity(balls.back());
+                balls.pop_back();
+            }
+
+            if (ballChange > 0 && balls.size() < maxBalls)
+            {
+                createRandomBall();
+            }
+        }
+
+        ++ballHoldCount;
+    }
+    else
+    {
+        ballHoldCount = 0;
     }
 
     // Toggle ball trails
