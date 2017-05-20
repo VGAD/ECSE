@@ -26,6 +26,10 @@ BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
     createWall(sf::Vector2f(800.f, 600.f), sf::Vector2f(-800.f, 0.f));
     createWall(sf::Vector2f(0.f, 600.f), sf::Vector2f(0.f, -600.f));
 
+    // Create cross in the center
+    createWall(sf::Vector2f(400.f, 150.f), sf::Vector2f(0.f, 300.f));
+    createWall(sf::Vector2f(250.f, 300.f), sf::Vector2f(300.f, 0.f));
+
     rng.seed(rng.default_seed);
 
     createRandomBall();
