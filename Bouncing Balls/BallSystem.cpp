@@ -65,7 +65,8 @@ void BallSystem::advance()
     for (auto* e : getEntities())
     {
         auto ball = e->getComponent<BallComponent>();
-        ball->lastHit = nullptr;
+        ball->hitCount = 0;
+        ball->lastHitTime = 0;
     }
 }
 
