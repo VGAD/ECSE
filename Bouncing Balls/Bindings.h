@@ -11,7 +11,8 @@ namespace BouncingBalls
 enum Bindings
 {
     ChangeSpeed,
-    ChangeBallCount
+    ChangeBallCount,
+    ToggleTrails
 };
 
 //! Possible input modes.

@@ -8,10 +8,6 @@ namespace BouncingBalls
 BallSystem::BallSystem(ECSE::World* world)
     : SetSystem(world), renderTarget(*world->getEngine()->getRenderTarget())
 {
-    // Set up circle
-    circleShape.setOutlineThickness(1.f);
-    circleShape.setFillColor(sf::Color::Transparent);
-
     // Set up text
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
     text.setFont(font);
@@ -74,14 +70,8 @@ void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
 {
     SetSystem::render(alpha, renderTarget);
 
-    for (auto* e : getEntities())
-    {
-        drawBall(*e);
-    }
-
     // Draw help text
     std::stringstream strstr;
-
     text.setPosition(sf::Vector2f(10.f, 10.f));
     strstr << "Up/down: change speed (currently " << ballSpeed << " pixels/second)";
     text.setString(strstr.str());
@@ -92,6 +82,12 @@ void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
     strstr << "Left/right: change ball count (currently " << getEntities().size() << ")";
     text.setString(strstr.str());
     renderTarget.draw(text);
+
+    strstr = std::stringstream();
+    text.setPosition(sf::Vector2f(10.f, 50.f));
+    strstr << "Enter: toggle ball trails";
+    text.setString(strstr.str());
+    renderTarget.draw(text);
 }
 
 bool BallSystem::checkRequirements(const ECSE::Entity& e) const
@@ -99,23 +95,6 @@ bool BallSystem::checkRequirements(const ECSE::Entity& e) const
     if (!e.getComponent<BallComponent>()) return false;
 
     return true;
-}
-
-void BallSystem::drawBall(const ECSE::Entity& e)
-{
-    auto collider = e.getComponent<ECSE::CircleColliderComponent>();
-    if (collider == nullptr) return;
-
-    auto transform = e.getComponent<ECSE::TransformComponent>();
-    sf::Vector2f pos = collisionSystem->getColliderPosition(e);
-
-    // Draw the collider
-    circleShape.setRadius(collider->radius);
-    circleShape.setOrigin(sf::Vector2f(1.f, 1.f) * collider->radius);
-    circleShape.setOutlineColor(sf::Color::White);
-    circleShape.setPosition(pos);
-
-    renderTarget.draw(circleShape);
 }
 
 }

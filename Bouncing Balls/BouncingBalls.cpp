@@ -15,6 +15,7 @@ namespace BouncingBalls
 BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
     : WorldState(engine)
 {
+    world.addSystem<ECSE::CollisionDebugSystem>()->drawCollisions = false;
     world.addSystem<ECSE::CollisionSystem>();
     world.addSystem<ECSE::TransformSystem>();
     world.addSystem<BallSystem>();
@@ -35,6 +36,7 @@ void BouncingBallsState::advance()
 {
     WorldState::advance();
 
+    // Add/remove balls
     int ballChange = engine->inputManager.getIntValue(Bindings::ChangeBallCount);
     
     if (ballChange < 0 && balls.size() > minBalls)
@@ -46,6 +48,13 @@ void BouncingBallsState::advance()
     if (ballChange > 0 && balls.size() < maxBalls)
     {
         createRandomBall();
+    }
+
+    // Toggle ball trails
+    if (engine->inputManager.getIntDelta(Bindings::ToggleTrails) == 1)
+    {
+        auto cdb = world.getSystem<ECSE::CollisionDebugSystem>();
+        cdb->drawTrails = !cdb->drawTrails;
     }
 }
 

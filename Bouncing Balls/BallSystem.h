@@ -54,17 +54,8 @@ public:
     bool checkRequirements(const ECSE::Entity& e) const override;
 
 private:
-    //! Draw a ball entity.
-    /*!
-    * \param e The Entity.
-    */
-    void drawBall (const ECSE::Entity& e);
-
     //! The RenderTarget to which this will draw.
     sf::RenderTarget& renderTarget;
-
-    //! The circle shape reused in drawing.
-    sf::CircleShape circleShape;
 
     //! Font used for drawing.
     sf::Font font;
