@@ -61,6 +61,12 @@ public:
     */
     bool verbose = false;
 
+    //! Whether to draw movement trails.
+    bool drawTrails = true;
+
+    //! Whether to draw collisions.
+    bool drawCollisions = true;
+
 protected:
     //! Add an Entity to the internal Entity set.
     /*!

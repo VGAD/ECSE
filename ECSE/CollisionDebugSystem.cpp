@@ -50,10 +50,13 @@ void CollisionDebugSystem::render(float alpha, sf::RenderTarget& renderTarget)
         drawLineSweep(*e);
     }
 
-    // Draw each collision
-    for (auto& collision : collisionBuffer)
+    if (drawCollisions)
     {
-        drawCollision(collision);
+        // Draw each collision
+        for (auto& collision : collisionBuffer)
+        {
+            drawCollision(collision);
+        }
     }
 }
 
@@ -104,28 +107,6 @@ void CollisionDebugSystem::drawCircleSweep(const Entity& e)
     float radius = collider->radius;
     auto transform = e.getComponent<TransformComponent>();
     sf::Vector2f start = collisionSystem->getColliderPosition(e);
-    sf::Vector2f end = collisionSystem->getNextColliderPosition(e);
-
-    auto forward = start - end;
-    forward = normalize(forward);
-
-    auto up = rotate90(forward) * radius;
-
-    // Draw discrete jump line
-    if (transform->isPositionDiscrete())
-    {
-        sf::Vertex line[] = {
-            sf::Vertex(start, discreteJumpColor),
-            sf::Vertex(end, discreteJumpColor)
-        };
-        renderTarget.draw(line, 2, sf::Lines);
-    }
-    // Draw sweep area
-    else
-    {
-        drawLine(start + up, end + up, sweepColor);
-        drawLine(start - up, end - up, sweepColor);
-    }
 
     // Draw initial position
     resizeCircle(circleShape, collider->radius);
@@ -133,10 +114,36 @@ void CollisionDebugSystem::drawCircleSweep(const Entity& e)
     circleShape.setPosition(start);
     renderTarget.draw(circleShape);
 
-    // Draw final position
-    circleShape.setOutlineColor(endColor);
-    circleShape.setPosition(end);
-    renderTarget.draw(circleShape);
+    if (drawTrails)
+    {
+        sf::Vector2f end = collisionSystem->getNextColliderPosition(e);
+
+        auto forward = start - end;
+        forward = normalize(forward);
+
+        auto up = rotate90(forward) * radius;
+
+        // Draw discrete jump line
+        if (transform->isPositionDiscrete())
+        {
+            sf::Vertex line[] = {
+                sf::Vertex(start, discreteJumpColor),
+                sf::Vertex(end, discreteJumpColor)
+            };
+            renderTarget.draw(line, 2, sf::Lines);
+        }
+        // Draw sweep area
+        else
+        {
+            drawLine(start + up, end + up, sweepColor);
+            drawLine(start - up, end - up, sweepColor);
+        }
+
+        // Draw final position
+        circleShape.setOutlineColor(endColor);
+        circleShape.setPosition(end);
+        renderTarget.draw(circleShape);
+    }
 }
 
 void CollisionDebugSystem::drawLineSweep(const Entity& e)
@@ -146,32 +153,36 @@ void CollisionDebugSystem::drawLineSweep(const Entity& e)
 
     auto transform = e.getComponent<TransformComponent>();
     sf::Vector2f start = collisionSystem->getColliderPosition(e);
-    sf::Vector2f end = collisionSystem->getNextColliderPosition(e);
 
     sf::Vector2f aa = start;
     sf::Vector2f ba = start + collider->vec;
-    sf::Vector2f ab = end;
-    sf::Vector2f bb = end + collider->vec;
-
-    // Draw discrete jump line
-    if (transform->isPositionDiscrete())
-    {
-        drawLine(midpoint(aa, ba),
-                 midpoint(ab, bb),
-                 discreteJumpColor);
-    }
-    // Draw sweep area
-    else
-    {
-        drawLine(aa, ab, sweepColor);
-        drawLine(ba, bb, sweepColor);
-    }
 
     // Draw initial position
     drawLine(aa, ba, startColor);
 
-    // Draw final position
-    drawLine(ab, bb, endColor);
+    if (drawTrails)
+    {
+        sf::Vector2f end = collisionSystem->getNextColliderPosition(e);
+        sf::Vector2f ab = end;
+        sf::Vector2f bb = end + collider->vec;
+
+        // Draw discrete jump line
+        if (transform->isPositionDiscrete())
+        {
+            drawLine(midpoint(aa, ba),
+                     midpoint(ab, bb),
+                     discreteJumpColor);
+        }
+        // Draw sweep area
+        else
+        {
+            drawLine(aa, ab, sweepColor);
+            drawLine(ba, bb, sweepColor);
+        }
+
+        // Draw final position
+        drawLine(ab, bb, endColor);
+    }
 }
 
 void CollisionDebugSystem::drawCollision(const Collision& collision)
