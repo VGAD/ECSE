@@ -60,7 +60,7 @@ void BouncingBallsState::createRandomBall()
     ECSE::setHeading(direction, angleDist(rng));
 
     // Pick a random radius
-    std::uniform_real_distribution<float> radiusDist(5.f, 40.f);
+    std::uniform_real_distribution<float> radiusDist(minBallSize, maxBallSize);
     float radius = radiusDist(rng);
     float radiusSqr = radius * radius;
 

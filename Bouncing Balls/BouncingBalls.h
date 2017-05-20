@@ -24,7 +24,13 @@ private:
     const unsigned int minBalls = 1;
 
     //! Maximum number of balls.
-    const unsigned int maxBalls = 100;
+    const unsigned int maxBalls = 50;
+
+    //! Minimum ball size.
+    const float minBallSize = 5.f;
+
+    //! Maximum ball size.
+    const float maxBallSize = 20.f;
 
     //! The active balls.
     std::vector<ECSE::Entity::ID> balls;
