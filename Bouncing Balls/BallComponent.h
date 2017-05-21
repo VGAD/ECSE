@@ -17,6 +17,9 @@ public:
     float lastHitTime;          //!< The last time instance this hit something.
     unsigned int hitCount;      //!< The number of times this has hit something in the same instance in time.
 
+    //! The positions this has moved/deflected from this frame (other than its final position).
+    std::vector<sf::Vector2f> trajectory;
+
     //! Called when this is attached to an Entity.
     virtual void attached(ECSE::Entity* e)
     {
@@ -67,6 +70,8 @@ public:
             auto remainder = direction;
             remainder *= speed * (1 - collision.time);
             tc->setDeltaPosition(remainder);
+
+            trajectory.push_back(collision.position);
 
             return { e };
         });

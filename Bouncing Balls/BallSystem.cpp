@@ -5,6 +5,22 @@
 namespace BouncingBalls
 {
 
+static const float thickness = 1.f;
+static const sf::Color centerColor = sf::Color(0, 0, 0, 0);
+static const sf::Color endColor = sf::Color(255, 255, 255);
+static const sf::Color trailColor = sf::Color(200, 0, 0);
+
+//! Resize and center a circle.
+/*!
+* \param circle The circle.
+* \param radius The radius of the circle.
+*/
+static void resizeCircle(sf::CircleShape& circle, float radius)
+{
+    circle.setRadius(radius);
+    circle.setOrigin(sf::Vector2f(1.f, 1.f) * radius);
+}
+
 BallSystem::BallSystem(ECSE::World* world)
     : SetSystem(world), renderTarget(*world->getEngine()->getRenderTarget())
 {
@@ -15,6 +31,9 @@ BallSystem::BallSystem(ECSE::World* world)
     text.setOutlineColor(sf::Color(0, 0, 0, 255));
     text.setOutlineThickness(1.f);
     text.setCharacterSize(16);
+
+    circleShape.setOutlineThickness(thickness);
+    circleShape.setFillColor(centerColor);
 
     inputMan = &(world->getEngine()->inputManager);
 }
@@ -63,12 +82,21 @@ void BallSystem::advance()
         auto ball = e->getComponent<BallComponent>();
         ball->hitCount = 0;
         ball->lastHitTime = 0;
+
+        ball->trajectory.clear();
+        ball->trajectory.push_back(e->getComponent<ECSE::TransformComponent>()->getLocalPosition());
     }
 }
 
 void BallSystem::render(float alpha, sf::RenderTarget& renderTarget)
 {
     SetSystem::render(alpha, renderTarget);
+
+    // Draw balls
+    for (auto e : getEntities())
+    {
+        drawBall(*e);
+    }
 
     // Draw help text
     std::stringstream strstr;
@@ -95,6 +123,54 @@ bool BallSystem::checkRequirements(const ECSE::Entity& e) const
     if (!e.getComponent<BallComponent>()) return false;
 
     return true;
+}
+
+void BallSystem::drawBall(const ECSE::Entity& e)
+{
+    auto collider = e.getComponent<ECSE::CircleColliderComponent>();
+    auto transform = e.getComponent<ECSE::TransformComponent>();
+    auto ball = e.getComponent<BallComponent>();
+
+    float radius = collider->radius;
+    sf::Vector2f start = collisionSystem->getColliderPosition(e);
+
+    // Set up circle
+    resizeCircle(circleShape, collider->radius);
+
+    // Draw trail
+    if (drawTrails && ball->trajectory.size() > 0)
+    {
+        circleShape.setOutlineColor(trailColor);
+
+        auto lastPos = ball->trajectory[0];
+        for (auto pos : ball->trajectory)
+        {
+            circleShape.setPosition(pos);
+
+            renderTarget.draw(circleShape);
+            drawLine(lastPos, pos, trailColor);
+
+            lastPos = pos;
+        }
+
+        // Draw trail line connecting to current position
+        drawLine(lastPos, start, trailColor);
+    }
+
+    // Draw start position, which is where it ended up after the last advance step
+    circleShape.setOutlineColor(endColor);
+    circleShape.setPosition(start);
+    renderTarget.draw(circleShape);
+}
+
+void BallSystem::drawLine(const sf::Vector2f& start, const sf::Vector2f& end,
+                                const sf::Color& color)
+{
+    sf::Vertex line[] = {
+        sf::Vertex(start, color),
+        sf::Vertex(end, color)
+    };
+    renderTarget.draw(line, 2, sf::Lines);
 }
 
 }

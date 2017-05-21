@@ -1,9 +1,9 @@
 #include "ECSE/Engine.h"
 #include "ECSE/TransformSystem.h"
 #include "ECSE/CollisionSystem.h"
-#include "ECSE/CollisionDebugSystem.h"
 #include "ECSE/CircleColliderComponent.h"
 #include "ECSE/LineColliderComponent.h"
+#include "LineRenderSystem.h"
 #include "BouncingBalls.h"
 #include "BallComponent.h"
 #include "BallSystem.h"
@@ -15,10 +15,10 @@ namespace BouncingBalls
 BouncingBallsState::BouncingBallsState(ECSE::Engine* engine)
     : WorldState(engine)
 {
-    world.addSystem<ECSE::CollisionDebugSystem>()->drawCollisions = false;
+    world.addSystem<BallSystem>();
     world.addSystem<ECSE::CollisionSystem>();
     world.addSystem<ECSE::TransformSystem>();
-    world.addSystem<BallSystem>();
+    world.addSystem<LineRenderSystem>();
 
     // Create walls around the world
     createWall(sf::Vector2f(0.f, 0.f), sf::Vector2f(800.f, 0.f));
@@ -71,8 +71,8 @@ void BouncingBallsState::advance()
     // Toggle ball trails
     if (engine->inputManager.getIntDelta(Bindings::ToggleTrails) == 1)
     {
-        auto cdb = world.getSystem<ECSE::CollisionDebugSystem>();
-        cdb->drawTrails = !cdb->drawTrails;
+        auto bs = world.getSystem<BallSystem>();
+        bs->drawTrails = !bs->drawTrails;
     }
 }
 

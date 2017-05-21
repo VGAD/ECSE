@@ -18,6 +18,7 @@
     <ClCompile Include="BallSystem.cpp" />
     <ClCompile Include="Bindings.cpp" />
     <ClCompile Include="BouncingBalls.cpp" />
+    <ClCompile Include="LineRenderSystem.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +26,7 @@
     <ClInclude Include="BallSystem.h" />
     <ClInclude Include="Bindings.h" />
     <ClInclude Include="BouncingBalls.h" />
+    <ClInclude Include="LineRenderSystem.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D30B0303-3288-48AF-9482-8AB6CEDBD366}</ProjectGuid>

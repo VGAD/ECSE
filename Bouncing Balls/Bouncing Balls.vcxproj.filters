@@ -9,6 +9,7 @@
     <ClCompile Include="Bindings.cpp">
       <Filter>Bindings</Filter>
     </ClCompile>
+    <ClCompile Include="LineRenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Ball">
@@ -29,5 +30,6 @@
     <ClInclude Include="Bindings.h">
       <Filter>Bindings</Filter>
     </ClInclude>
+    <ClInclude Include="LineRenderSystem.h" />
   </ItemGroup>
 </Project>

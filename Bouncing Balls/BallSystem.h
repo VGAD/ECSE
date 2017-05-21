@@ -53,6 +53,9 @@ public:
     */
     bool checkRequirements(const ECSE::Entity& e) const override;
 
+    //! Whether to draw the trajectory trails of balls.
+    bool drawTrails = true;
+
 private:
     //! The RenderTarget to which this will draw.
     sf::RenderTarget& renderTarget;
@@ -62,6 +65,9 @@ private:
 
     //! Text used for drawing.
     sf::Text text;
+
+    //! The circle shape reused in drawing.
+    sf::CircleShape circleShape;
 
     //! The TransformSystem of this System's World.
     ECSE::TransformSystem* transformSystem;
@@ -77,6 +83,21 @@ private:
 
     //! Rate of change for ballSpeed when input key is pressed.
     float ballSpeedChange = 25.f;
+
+
+    //! Draw the trajectory of a ball.
+    /*!
+    * \param e The Entity.
+    */
+    void drawBall(const ECSE::Entity& e);
+
+    //! Draw a line.
+    /*!
+    * \param start The start point of the line.
+    * \param end The end point of the line.
+    * \param color The line color.
+    */
+    void drawLine(const sf::Vector2f& start, const sf::Vector2f& end, const sf::Color& color);
 };
 
 }
