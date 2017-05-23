@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bouncing Balls", "Bouncing 
 		{8E417687-094F-4865-AABE-CEBDCAB9E30F} = {8E417687-094F-4865-AABE-CEBDCAB9E30F}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Replay Demo", "Replay Demo\Replay Demo.vcxproj", "{75F63F03-49A3-464C-A400-87C3F736D889}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (No Iterator Debugging)|Win32 = Debug (No Iterator Debugging)|Win32
@@ -85,6 +87,14 @@ Global
 		{D30B0303-3288-48AF-9482-8AB6CEDBD366}.Doxygen|Win32.Build.0 = Debug|Win32
 		{D30B0303-3288-48AF-9482-8AB6CEDBD366}.Release|Win32.ActiveCfg = Release|Win32
 		{D30B0303-3288-48AF-9482-8AB6CEDBD366}.Release|Win32.Build.0 = Release|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Debug (No Iterator Debugging)|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Debug (No Iterator Debugging)|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Debug|Win32.ActiveCfg = Debug|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Debug|Win32.Build.0 = Debug|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Doxygen|Win32.ActiveCfg = Debug (No Iterator Debugging)|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Doxygen|Win32.Build.0 = Debug (No Iterator Debugging)|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Release|Win32.ActiveCfg = Release|Win32
+		{75F63F03-49A3-464C-A400-87C3F736D889}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,5 +106,6 @@ Global
 		{0E4D2500-C874-40C2-857B-7A0DC5DDD59A} = {71E02549-4750-438C-8037-5633CA8E0C01}
 		{62C42243-943E-4FE1-97BA-307A06F80B04} = {71E02549-4750-438C-8037-5633CA8E0C01}
 		{D30B0303-3288-48AF-9482-8AB6CEDBD366} = {71E02549-4750-438C-8037-5633CA8E0C01}
+		{75F63F03-49A3-464C-A400-87C3F736D889} = {71E02549-4750-438C-8037-5633CA8E0C01}
 	EndGlobalSection
 EndGlobal
