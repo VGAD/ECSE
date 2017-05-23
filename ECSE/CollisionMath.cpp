@@ -112,7 +112,7 @@ void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, flo
     }
 
     // If we're here, there was a valid collision, so set the normal
-    normal = distVec;
+    normal = centerB - centerA + velocity * time;
     ECSE::normalize(normal);
 }
 

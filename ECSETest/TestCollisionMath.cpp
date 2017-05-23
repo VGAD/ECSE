@@ -233,6 +233,24 @@ TEST(CircleCircleTest, WrongDirectionTest)
     ASSERT_FLOAT_EQ(-1.f, collisionTime);
 }
 
+// Regression: make sure normal corresponds to final circle position, not initial
+TEST(CircleCircleTest, ObliqueNormalTest)
+{
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleCircle(sf::Vector2f(0.f, 0.f), 5.f,
+                       sf::Vector2f(15.f, 0.f), 5.f,
+                       sf::Vector2f(20.f, 1.f),
+                       collisionTime, normal);
+
+    ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+
+    // This is the important check -- this should not be 0
+    ASSERT_GT(normal.y, 0.f);
+}
+
 TEST(CircleLineTest, AlreadyCollidingTest)
 {
     float collisionTime;
