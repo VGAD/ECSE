@@ -18,7 +18,6 @@ void ControllableBall::init()
     circle.setOrigin(sf::Vector2f(radius, radius) * 0.5f);
 
     transform = entity->getComponent<ECSE::TransformComponent>();
-    transform->setLocalPosition(sf::Vector2f(400.f, 300.f));
 }
 
 void ControllableBall::update(sf::Time deltaTime)
