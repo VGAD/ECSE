@@ -30,6 +30,7 @@ struct Collision
     {
         std::swap(self, other);
         std::swap(position, otherPosition);
+        normal = -normal;
     }
 };
 
