@@ -248,7 +248,7 @@ TEST(CircleCircleTest, ObliqueNormalTest)
     ASSERT_GT(normal.x, 0.f);
 
     // This is the important check -- this should not be 0
-    ASSERT_GT(normal.y, 0.f);
+    ASSERT_LT(normal.y, 0.f);
 }
 
 TEST(CircleLineTest, AlreadyCollidingTest)
@@ -442,6 +442,6 @@ TEST(CircleLineTest, MoveAwayEndpointTest)
                      collisionTime, normal);
 
     ASSERT_GT(collisionTime, 0.f);
-    ASSERT_GT(normal.x, 0.f);
+    ASSERT_LT(normal.x, 0.f);
     ASSERT_GT(normal.y, 0.f);
 }
