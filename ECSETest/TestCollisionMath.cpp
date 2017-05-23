@@ -429,3 +429,19 @@ TEST(CircleLineTest, MovingAwayTest)
 
     ASSERT_FLOAT_EQ(collisionTime, -1.f);
 }
+
+// Moving away from the line, but grazing an endpoint
+TEST(CircleLineTest, MoveAwayEndpointTest)
+{
+    float collisionTime;
+    sf::Vector2f normal;
+
+    ECSE::circleLine(sf::Vector2f(1.f, 0.f), 3.f,
+                     sf::Vector2f(1.f, 10.f), sf::Vector2f(1.f, 20.f),
+                     sf::Vector2f(0.1f, 10.f),
+                     collisionTime, normal);
+
+    ASSERT_GT(collisionTime, 0.f);
+    ASSERT_GT(normal.x, 0.f);
+    ASSERT_GT(normal.y, 0.f);
+}

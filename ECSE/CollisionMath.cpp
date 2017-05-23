@@ -191,12 +191,6 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     sf::Vector2f velocityTowardLine = velocity;
     project(velocityTowardLine, tempNormal);
 
-    // We're actually moving away from the line
-    if (ECSE::getDotProduct(velocityTowardLine, closeToCircle - centerA) < 0)
-    {
-        return;
-    }
-
     // Circle will go this far toward line
     float speedTowardLine = getMagnitude(velocityTowardLine);
 
@@ -218,8 +212,8 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     // The distance along the line segment of the point of intersection
     float intersectT = ECSE::lerp(t, endT, time);
 
-    // Point of intersection is within segment bounds, so we intersected there
-    if (intersectT >= 0 && intersectT <= 1)
+    // Point of intersection is within segment bounds and we're not moving away from the line
+    if (intersectT >= 0 && intersectT <= 1 && ECSE::getDotProduct(velocityTowardLine, closeToCircle - centerA) >= 0)
     {
         normal = closeToCircle - centerA;
         ECSE::normalize(normal);
