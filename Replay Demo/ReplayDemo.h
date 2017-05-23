@@ -12,8 +12,8 @@ public:
     //! Construct the state.
     explicit ReplayDemoState(ECSE::Engine* engine);
 
-    //! Advance state.
-    void advance() override;
+    //! Update state.
+    void update(sf::Time deltaTime) override;
 
     //! Render help text.
     void render(float alpha, sf::RenderTarget &renderTarget) override;

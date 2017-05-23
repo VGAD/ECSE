@@ -33,10 +33,8 @@ ReplayDemoState::ReplayDemoState(ECSE::Engine* engine)
     text.setCharacterSize(16);
 }
 
-void ReplayDemoState::advance()
+void ReplayDemoState::update(sf::Time deltaTime)
 {
-    ECSE::WorldState::advance();
-
     auto &inputMan = engine->inputManager;
 
     // Adance button was pressed this frame
@@ -80,6 +78,8 @@ void ReplayDemoState::advance()
         // Advance the state, cycling back to the first one
         currentState = static_cast<DemoState>((currentState + 1) % DemoState::StateCount);
     }
+
+    ECSE::WorldState::update(deltaTime);
 }
 
 void ReplayDemoState::render(float alpha, sf::RenderTarget &renderTarget)
