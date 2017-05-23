@@ -86,27 +86,39 @@ void ReplayDemoState::render(float alpha, sf::RenderTarget &renderTarget)
 {
     ECSE::WorldState::render(alpha, renderTarget);
 
-    text.setPosition(sf::Vector2f(10.f, 10.f));
-    std::string str;
+    std::stringstream strstr;
     switch (currentState)
     {
     case Start:
-        str = "Use arrow keys to move the ball.\nRecording will start as soon as you move the ball or press SPACE.";
+        strstr 
+            << "Use arrow keys to move the ball.\n"
+            << "Recording will start as soon as you move the ball or press SPACE.";
         break;
 
     case Record:
-        str = "Recording in progress.\nUse arrow keys to move the ball.\nPress SPACE to stop recording and play it back.";
+        strstr
+            << "Recording in progress.\n"
+            << "Use arrow keys to move the ball.\n"
+            << "Press SPACE to stop recording and play it back.";
         break;
 
     case Replay:
-        str = "Playing back recording...";
+        strstr
+            << "Playing back recording...";
         break;
 
     case Done:
-        str = "Recording finished.\nPress SPACE to restart.";
+        strstr
+            << "Recording finished.\n"
+            << "Press SPACE to restart.";
         break;
     }
-    text.setString(str);
+
+    auto streamSize = demoStream.str().size();
+    strstr << "\nReplay file is " << streamSize << " bytes.";
+
+    text.setPosition(sf::Vector2f(10.f, 10.f));
+    text.setString(strstr.str());
     renderTarget.draw(text);
 }
 
