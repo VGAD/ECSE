@@ -130,14 +130,16 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
     float radiusASqr = radiusA * radiusA;
     float distSqr = getSqrMagnitude(centerA - closeToCircle);
 
+    auto lineNormal = closeToCircle - centerA;
+    ECSE::normalize(lineNormal);
+
     // Circle is already touching the line
     if (distSqr + collisionFudgeSqr < radiusASqr && t >= 0 && t <= 1)
     {
         time = 0.f;
 
         // Normal is the line's normal
-        normal = closeToCircle - centerA;
-        ECSE::normalize(normal);
+        normal = lineNormal;
 
         return;
     }
@@ -185,13 +187,11 @@ void circleLine(sf::Vector2f centerA, float radiusA, sf::Vector2f startB, sf::Ve
         return;
     }
 
-    // Circle's velocity intersects line, so it may move through or stop at the line
-    sf::Vector2f segmentVec = endB - startB;
-    sf::Vector2f tempNormal = segmentVec;
-    rotate90(tempNormal);
+    // If we've reach this point, the circle's velocity intersects line, so it may move through or stop at the line
 
+    // Circle's velocity towards the nearest point on the line
     sf::Vector2f velocityTowardLine = velocity;
-    project(velocityTowardLine, tempNormal);
+    project(velocityTowardLine, lineNormal);
 
     // Circle will go this far toward line
     float speedTowardLine = getMagnitude(velocityTowardLine);
