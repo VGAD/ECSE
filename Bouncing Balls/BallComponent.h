@@ -56,15 +56,24 @@ public:
             // Move to collision position
             tc->setLocalPosition(collision.position);
 
-            sf::Vector2f tangent = collision.normal;
-            ECSE::rotate90(tangent);
+            // Balls bounce off in opposite directions
+            if (collision.other->getComponent<BallComponent>())
+            {
+                direction = -collision.normal;
+            }
+            // Otherwise (a wall), deflect around the normal
+            else
+            {
+                sf::Vector2f tangent = collision.normal;
+                ECSE::rotate90(tangent);
 
-            // Mirror the velocity about the tangent
-            auto tanHeading = ECSE::getHeading(tangent);
-            auto dirHeading = ECSE::getHeading(direction);
-            auto newHeading = tanHeading + (tanHeading - dirHeading);
-            ECSE::setHeading(direction, newHeading);
-            ECSE::normalize(direction);
+                // Mirror the velocity about the tangent
+                auto tanHeading = ECSE::getHeading(tangent);
+                auto dirHeading = ECSE::getHeading(direction);
+                auto newHeading = tanHeading + (tanHeading - dirHeading);
+                ECSE::setHeading(direction, newHeading);
+                ECSE::normalize(direction);
+            }
 
             // Update next position based on velocity (using the remaining fraction of time)
             auto remainder = direction;
