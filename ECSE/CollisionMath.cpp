@@ -89,7 +89,9 @@ void circleCircle(sf::Vector2f centerA, float radiusA, sf::Vector2f centerB, flo
         // Not moving toward each other
         if (towardDist <= 0) return;
 
+        // Distance between the circles at the nearest point between circle B and the line formed by circle A's trajectory
         float shortestDistSqr = (centerDist * centerDist) - (towardDist * towardDist);
+
         float sumRadiiSqr = sumRadii * sumRadii;
 
         // colliderA will never get close enough to colliderB
