@@ -48,8 +48,15 @@ public:
     /*!
     * The function takes a reference to Collision data and returns
     * a ChangeSet of any Entities which had their collision or transform
-    * data changed. If any Entities were changed, then collisions
-    * occurring after this point will be recalculated.
+    * data changed.
+    *
+    * If any Entities were changed, then collisions occurring after this
+    * point will be recalculated. If an Entity is marked as changed, then
+    * TransformComponent's current position should be set to the new position
+    * as a result of the collision (e.g. the position passed in the Collision
+    * structure). You may also change the TransformComponent's next position,
+    * which still represents the position at the end of the frame (i.e. time
+    * = 1).
     */
     typedef std::function<ChangeSet(const Collision&)> CallbackType;
 
