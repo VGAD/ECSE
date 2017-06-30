@@ -7,6 +7,8 @@
 namespace ECSE
 {
 
+class Engine;
+
 //! Handles a single game state.
 class State
 {
@@ -61,7 +63,7 @@ public:
     //! Get the name of this State class.
     /*!
     * \return The name of the class.
-    */  
+    */
     virtual std::string getName() = 0;
 
     //! Start a side routine.
