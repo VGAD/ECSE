@@ -4,6 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include <random>
 
 namespace ECSE
 {
@@ -175,6 +176,34 @@ inline sf::Vector2f& reject(sf::Vector2f& v1, const sf::Vector2f& v2)
     v1 -= projection;
 
     return v1;
+}
+
+//! Generate a random vector.
+/*!
+* \param midAngle The midpoint of the possible angles.
+* \param angleSpread The spread of the possible angles (in radians).
+* \param minMag The minimum magnitude.
+* \param maxMag The maximum magnitude.
+* \return A reference v1.
+*/
+inline sf::Vector2f randomVector(float midAngle, float angleSpread, float minMag, float maxMag)
+{
+    std::random_device rd;
+    std::mt19937 re(rd());
+
+    auto angleDist = std::uniform_real_distribution<float>(
+        midAngle - angleSpread * 0.5f,
+        midAngle + angleSpread * 0.5f
+    );
+    auto magDist = std::uniform_real_distribution<float>(minMag, maxMag);
+
+    float angle = angleDist(re);
+    float mag = magDist(re);
+
+    auto v = sf::Vector2f(mag, 0.f);
+    setHeading(v, angle);
+
+    return v;
 }
 
 }
