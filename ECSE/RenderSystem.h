@@ -77,7 +77,7 @@ protected:
     //! The World's TransformSystem.
     TransformSystem* ts;
 
-private:
+protected:
     ////////////
     // Functions
 
