@@ -256,6 +256,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="PrefabManager.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="SpecializationSystem.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="LineColliderComponent.h" />
     <ClInclude Include="PrefabComponent.h" />
     <ClInclude Include="PrefabManager.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Specialization.h" />
     <ClInclude Include="SpecializationComponent.h" />
