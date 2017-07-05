@@ -25,14 +25,22 @@ public:
     //! Load the animation data from a JSON file.
     /*!
     * \param filename The name of the file from which to load the animation.
+    * \return True if the animation was loaded successfully.
     */
     bool loadFromFile(const std::string& filename);
 
     //! Get an animation from this set.
     /*!
     * \param name The name of the animation to get.
+    * \return The animation.
     */
     const Animation& getAnimation(const std::string& name) const;
+
+    //! Get the list of animation names.
+    /*!
+    * \return A vector containing the names of every animation in the set.
+    */
+    std::vector<std::string> getAnimationNames() const;
 
     // Data
     sf::Vector2i frameSize;     //!< Width and height of a single frame.

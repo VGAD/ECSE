@@ -68,4 +68,16 @@ const Animation& AnimationSet::getAnimation(const std::string& name) const
     return it->second;
 }
 
+std::vector<std::string> AnimationSet::getAnimationNames() const
+{
+    std::vector<std::string> names;
+
+    for (auto& pair : anims)
+    {
+        names.push_back(pair.first);
+    }
+
+    return names;
+}
+
 }
