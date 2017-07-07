@@ -247,6 +247,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationSet.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CollisionDebugSystem.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -270,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSet.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="CollisionDebugSystem.h" />

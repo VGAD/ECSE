@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestAudioManager.cpp" />
     <ClCompile Include="TestCollisionMath.cpp" />
     <ClCompile Include="TestCollisionSystem.cpp" />
     <ClCompile Include="TestCommon.cpp" />

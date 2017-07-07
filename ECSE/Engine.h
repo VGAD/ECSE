@@ -11,6 +11,7 @@
 #include "AnimationSet.h"
 #include "InputManager.h"
 #include "PrefabManager.h"
+#include "AudioManager.h"
 
 namespace ECSE
 {
@@ -160,6 +161,7 @@ public:
 
     PrefabManager prefabManager;                    //!< Keeps track of prefabs.
     InputManager inputManager;                      //!< Keeps track of user input.
+    AudioManager audioManager;                      //!< Keeps track of active audio sources.
     ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.
     ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
     ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.

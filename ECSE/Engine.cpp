@@ -42,6 +42,8 @@ Engine::Engine(sf::Vector2i size, std::string name, float scale, unsigned int fp
     this->size = size;
 
     setScale(scale);
+
+    audioManager.soundManager = &soundManager;
 }
 
 
@@ -183,6 +185,9 @@ void Engine::timeStep()
     // Advance the state
     state->advance();
     ++timeSteps;
+
+    // Remove inactive sounds
+    audioManager.cullSounds();
 
     // We can now safely switch states because the state has advanced
     state = &updateStateStack();
