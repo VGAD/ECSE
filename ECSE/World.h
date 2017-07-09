@@ -61,7 +61,7 @@ public:
     //! Destroy an Entity, removing it from the simulation.
     /*!
     * Automatically removes the Entity's Components.
-    * 
+    *
     * \param id The ID of the Entity to be removed.
     */
     virtual void destroyEntity(Entity::ID id) override;
@@ -180,11 +180,11 @@ ComponentType* World::attachComponent(Entity::ID id)
     Entity* entity = getEntity(id);
 
     // This component extends another type, so we need to add it as both types
-    if (!std::is_same<ComponentType::ExtendsComponent, Component>::value)
+    if (!std::is_same<typename ComponentType::ExtendsComponent, Component>::value)
     {
-        return internalAttachComponent<ComponentType, ComponentType::ExtendsComponent>(id);
+        return internalAttachComponent<ComponentType, typename ComponentType::ExtendsComponent>(id);
     }
-    
+
     return internalAttachComponent<ComponentType>(id);
 }
 
@@ -246,7 +246,7 @@ void World::recursivelyAttachComponent(Entity& entity, Component& component)
     if (std::is_same<ComponentType, Component>::value) return;
 
     entity.attachComponent(dynamic_cast<ComponentType*>(&component));
-    recursivelyAttachComponent<ComponentType::ExtendsComponent>(entity, component);
+    recursivelyAttachComponent<typename ComponentType::ExtendsComponent>(entity, component);
 }
 
 template <typename SystemType>
