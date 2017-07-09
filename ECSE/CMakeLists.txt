@@ -11,6 +11,7 @@ set(
     InputManager.cpp
     Logging.cpp
     PrefabManager.cpp
+    RenderSystem.cpp
     State.cpp
     System.cpp
     TransformSystem.cpp
