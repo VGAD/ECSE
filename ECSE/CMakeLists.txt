@@ -2,9 +2,10 @@ set(
   ecse_src
     #Engine.cpp
     Entity.cpp
+    InputManager.cpp
     # PrefabManager.cpp
     State.cpp
-    World.cpp
+    # World.cpp
 )
 message(STATUS "FILES: ${ecse_src}")
 
