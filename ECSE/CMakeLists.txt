@@ -7,7 +7,7 @@ set(
     # PrefabManager.cpp
     State.cpp
     World.cpp
-    # WorldState.cpp
+    WorldState.cpp
 )
 message(STATUS "FILES: ${ecse_src}")
 
