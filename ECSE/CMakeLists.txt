@@ -7,6 +7,7 @@ set(
     Entity.cpp
     Engine.cpp
     InputManager.cpp
+    Logging.cpp
     PrefabManager.cpp
     State.cpp
     World.cpp
