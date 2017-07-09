@@ -11,6 +11,7 @@ set(
     PrefabManager.cpp
     State.cpp
     System.cpp
+    TransformSystem.cpp
     World.cpp
     WorldState.cpp
 )
