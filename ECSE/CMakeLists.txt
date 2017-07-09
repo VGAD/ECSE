@@ -12,6 +12,7 @@ set(
     Logging.cpp
     PrefabManager.cpp
     RenderSystem.cpp
+    SpecializationSystem.cpp
     State.cpp
     System.cpp
     TransformSystem.cpp
