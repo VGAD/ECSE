@@ -10,6 +10,7 @@ set(
     Logging.cpp
     PrefabManager.cpp
     State.cpp
+    System.cpp
     World.cpp
     WorldState.cpp
 )
