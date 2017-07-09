@@ -2,6 +2,7 @@ set(
   ecse_src
     AnimationSet.cpp
     CollisionDebugSystem.cpp
+    CollisionMath.cpp
     Common.cpp
     Entity.cpp
     Engine.cpp
