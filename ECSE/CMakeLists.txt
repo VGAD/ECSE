@@ -16,6 +16,7 @@ set(
     Spritemap.cpp
     State.cpp
     System.cpp
+    TagSystem.cpp
     TransformSystem.cpp
     World.cpp
     WorldState.cpp
