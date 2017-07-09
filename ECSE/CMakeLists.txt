@@ -19,7 +19,7 @@ set(
 )
 message(STATUS "FILES: ${ecse_src}")
 
-# Get bost and include it when we build
+# Get boost and include it when we build
 find_package(Boost REQUIRED)
 set(includes ${Boost_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${includes})
