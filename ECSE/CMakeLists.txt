@@ -4,7 +4,7 @@ set(
     # Engine.cpp
     Entity.cpp
     InputManager.cpp
-    # PrefabManager.cpp
+    PrefabManager.cpp
     State.cpp
     World.cpp
     WorldState.cpp

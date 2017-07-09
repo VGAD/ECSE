@@ -3,6 +3,7 @@
 #include <functional>
 #include <map>
 #include "Entity.h"
+#include "World.h"
 
 namespace ECSE
 {
