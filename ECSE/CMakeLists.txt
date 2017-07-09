@@ -1,5 +1,6 @@
 set(
   ecse_src
+    AnimationSet.cpp
     #Engine.cpp
     Entity.cpp
     InputManager.cpp
