@@ -5,8 +5,8 @@ set(
     CollisionMath.cpp
     CollisionSystem.cpp
     Common.cpp
-    Entity.cpp
     Engine.cpp
+    Entity.cpp
     InputManager.cpp
     Logging.cpp
     PrefabManager.cpp
