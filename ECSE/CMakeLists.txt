@@ -3,6 +3,7 @@ set(
     AnimationSet.cpp
     CollisionDebugSystem.cpp
     CollisionMath.cpp
+    CollisionSystem.cpp
     Common.cpp
     Entity.cpp
     Engine.cpp
