@@ -13,6 +13,7 @@ set(
     PrefabManager.cpp
     RenderSystem.cpp
     SpecializationSystem.cpp
+    Spritemap.cpp
     State.cpp
     System.cpp
     TransformSystem.cpp
