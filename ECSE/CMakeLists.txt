@@ -1,7 +1,7 @@
 set(
   ecse_src
     AnimationSet.cpp
-    # Engine.cpp
+    Engine.cpp
     Entity.cpp
     InputManager.cpp
     PrefabManager.cpp
