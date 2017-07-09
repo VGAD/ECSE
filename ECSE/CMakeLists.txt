@@ -1,8 +1,9 @@
 set(
   ecse_src
     AnimationSet.cpp
-    Engine.cpp
+    CollisionDebugSystem.cpp
     Entity.cpp
+    Engine.cpp
     InputManager.cpp
     PrefabManager.cpp
     State.cpp
