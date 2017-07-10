@@ -2,14 +2,14 @@ ECSE
 ====
 A (very) basic Entity-Component System game engine.
 
-Building and running
-====================
+Building and running on Windows
+===============================
 ECSE was built using Visual Studio Community 2013. You can build it by opening `ECSE.sln`.
 Note that the following libraries are required, and will need to be compiled from source:
 
 - SFML 2.4.2 (statically compiled and installed in `C:\Program Files (x86)\SFML`)
 - Boost 1.64.0 (installed in `C:\boost_1_64_0`)
-- For the ECSETest unit testing project, Google Test (installed in `C:\Program Files (x86)\googletest`; 
+- For the ECSETest unit testing project, Google Test (installed in `C:\Program Files (x86)\googletest`;
 
 If you have these libraries installed in a different location, modify the settings for your game project. Include
 directories are set in `Configuration Properties -> C/C++ -> General`, while library directories are set in
@@ -23,6 +23,30 @@ If you're going to be running the engine in debug mode, especially if you're mak
 system, it is strongly recommended to use the `Debug (No Iterator Debugging)` target instead of `Debug`. This requires
 that you recompile the dependencies with `_ITERATOR_DEBUG_LEVEL=0` defined. While a bit painful to set up, this
 significantly improves debug performance by removing Visual Studio's largely redundant iterator debugging checks.
+
+Building and running on Linux
+=============================
+ECSE is confirmed to work on at least Ubuntu 16.04 LTS.
+
+First install prequisite libraries:
+* libsfml-dev
+* libboost-dev
+
+Then run cmake in your desired build directory. Some useful flags:
+* `-DCMAKE_CXX_COMPILER=<your favorite compiler>`
+* `-DCMAKE_CXX_FLAGS="<a string of your desired compiler flags>"`
+
+Note that `c++14` is minimally required to compile ECSE and so `--std=c++14`
+is required to be in your list of compiler flags.
+
+An example build on ubuntu might look like this
+```
+git clone git@github.com:VGAD/ECSE.git <path to ECSE>
+sudo apt-get install libsfml-dev libboost-dev
+mkdir <path to build directory>
+cd <path to build directory>
+cmake -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="--std=c++14" <path to ECSE>
+make -j <thread count>```
 
 Contribution Conventions
 ========================
