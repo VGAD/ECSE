@@ -3,6 +3,8 @@
 namespace ECSE
 {
 
+const Entity::ID Entity::invalidID = 0;
+
 Entity::Entity()
 {
 }
