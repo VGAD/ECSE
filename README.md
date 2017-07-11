@@ -66,7 +66,7 @@ sudo apt-get install libgtest-dev
 cd /usr/src/gtest/
 
 # Sudo required
-sudo cmake . 
+sudo cmake .
 sudo make -j <threads>
 sudo cp libgtest.a /usr/local/lib
 sudo cp libgtest_main.a /usr/local/lib
@@ -88,6 +88,7 @@ Some useful variables:
 * `-DCMAKE_CXX_COMPILER=<your favorite compiler>`
 * `-DCMAKE_CXX_FLAGS="<a string of your desired compiler flags>"`
 * `-DCMAKE_BUILD_TYPE=[Release\MinSizeRel\RelWithDebInfo\Debug]`
+* `-DECSE_BUILD_EXAMPLES=True` -> Build the ECSE example projects
 * More if required: https://cmake.org/Wiki/CMake_Useful_Variables
 
 Note that `c++14` is minimally required to compile ECSE and so `--std=c++14`
