@@ -95,7 +95,7 @@ public:
                             static_cast<int>(ceil(size.y * scale)));
     }
 
-    //! Get the size of the displayed area, taking scaling into account.
+    //! Get the size of the rendering canvas, ignoring scaling.
     /*!
     * \return The unscaled size.
     */
