@@ -1,5 +1,22 @@
 #include "TestFixtures.h"
 
+TEST_F(EngineTest, GetSizeTest)
+{
+    engine->setScale(2.f);
+    auto size = engine->getSize();
+
+    ASSERT_EQ(1600, size.x);
+    ASSERT_EQ(1200, size.y);
+}
+
+TEST_F(EngineTest, GetUnscaledSizeTest)
+{
+    auto size = engine->getUnscaledSize();
+
+    ASSERT_EQ(800, size.x);
+    ASSERT_EQ(600, size.y);
+}
+
 TEST_F(EngineStateStepTest, ActivateTest)
 {
     ASSERT_EQ(1, state->activateCount) << "Activation should only occur once";
