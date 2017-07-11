@@ -3,10 +3,10 @@ project("ecse_bouncing_balls")
 set(
   bouncing_balls_src
     main.cpp
-      BallSystem.cpp
-      Bindings.cpp
-      BouncingBalls.cpp
-      LineRenderSystem.cpp
+    BallSystem.cpp
+    Bindings.cpp
+    BouncingBalls.cpp
+    LineRenderSystem.cpp
 )
 
 include_directories(${ECSE_INCLUDE_DIR})
