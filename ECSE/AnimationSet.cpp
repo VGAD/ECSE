@@ -57,15 +57,15 @@ bool AnimationSet::loadFromFile(const std::string &filename)
     return true;
 }
 
-const Animation& AnimationSet::getAnimation(const std::string& name) const
+const Animation* AnimationSet::getAnimation(const std::string& name) const
 {
     auto it = anims.find(name);
     if (it == anims.end())
     {
-        throw std::runtime_error("Couldn't find animation \"" + name + "\"");
+        return nullptr;
     }
 
-    return it->second;
+    return &it->second;
 }
 
 std::vector<std::string> AnimationSet::getAnimationNames() const

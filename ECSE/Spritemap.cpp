@@ -31,17 +31,22 @@ void Spritemap::playAnimation(std::string name, bool reset)
         LOG(WARNING) << "Tried to play animation \"" + name + "\" on a Spritemap with no animations!";
     }
 
-    const Animation &newAnim = m_animSet->getAnimation(name);
+    const Animation *newAnim = m_animSet->getAnimation(name);
+
+    if (newAnim == nullptr)
+    {
+        LOG(WARNING) << "Animation " << name << " does not exist!";
+    }
 
     // Already playing
-    if (&newAnim == m_currentAnim && reset)
+    if (newAnim == m_currentAnim && reset)
     {
         setIndex(0, true);
         return;
     }
 
     // Start playing
-    m_currentAnim = &newAnim;
+    m_currentAnim = newAnim;
     m_currentTime = sf::Time::Zero;
     setIndex(0, false);
     m_playing = true;
