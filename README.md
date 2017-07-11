@@ -29,24 +29,69 @@ Building and running on Linux
 ECSE is confirmed to work on at least Ubuntu 16.04 LTS.
 
 First install prequisite libraries:
-* libsfml-dev
-* libboost-dev
+* libboost-all-dev
 
-Then run cmake in your desired build directory. Some useful flags:
+Then clone and build SFML (static):
+```
+git clone git@github.com:SFML/SFML.git <sfml source path>
+mkdir <sfml build path>
+cd <sfml build path>
+
+# Install dependencies
+sudo apt-get install \
+  libfreetype6-dev libjpeg9-dev libxrandr-dev libx11-dev libxcb1-dev \
+  libx11-xcb-dev libxcb-randr0-dev libxcb-image0-dev freeglut3-dev libflac-dev \
+  libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev \
+  libpthread-workqueue-dev libudev-dev
+
+# Other build types are `RelWithDebInfo`, `Debug`, or `MinSizeRel`
+# Would recommend `RelWithDebInfo` for debugging unless you start having issues
+# in gdb where things are "optimized out" in which case you should choose
+# `Debug`
+# Can ignore Examples and Docs.
+# Turn off build shared libs to build static
+cmake <sfml source path> \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DSFML_BUILD_EXAMPLES=False \
+    -DSFML_BUILD_DOC=False \
+    -DBUILD_SHARED_LIBS=False
+
+make -j <threads>
+sudo make install
+```
+
+Install and build gtest:
+```
+sudo apt-get install libgtest-dev
+cd /usr/src/gtest/
+
+# Sudo required
+sudo cmake . 
+sudo make -j <threads>
+sudo cp libgtest.a /usr/local/lib
+sudo cp libgtest_main.a /usr/local/lib
+```
+
+Now build ECSE:
+```
+git clone git@github.com:VGAD/ECSE.git <ECSE source path>
+mkdir <ECSE build path>
+cd <ECSE build path>
+cmake <ECSE source path> \
+  -DCMAKE_MODULE_PATH="/usr/local/share/SFML/cmake/Modules/" \
+  -DCMAKE_CXX_FLAGS="--std=c++14" \
+  -DCMAKE_BUILD_TYPE="Release"
+make -j <threads>
+```
+
+Some useful variables:
 * `-DCMAKE_CXX_COMPILER=<your favorite compiler>`
 * `-DCMAKE_CXX_FLAGS="<a string of your desired compiler flags>"`
+* `-DCMAKE_BUILD_TYPE=[Release\MinSizeRel\RelWithDebInfo\Debug]`
+* More if required: https://cmake.org/Wiki/CMake_Useful_Variables
 
 Note that `c++14` is minimally required to compile ECSE and so `--std=c++14`
 is required to be in your list of compiler flags.
-
-An example build on ubuntu might look like this
-```
-git clone git@github.com:VGAD/ECSE.git <path to ECSE>
-sudo apt-get install libsfml-dev libboost-dev
-mkdir <path to build directory>
-cd <path to build directory>
-cmake -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="--std=c++14" <path to ECSE>
-make -j <thread count>```
 
 Contribution Conventions
 ========================
