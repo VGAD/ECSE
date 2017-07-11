@@ -7,7 +7,7 @@ namespace ECSE
 std::random_device randomDevice;
 std::mt19937 ECSE::randomEngine(randomDevice());
 
-sf::Vector2f ECSE::randomVector(float midAngle, float angleSpread, float minMag, float maxMag)
+sf::Vector2f ECSE::randomSpreadVector(float midAngle, float angleSpread, float minMag, float maxMag)
 {
     auto angleDist = std::uniform_real_distribution<float>(
         midAngle - angleSpread * 0.5f,

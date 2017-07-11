@@ -15,7 +15,7 @@ namespace ECSE
 //! The random engine that should be used for generating any random numbers in ECSE.
 extern std::mt19937 randomEngine;
 
-//! Generate a random vector.
+//! Generate a random vector in an angular spread.
 /*!
 * \param midAngle The midpoint of the possible angles.
 * \param angleSpread The spread of the possible angles (in radians).
@@ -23,7 +23,7 @@ extern std::mt19937 randomEngine;
 * \param maxMag The maximum magnitude.
 * \return A reference v1.
 */
-sf::Vector2f randomVector(float midAngle, float angleSpread, float minMag, float maxMag);
+sf::Vector2f randomSpreadVector(float midAngle, float angleSpread, float minMag, float maxMag);
 
 //! Generate a random integer.
 /*!
