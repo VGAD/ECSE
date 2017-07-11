@@ -1,3 +1,5 @@
+project(ecse_test)
+
 set(
   ecse_test_src
     main.cpp

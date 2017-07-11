@@ -1,3 +1,5 @@
+project(ecse)
+
 set(
   ecse_src
     AnimationSet.cpp
