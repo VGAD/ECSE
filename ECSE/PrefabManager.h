@@ -3,10 +3,11 @@
 #include <functional>
 #include <map>
 #include "Entity.h"
-#include "World.h"
 
 namespace ECSE
 {
+
+class World;
 
 //! Holds prefabs, which allow entities to be constructed from predefined components and settings.
 class PrefabManager
