@@ -24,6 +24,12 @@ Spritemap::Spritemap(const sf::Texture& texture, const AnimationSet& animSet)
     setIndex(0);
 }
 
+bool Spritemap::hasAnimation(std::string name) const
+{
+    auto *newAnim = m_animSet->getAnimation(name);
+    return newAnim != nullptr;
+}
+
 void Spritemap::playAnimation(std::string name, bool reset)
 {
     if (!m_animSet)

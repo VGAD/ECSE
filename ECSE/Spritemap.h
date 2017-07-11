@@ -32,6 +32,13 @@ public:
     */
     explicit Spritemap(const sf::Texture& texture, const AnimationSet& animSet);
 
+    //! Check if this has an animation.
+    /*!
+    * \param name   The name of the animation.
+    * \return Whether the animation exists.
+    */
+    bool hasAnimation(std::string name) const;
+
     //! Play an animation.
     /*!
     * \param name   The name of the animation to play.
