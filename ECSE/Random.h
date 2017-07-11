@@ -8,6 +8,7 @@
 
 #include <random>
 #include <SFML/System.hpp>
+#include "Common.h"
 
 namespace ECSE
 {
@@ -23,7 +24,17 @@ extern std::mt19937 randomEngine;
 * \param maxMag The maximum magnitude.
 * \return A reference v1.
 */
-sf::Vector2f randomSpreadVector(float midAngle, float angleSpread, float minMag, float maxMag);
+sf::Vector2f randomSpreadVector(float midAngle = 0.f, float angleSpread = ECSE::twoPi,
+                                float minMag = 1.f, float maxMag = 1.f);
+
+//! Generate a random vector in an elliptical range.
+/*
+* \param xScale The X scale of the ellipse (before rotation).
+* \param angle The ellipse's angle of rotation (after scaling).
+* \param minMag The vector's minimum magnitude in the Y direction.
+* \param maxMag The vector's maximum magnitude in the Y direction.
+*/
+sf::Vector2f randomEllipticalVector(float xScale, float angle, float minMag, float maxMag);
 
 //! Generate a random integer.
 /*!

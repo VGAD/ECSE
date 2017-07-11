@@ -1,5 +1,6 @@
 #include "Random.h"
 #include "VectorMath.h"
+#include "Common.h"
 
 namespace ECSE
 {
@@ -22,6 +23,16 @@ sf::Vector2f ECSE::randomSpreadVector(float midAngle, float angleSpread, float m
     setHeading(v, angle);
 
     return v;
+}
+
+sf::Vector2f ECSE::randomEllipticalVector(float xScale, float angle, float minMag, float maxMag)
+{
+    // Just generate a random circular vector, scale it, and rotate it
+    auto vec = ECSE::randomSpreadVector(0.f, ECSE::twoPi, minMag, maxMag);
+    vec.x *= xScale;
+    ECSE::rotate(vec, angle);
+
+    return vec;
 }
 
 }
