@@ -28,27 +28,10 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 message(STATUS "GTEST: ${GTEST_INCLUDE_DIRS}")
 
-# Get boost and include it when we build
-find_package(Boost REQUIRED system filesystem)
-include_directories(${Boost_INCLUDE_DIR})
-message(STATUS "BOOST: ${Boost_INCLUDE_DIR}")
-message(STATUS "BOOST LIB: ${Boost_LIBRARIES}")
-
-# Get SFML and include it when we build
-set(SFML_STATIC_LIBRARIES TRUE)
-find_package(SFML 2 REQUIRED COMPONENTS audio graphics window system )
-message(STATUS "SFML FOUND ${SFML_FOUND}")
-message(STATUS "SFML LIBRARIES ${SFML_LIBRARIES}")
-message(STATUS "SFML DEPENDENCIES ${SFML_DEPENDENCIES}")
-
 include_directories(${ECSE_INCLUDE_DIR})
 add_executable(ecse_test ${ecse_test_src})
-TARGET_LINK_LIBRARIES(
+target_link_libraries(
   ecse_test
     ecse
     ${GTEST_LIBRARIES}
-    ${Boost_LIBRARIES}
-    ${SFML_LIBRARIES}
-    ${SFML_DEPENDENCIES}
-    pthread
 )
