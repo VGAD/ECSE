@@ -98,11 +98,11 @@ public:
     */
     const sf::Color& getColor() const;
 
-    //! Get the local bounds of the current frame.
+    //! Get the size of the sprite.
     /*!
-    * \return The local bounds of the sprite frame.
+    * \return The size of the sprite.
     */
-    sf::FloatRect getLocalBounds() const;
+    sf::Vector2f getSize() const;
 
     //! Get the global bounds of the current frame.
     /*!

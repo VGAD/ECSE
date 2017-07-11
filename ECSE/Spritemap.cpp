@@ -177,14 +177,20 @@ const sf::Color& Spritemap::getColor() const
     return m_vertices[0].color;
 }
 
-sf::FloatRect Spritemap::getLocalBounds() const
+sf::Vector2f Spritemap::getSize() const
 {
-    return getIndexRect(m_currentIndex);
+    if (m_frameGrid.x == 0 || m_frameGrid.y == 0)
+    {
+        return sf::Vector2f(m_texture->getSize());
+    }
+
+    return m_frameSize;
 }
 
 sf::FloatRect Spritemap::getGlobalBounds() const
 {
-    return getTransform().transformRect(getLocalBounds());
+    auto rect = sf::FloatRect(sf::Vector2f(), getSize());
+    return getTransform().transformRect(rect);
 }
 
 sf::FloatRect Spritemap::getIndexRect(size_t frame) const
