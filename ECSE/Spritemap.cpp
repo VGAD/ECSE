@@ -45,15 +45,15 @@ void Spritemap::playAnimation(std::string name, bool reset)
     }
 
     // Already playing
-    if (newAnim == m_currentAnim && reset)
+    if (newAnim == m_currentAnim && !reset)
     {
-        setIndex(0, true);
         return;
     }
 
     // Start playing
     m_currentAnim = newAnim;
     m_currentTime = sf::Time::Zero;
+    m_currentFrame = 0;
     setIndex(0, false);
     m_playing = true;
 }
