@@ -12,8 +12,5 @@ target_link_libraries(
     ecse
 )
 
-set(image text.png)
-
+# Copy assets
 file(COPY text.png DESTINATION ${PROJECT_BINARY_DIR})
-
-message(STATUS "${PROJECT_BINARY_DIR} aa ${RUNTIME_OUTPUT_DIRECTORY}")
