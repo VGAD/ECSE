@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.6)
 
+if (WIN32 OR CYGWIN)
+  message(FATAL_ERROR "Don't use this on Windows, it's untested.")
+endif()
+
 add_subdirectory(ECSE)
 add_subdirectory(ECSETest)
 
