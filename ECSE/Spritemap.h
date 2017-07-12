@@ -49,6 +49,12 @@ public:
     //! Stop animating.
     void stop();
 
+    //! Set the variant.
+    /*!
+    * \param name   The name of the variant to switch to.
+    */
+    void setVariant(std::string name);
+
     //! Update the animation frame.
     /*!
     * \param deltaTime  The amount of time to animate.
@@ -123,6 +129,18 @@ private:
     //! Gets the rectangle containing the given frame.
     sf::FloatRect getIndexRect(size_t frame) const;
 
+    //! Calculate the current frame index based on m_currentFrame and m_currentVariantOffset.
+    /*!
+    * \return The current frame index.
+    */
+    size_t calcFrameIndex() const;
+
+    //! Update the frame index based on calcFrameIndex.
+    inline void updateFrameIndex()
+    {
+        setIndex(calcFrameIndex());
+    }
+
     //! Draw the sprite to a render target.
     /*!
     * \param target Render target to draw to
@@ -133,16 +151,17 @@ private:
 
     // Data
 
-    sf::Vertex          m_vertices[4];  //!< Vertices defining the sprite's geometry
-    const sf::Texture*  m_texture;      //!< Texture of the sprite
-    const AnimationSet* m_animSet;      //!< AnimationSet used by the sprite
-    const Animation*    m_currentAnim;  //!< Current animation
-    sf::Time            m_currentTime;  //!< The current animation time
-    sf::Vector2f        m_frameSize;    //!< The size of a single frame
-    sf::Vector2u        m_frameGrid;    //!< The number of rows and columns
-    bool                m_playing;      //!< Whether the animation is currently playing
-    size_t              m_currentIndex; //!< The current frame index
-    size_t              m_currentFrame; //!< The current frame of animation
+    sf::Vertex          m_vertices[4];          //!< Vertices defining the sprite's geometry
+    const sf::Texture*  m_texture;              //!< Texture of the sprite
+    const AnimationSet* m_animSet;              //!< AnimationSet used by the sprite
+    const Animation*    m_currentAnim;          //!< Current animation
+    int                 m_currentVariantOffset; //!< The current variant frame offset
+    sf::Time            m_currentTime;          //!< The current animation time
+    sf::Vector2f        m_frameSize;            //!< The size of a single frame
+    sf::Vector2u        m_frameGrid;            //!< The number of rows and columns
+    bool                m_playing;              //!< Whether the animation is currently playing
+    size_t              m_currentIndex;         //!< The current frame index
+    size_t              m_currentFrame;         //!< The current frame of animation
 };
 
 

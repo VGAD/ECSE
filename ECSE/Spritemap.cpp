@@ -6,7 +6,7 @@ namespace ECSE
 
 Spritemap::Spritemap()
     : callback(nullptr), m_texture(nullptr), m_animSet(nullptr), m_currentAnim(nullptr),
-    m_currentTime(sf::Time::Zero), m_currentFrame(0)
+    m_currentTime(sf::Time::Zero), m_currentFrame(0), m_currentVariantOffset(0)
 {
 
 }
@@ -21,7 +21,7 @@ Spritemap::Spritemap(const sf::Texture& texture, const AnimationSet& animSet)
     : Spritemap(texture)
 {
     setAnimationSet(animSet);
-    setIndex(0);
+    updateFrameIndex();
 }
 
 bool Spritemap::hasAnimation(std::string name) const
@@ -54,7 +54,7 @@ void Spritemap::playAnimation(std::string name, bool reset)
     m_currentAnim = newAnim;
     m_currentTime = sf::Time::Zero;
     m_currentFrame = 0;
-    setIndex(0, false);
+    updateFrameIndex();
     m_playing = true;
 }
 
@@ -62,6 +62,24 @@ void Spritemap::stop()
 {
     m_playing = false;
     m_currentAnim = nullptr;
+}
+
+void Spritemap::setVariant(std::string name)
+{
+    if (!m_animSet)
+    {
+        LOG(WARNING) << "Tried to play animation \"" + name + "\" on a Spritemap with no animations!";
+    }
+
+    auto newOffset = m_animSet->getVariantOffset(name);
+
+    if (!newOffset)
+    {
+        LOG(WARNING) << "Variant " << name << " does not exist!";
+    }
+
+    m_currentVariantOffset = *newOffset;
+    updateFrameIndex();
 }
 
 void Spritemap::update(sf::Time deltaTime)
@@ -78,7 +96,7 @@ void Spritemap::update(sf::Time deltaTime)
     if (frameTime == sf::seconds(0))
     {
         m_currentFrame = 0;
-        setIndex(m_currentAnim->frames[m_currentFrame]);
+        updateFrameIndex();
         return;
     }
 
@@ -106,7 +124,7 @@ void Spritemap::update(sf::Time deltaTime)
             }
         }
 
-        setIndex(m_currentAnim->frames[m_currentFrame]);
+        updateFrameIndex();
     }
 }
 
@@ -116,7 +134,8 @@ void Spritemap::setTexture(const sf::Texture& texture)
 
     if (!m_animSet)
     {
-        setIndex(0);
+        m_currentFrame = 0;
+        updateFrameIndex();
     }
 
     updateGrid();
@@ -229,6 +248,18 @@ void Spritemap::updateGrid()
         textureSize.x / static_cast<size_t>(m_frameSize.x),
         textureSize.y / static_cast<size_t>(m_frameSize.y)
         );
+}
+
+size_t Spritemap::calcFrameIndex() const
+{
+    if (m_currentAnim)
+    {
+        return m_currentAnim->frames[m_currentFrame] + m_currentVariantOffset;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 void Spritemap::draw(sf::RenderTarget& target, sf::RenderStates states) const

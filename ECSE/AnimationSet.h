@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <SFML/System.hpp>
+#include <boost/optional.hpp>
 
 namespace ECSE
 {
@@ -42,6 +43,13 @@ public:
     */
     const Animation* getAnimation(const std::string& name) const;
 
+    //! Get the offset corresponding to a variant.
+    /*!
+    * \param name The name of the variant offset to get.
+    * \return The frame index offset.
+    */
+    boost::optional<int> getVariantOffset(const std::string& name) const;
+
     //! Get the list of animation names.
     /*!
     * \return A vector containing the names of every animation in the set.
@@ -52,7 +60,8 @@ public:
     sf::Vector2i frameSize;     //!< Width and height of a single frame.
 
 private:
-    std::map<std::string, Animation> anims;   //!< Map from names to animations
+    std::map<std::string, Animation> anims;     //!< Map from names to animations
+    std::map<std::string, int> variants;        //!< Map from names to variant offsets
 };
 
 }
