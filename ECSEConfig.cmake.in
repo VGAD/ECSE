@@ -1,0 +1,11 @@
+# ECSEConfig.cmake - package configuration file
+
+# Get the path to this directory
+get_filename_component(this_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+# Our exported library cmake file is right here
+include(${this_dir}/ecse.cmake)
+
+# Set up exports
+set(ECSE_INCLUDE_DIRS @exported_inc_dir@)
+set(ECSE_LIBRARIES ecse)

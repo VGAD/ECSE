@@ -7,6 +7,8 @@
 namespace ECSE
 {
 
+class World;
+
 //! A class to which the SpecializationComponent/SpecializationSystem defers.
 class Specialization
 {

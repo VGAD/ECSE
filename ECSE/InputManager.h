@@ -412,87 +412,6 @@ private:
         static_assert(sizeof(T) == -1, "Input type not supported");
     };
 
-    //! Floating-point input source.
-    template <>
-    class TypedInputSourceImpl<float> : public TypedInputSource<float>
-    {
-    public:
-        explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
-            : TypedInputSource<float>(fn, sensitivity)
-        { }
-
-        virtual ~TypedInputSourceImpl<float>() {}
-
-        inline virtual void updateInternalValue() override
-        {
-            TypedInputSource<float>::updateInternalValue();
-
-            float newValue = fn();
-
-            if (fabs(newValue) < sensitivity)
-            {
-                internalVal = 0;
-                return;
-            }
-
-            auto reduced = static_cast<ECSE_INPUT_INTERNAL_TYPE>(newValue * halfValue);
-            if (abs(reduced) != halfValue)
-            {
-                reduced = (reduced / precision) * precision;
-            }
-
-            internalVal = reduced;
-        }
-    };
-
-    //! Integer input source.
-    template <>
-    class TypedInputSourceImpl<int8_t> : public TypedInputSource<int8_t>
-    {
-    public:
-        explicit TypedInputSourceImpl(const std::function<int8_t()>& fn, float sensitivity)
-            : TypedInputSource<int8_t>(fn, sensitivity)
-        { }
-
-        inline virtual void updateInternalValue() override
-        {
-            TypedInputSource<int8_t>::updateInternalValue();
-
-            auto newValue = fn();
-
-            if (newValue == 0)
-            {
-                internalVal = 0;
-            }
-            else if (newValue > 0)
-            {
-                internalVal = halfValue;
-            }
-            else
-            {
-                internalVal = -halfValue;
-            }
-        }
-    };
-
-    //! Boolean input source.
-    template <>
-    class TypedInputSourceImpl<bool> : public TypedInputSource<bool>
-    {
-    public:
-        explicit TypedInputSourceImpl(const std::function<bool()>& fn, float sensitivity)
-            : TypedInputSource<bool>(fn, sensitivity)
-        {
-        }
-
-        inline virtual void updateInternalValue() override
-        {
-            TypedInputSource<bool>::updateInternalValue();
-
-            internalVal = fn() ? halfValue : 0;
-        }
-    };
-
     //! Input source which is intended to be updated by antoher class using setInternalValue().
     class ManualInputSource : public InputSource
     {
@@ -567,5 +486,87 @@ void InputManager::bindInput(uint8_t bindingId, uint8_t mode, const std::functio
     auto& modeBindings = bindings[mode];
     modeBindings[bindingId] = std::make_unique<TypedInputSourceImpl<T>>(fn, sensitivity);
 }
+
+//! Floating-point input source.
+template <>
+class InputManager::TypedInputSourceImpl<float> :
+  public InputManager::TypedInputSource<float>
+{
+public:
+    explicit TypedInputSourceImpl<float>(const std::function<float()>& fn, float sensitivity)
+        : TypedInputSource<float>(fn, sensitivity)
+    { }
+
+    virtual ~TypedInputSourceImpl<float>() {}
+
+    inline virtual void updateInternalValue() override
+    {
+        TypedInputSource<float>::updateInternalValue();
+
+        float newValue = fn();
+
+        if (fabs(newValue) < sensitivity)
+        {
+            internalVal = 0;
+            return;
+        }
+
+        auto reduced = static_cast<ECSE_INPUT_INTERNAL_TYPE>(newValue * halfValue);
+        if (abs(reduced) != halfValue)
+        {
+            reduced = (reduced / precision) * precision;
+        }
+
+        internalVal = reduced;
+    }
+};
+
+//! Boolean input source.
+template <>
+class InputManager::TypedInputSourceImpl<bool> : public InputManager::TypedInputSource<bool>
+{
+public:
+    explicit TypedInputSourceImpl(const std::function<bool()>& fn, float sensitivity)
+        : TypedInputSource<bool>(fn, sensitivity)
+    {
+    }
+
+    inline virtual void updateInternalValue() override
+    {
+        TypedInputSource<bool>::updateInternalValue();
+
+        internalVal = fn() ? halfValue : 0;
+    }
+};
+
+//! Integer input source.
+template <>
+class InputManager::TypedInputSourceImpl<int8_t> : public InputManager::TypedInputSource<int8_t>
+{
+public:
+    explicit TypedInputSourceImpl(const std::function<int8_t()>& fn, float sensitivity)
+        : TypedInputSource<int8_t>(fn, sensitivity)
+    { }
+
+    inline virtual void updateInternalValue() override
+    {
+        TypedInputSource<int8_t>::updateInternalValue();
+
+        auto newValue = fn();
+
+        if (newValue == 0)
+        {
+            internalVal = 0;
+        }
+        else if (newValue > 0)
+        {
+            internalVal = halfValue;
+        }
+        else
+        {
+            internalVal = -halfValue;
+        }
+    }
+};
 
 }

@@ -51,7 +51,7 @@ public:
     // Data
 
     //! The invalid ID.
-    const static ID invalidID = 0;
+    const static ID invalidID;
 
 private:
     //! Attach a component.

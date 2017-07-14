@@ -47,7 +47,7 @@ bool AnimationSet::loadFromFile(const std::string &filename)
         }
 
         // Loop through listed variants if they exist
-        auto &variantTree = pt.get_child_optional("variants");
+        const auto &variantTree = pt.get_child_optional("variants");
         if (variantTree)
         {
             for (const ptree::value_type& variantVal : *variantTree)

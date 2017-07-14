@@ -80,7 +80,7 @@ Entity* World::getEntity(Entity::ID id)
 {
     if (toDestroy.empty()) return EntityManager::getEntity(id);
     if (toDestroy.find(id) != toDestroy.end()) return nullptr;
-        
+
     return EntityManager::getEntity(id);
 }
 

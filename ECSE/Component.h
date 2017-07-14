@@ -3,6 +3,8 @@
 namespace ECSE
 {
 
+class Entity;
+
 //! A class which holds data about an Entity.
 /*!
 * Components may include convenience functions for operating on their data, but should
