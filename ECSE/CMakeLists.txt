@@ -24,6 +24,48 @@ set(
     WorldState.cpp
 )
 
+# Set up the headers for install
+set(
+  headers
+    AnimationSet.h
+    CircleColliderComponent.h
+    ColliderComponent.h
+    CollisionDebugSystem.h
+    CollisionMath.h
+    CollisionSystem.h
+    Common.h
+    Component.h
+    ComponentManager.h
+    DepthComponent.h
+    easylogging++.h
+    Engine.h
+    Entity.h
+    EntityManager.h
+    InputManager.h
+    LineColliderComponent.h
+    Logging.h
+    Pool.h
+    PrefabComponent.h
+    PrefabManager.h
+    RenderSystem.h
+    ResourceManager.h
+    SetSystem.h
+    Specialization.h
+    SpecializationComponent.h
+    SpecializationSystem.h
+    SpriteComponent.h
+    Spritemap.h
+    State.h
+    System.h
+    TagComponent.h
+    TagSystem.h
+    TransformComponent.h
+    TransformSystem.h
+    VectorMath.h
+    World.h
+    WorldState.h
+)
+
 # Set up our include dir for the PUBLIC.
 # Things including us will want "ECSE/<file>.h"
 # TODO provide FindECSE.cmake file for external projects to include
@@ -56,3 +98,14 @@ target_link_libraries(
     ${SFML_DEPENDENCIES}
     pthread
 )
+
+
+# Projects include our headers via "ECSE/header.h" so we need to append the
+# extra "ECSE" to the include destination so that we install to
+# /usr/local/include/ecse/ECSE but export /usr/local/include/ecse as the
+# include directory to projects
+install(FILES ${headers} DESTINATION ${include_dest}/ECSE)
+
+# Install to the lib directory and export to the ecse_group (used later for
+# ECSEConfig.cmake)
+install(TARGETS ecse DESTINATION ${ecse_dest} EXPORT ecse)
