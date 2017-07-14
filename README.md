@@ -86,7 +86,8 @@ sudo make install
 ```
 
 Some useful variables:
-* `-DCMAKE_CXX_COMPILER=<your favorite compiler>`
+* `-DCMAKE_CXX_COMPILER=<your favorite compiler>` -> Remember that this
+  should be something like clang++ or g++ not their C counterparts
 * `-DCMAKE_CXX_FLAGS="<a string of your desired compiler flags>"`
 * `-DCMAKE_BUILD_TYPE=[Release\MinSizeRel\RelWithDebInfo\Debug]`
 * `-DECSE_BUILD_EXAMPLES=True` -> Build the ECSE example projects
