@@ -70,7 +70,7 @@ T intervalMod(T x, T y)
             if (y+m == y)
                 return 0; // just in case...
             else
-                return y+m; // Mod(106.81415022205296 , _TWO_PI ): m= -1.421e-14 
+                return y+m; // Mod(106.81415022205296 , _TWO_PI ): m= -1.421e-14
         }
     }
     else                    // modulo range: (y..0]
@@ -83,7 +83,7 @@ T intervalMod(T x, T y)
             if (y+m == y)
                 return 0; // just in case...
             else
-                return y+m; // Mod(-106.81415022205296, -_TWO_PI): m= 1.421e-14 
+                return y+m; // Mod(-106.81415022205296, -_TWO_PI): m= 1.421e-14
         }
     }
 
@@ -180,7 +180,7 @@ inline T clamp(T min, T max, T value)
 
 //! Find the smallest difference between two values given that they "wrap" around a third value back to zero.
 /*!
-* E.g. from = 0.5, to = 2.5, wrap = 3.0 -> the shortest distance is -0.5.
+* E.g. from = 0.5, to = 2.5, wrap = 3.0 -> the shortest distance is -1.0.
 *
 * \param from The starting value.
 * \param to The value to move toward.
@@ -196,14 +196,14 @@ T wrapDifference(T from, T to, T wrap)
     to = intervalMod(to, wrap);
 
     T diffA = to - from;
-    T diffB = abs(abs(diffA) - abs(wrap));
+    T diffB = std::abs(std::abs(diffA) - std::abs(wrap));
 
     if (diffA > 0)
     {
         diffB = -diffB;
     }
 
-    return (abs(diffA) < abs(diffB)) ? diffA : diffB;
+    return (std::abs(diffA) < std::abs(diffB)) ? diffA : diffB;
 }
 
 //! Linearly interpolate between two values, wrapping over a given point.
