@@ -72,7 +72,6 @@ set(
 get_filename_component(parent_dir ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set(ECSE_INCLUDE_DIR "${parent_dir}"
       CACHE PATH "ECSE's include directory")
-message(STATUS "SET ECSE INCLUDE DIR: ${ECSE_INCLUDE_DIR}")
 
 # Internally none of the files include using "ECSE/<file>.h", so just include
 # the current working directory

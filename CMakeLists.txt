@@ -19,8 +19,6 @@ if (ECSE_BUILD_EXAMPLES)
   add_subdirectory("Simple Example")
 endif(ECSE_BUILD_EXAMPLES)
 
-message(STATUS "${ecse_dest} ${include_dest}")
-
 # We need to have a relative include dir from where the config file is to the
 # include files, cmake can change this to be relative to an including project
 # later
