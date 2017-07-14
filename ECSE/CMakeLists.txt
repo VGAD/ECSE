@@ -3,6 +3,7 @@ project(ecse)
 set(
   ecse_src
     AnimationSet.cpp
+    AudioManager.cpp
     CollisionDebugSystem.cpp
     CollisionMath.cpp
     CollisionSystem.cpp
@@ -13,6 +14,7 @@ set(
     InputManager.cpp
     Logging.cpp
     PrefabManager.cpp
+    Random.cpp
     RenderSystem.cpp
     SpecializationSystem.cpp
     Spritemap.cpp
@@ -28,6 +30,7 @@ set(
 set(
   headers
     AnimationSet.h
+    AudioManager.h
     CircleColliderComponent.h
     ColliderComponent.h
     CollisionDebugSystem.h
@@ -47,6 +50,7 @@ set(
     Pool.h
     PrefabComponent.h
     PrefabManager.h
+    Random.h
     RenderSystem.h
     ResourceManager.h
     SetSystem.h
