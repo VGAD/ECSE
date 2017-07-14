@@ -45,6 +45,24 @@ bool AnimationSet::loadFromFile(const std::string &filename)
                 anim.frames.push_back(framePair.second.get_value<int>());
             }
         }
+
+        // Loop through listed variants if they exist
+        auto &variantTree = pt.get_child_optional("variants");
+        if (variantTree)
+        {
+            for (const ptree::value_type& variantVal : *variantTree)
+            {
+                const std::string& name = variantVal.first;
+
+                if (variants.find(name) != variants.end())
+                {
+                    LOG(WARNING) << "Tried to add variant \"" + name + "\" more than once in " + filename + "! Ignoring...";
+                    continue;
+                }
+
+                variants[name] = variantVal.second.get_value<int>();
+            }
+        }
     }
     catch (boost::property_tree::ptree_error &e)
     {
@@ -57,15 +75,38 @@ bool AnimationSet::loadFromFile(const std::string &filename)
     return true;
 }
 
-const Animation& AnimationSet::getAnimation(const std::string& name) const
+const Animation* AnimationSet::getAnimation(const std::string& name) const
 {
     auto it = anims.find(name);
     if (it == anims.end())
     {
-        throw std::runtime_error("Couldn't find animation \"" + name + "\"");
+        return nullptr;
     }
 
-    return it->second;
+    return &it->second;
+}
+
+boost::optional<int> AnimationSet::getVariantOffset(const std::string& name) const
+{
+    auto it = variants.find(name);
+    if (it == variants.end())
+    {
+        return boost::optional<int>();
+    }
+
+    return boost::optional<int>(it->second);
+}
+
+std::vector<std::string> AnimationSet::getAnimationNames() const
+{
+    std::vector<std::string> names;
+
+    for (auto& pair : anims)
+    {
+        names.push_back(pair.first);
+    }
+
+    return names;
 }
 
 }

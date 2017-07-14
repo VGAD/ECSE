@@ -11,6 +11,7 @@
 #include "AnimationSet.h"
 #include "InputManager.h"
 #include "PrefabManager.h"
+#include "AudioManager.h"
 
 namespace ECSE
 {
@@ -82,25 +83,25 @@ public:
 
     //! Get the size of the displayed area.
     /*!
+    * E.g. if the size is 320x240 and the scale is 2, then this will return 640x480.
+    * The result is rounded up to the nearest pixel.
+    *
     * \return The size.
     */
     inline sf::Vector2i getSize() const
     {
-        return size;
+        auto scale = getScale();
+        return sf::Vector2i(static_cast<int>(ceil(size.x * scale)),
+                            static_cast<int>(ceil(size.y * scale)));
     }
 
-    //! Get the size of the displayed area, taking scaling into account.
+    //! Get the size of the rendering canvas, ignoring scaling.
     /*!
-    * E.g. if the size is 640x480 and the scale is 2, then this will return 320x240.
-    * The result is rounded up to the nearest pixel.
-    *
     * \return The unscaled size.
     */
     inline sf::Vector2i getUnscaledSize() const
     {
-        auto scale = getScale();
-        return sf::Vector2i(static_cast<int>(ceil(size.x / scale)),
-                            static_cast<int>(ceil(size.y / scale)));
+        return size;
     }
 
     //! Get the number of update/advance time step pairs since this started.
@@ -160,6 +161,7 @@ public:
 
     PrefabManager prefabManager;                    //!< Keeps track of prefabs.
     InputManager inputManager;                      //!< Keeps track of user input.
+    AudioManager audioManager;                      //!< Keeps track of active audio sources.
     ResourceManager<sf::Texture> textureManager;    //!< Keeps track of loaded Textures.
     ResourceManager<sf::SoundBuffer> soundManager;  //!< Keeps track of loaded SoundBuffers.
     ResourceManager<AnimationSet> animationManager; //!< Keeps track of loaded AnimationSets.

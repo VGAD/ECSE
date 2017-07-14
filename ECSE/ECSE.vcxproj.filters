@@ -60,6 +60,9 @@
     <Filter Include="Source Files\Engine\Specialization">
       <UniqueIdentifier>{6847a933-fddd-469e-abd2-6352672245d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Audio">
+      <UniqueIdentifier>{67cd2b71-f8aa-4a19-aca2-3e3991599ad0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -121,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="CollisionMath.cpp">
       <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Engine\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +243,12 @@
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Source Files\Engine\Component\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Source Files\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Source Files\Engine\Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

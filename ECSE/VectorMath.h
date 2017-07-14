@@ -4,6 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include "Random.h"
 
 namespace ECSE
 {
