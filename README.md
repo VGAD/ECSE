@@ -32,7 +32,7 @@ First install prequisite libraries:
 * libboost-all-dev
 
 Then clone and build SFML (static):
-```
+```bash
 git clone git@github.com:SFML/SFML.git <sfml source path>
 mkdir <sfml build path>
 cd <sfml build path>
@@ -61,7 +61,7 @@ sudo make install
 ```
 
 Install and build gtest:
-```
+```bash
 sudo apt-get install libgtest-dev
 cd /usr/src/gtest/
 
@@ -73,7 +73,7 @@ sudo cp libgtest_main.a /usr/local/lib
 ```
 
 Now build ECSE:
-```
+```bash
 git clone git@github.com:VGAD/ECSE.git <ECSE source path>
 mkdir <ECSE build path>
 cd <ECSE build path>
@@ -82,6 +82,7 @@ cmake <ECSE source path> \
   -DCMAKE_CXX_FLAGS="--std=c++14" \
   -DCMAKE_BUILD_TYPE="Release"
 make -j <threads>
+sudo make install
 ```
 
 Some useful variables:
@@ -93,6 +94,19 @@ Some useful variables:
 
 Note that `c++14` is minimally required to compile ECSE and so `--std=c++14`
 is required to be in your list of compiler flags.
+
+To use ECSE in your project with cmake:
+```cmake
+# Find ECSE package
+find_package(ECSE REQUIRED)
+message(STATUS "ECSE FOUND: ${ECSE_FOUND}")
+
+# Include the headers
+include_directories(${ECSE_INCLUDE_DIRS})
+
+# Link the library to your target
+target_link_libraries(${target_name} ${ECSE_LIBRARIES})
+```
 
 Contribution Conventions
 ========================
