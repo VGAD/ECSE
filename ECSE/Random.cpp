@@ -6,9 +6,9 @@ namespace ECSE
 {
 
 std::random_device randomDevice;
-std::mt19937 ECSE::randomEngine(randomDevice());
+std::mt19937 randomEngine(randomDevice());
 
-sf::Vector2f ECSE::randomSpreadVector(float midAngle, float angleSpread, float minMag, float maxMag)
+sf::Vector2f randomSpreadVector(float midAngle, float angleSpread, float minMag, float maxMag)
 {
     auto angleDist = std::uniform_real_distribution<float>(
         midAngle - angleSpread * 0.5f,
@@ -25,12 +25,12 @@ sf::Vector2f ECSE::randomSpreadVector(float midAngle, float angleSpread, float m
     return v;
 }
 
-sf::Vector2f ECSE::randomEllipticalVector(float xScale, float angle, float minMag, float maxMag)
+sf::Vector2f randomEllipticalVector(float xScale, float angle, float minMag, float maxMag)
 {
     // Just generate a random circular vector, scale it, and rotate it
-    auto vec = ECSE::randomSpreadVector(0.f, ECSE::twoPi, minMag, maxMag);
+    auto vec = randomSpreadVector(0.f, ECSE::twoPi, minMag, maxMag);
     vec.x *= xScale;
-    ECSE::rotate(vec, angle);
+    rotate(vec, angle);
 
     return vec;
 }
