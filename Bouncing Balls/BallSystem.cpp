@@ -24,8 +24,17 @@ static void resizeCircle(sf::CircleShape& circle, float radius)
 BallSystem::BallSystem(ECSE::World* world)
     : SetSystem(world), renderTarget(*world->getEngine()->getRenderTarget())
 {
-    // Set up text
+// Get system dependent font
+#if defined(_WIN32)
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
+#elif defined(linux) || defined(__linux)
+    font.loadFromFile("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
+// Yes this is intended to be &&
+#elif defined(_APPLE_) && defined(_MACH_)
+    font.loadFromFile("/Library/Fonts/Arial.ttf");
+#endif
+
+    // Set up text
     text.setFont(font);
     text.setFillColor(sf::Color(255, 255, 255, 255));
     text.setOutlineColor(sf::Color(0, 0, 0, 255));
