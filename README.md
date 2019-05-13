@@ -31,18 +31,23 @@ ECSE is confirmed to work on at least Ubuntu 18.04 LTS.
 First install ECSE prequisite libraries:
 * libboost-all-dev
 
-Then clone and build SFML (static):
+Then clone and build SFML 2.5.2 (static):
 ```bash
-git clone git@github.com:SFML/SFML.git <sfml source path>
-mkdir <sfml build path>
-cd <sfml build path>
-
 # Install SFML dependencies
 sudo apt-get install \
   libfreetype6-dev libjpeg9-dev libxrandr-dev libx11-dev libxcb1-dev \
   libx11-xcb-dev libxcb-randr0-dev libxcb-image0-dev freeglut3-dev libflac-dev \
   libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev \
   libpthread-workqueue-dev libudev-dev
+
+# Get SFML 2.5.1
+git clone git@github.com:SFML/SFML.git <sfml source path>
+cd <sfml source path>
+git checkout 2.5.1
+
+# Make build directory
+mkdir <sfml build path>
+cd <sfml build path>
 
 # Other build types are `RelWithDebInfo`, `Debug`, or `MinSizeRel`
 # Would recommend `RelWithDebInfo` for debugging unless you start having issues
