@@ -8,6 +8,9 @@ endif()
 set(ecse_dest "${CMAKE_INSTALL_PREFIX}/lib/ecse")
 set(include_dest "${CMAKE_INSTALL_PREFIX}/include/ecse")
 
+# Set C++ standards.
+set(CMAKE_CXX_STANDARD 14)
+
 add_subdirectory(ECSE)
 add_subdirectory(ECSETest)
 
