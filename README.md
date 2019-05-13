@@ -26,9 +26,9 @@ significantly improves debug performance by removing Visual Studio's largely red
 
 Building and running on Linux
 =============================
-ECSE is confirmed to work on at least Ubuntu 16.04 LTS.
+ECSE is confirmed to work on at least Ubuntu 18.04 LTS.
 
-First install prequisite libraries:
+First install ECSE prequisite libraries:
 * libboost-all-dev
 
 Then clone and build SFML (static):
@@ -37,7 +37,7 @@ git clone git@github.com:SFML/SFML.git <sfml source path>
 mkdir <sfml build path>
 cd <sfml build path>
 
-# Install dependencies
+# Install SFML dependencies
 sudo apt-get install \
   libfreetype6-dev libjpeg9-dev libxrandr-dev libx11-dev libxcb1-dev \
   libx11-xcb-dev libxcb-randr0-dev libxcb-image0-dev freeglut3-dev libflac-dev \
@@ -60,16 +60,14 @@ make -j <threads>
 sudo make install
 ```
 
-Install and build gtest:
+Build and install gtest:
 ```bash
-sudo apt-get install libgtest-dev
-cd /usr/src/gtest/
-
-# Sudo required
-sudo cmake .
-sudo make -j <threads>
-sudo cp libgtest.a /usr/local/lib
-sudo cp libgtest_main.a /usr/local/lib
+git clone git@github.com:google/googletest.git <gtest source path>
+mkdir <gtest build path>
+cd <gtest build path>
+cmake <gtest source path>
+make -j <threads>
+sudo make install
 ```
 
 Now build ECSE:
@@ -79,7 +77,6 @@ mkdir <ECSE build path>
 cd <ECSE build path>
 cmake <ECSE source path> \
   -DCMAKE_MODULE_PATH="/usr/local/share/SFML/cmake/Modules/" \
-  -DCMAKE_CXX_FLAGS="--std=c++14" \
   -DCMAKE_BUILD_TYPE="Release"
 make -j <threads>
 sudo make install
