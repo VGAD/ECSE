@@ -40,4 +40,7 @@ configure_file(ECSEConfig.cmake.in
 # Install the files
 install(FILES "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/ECSEConfig.cmake"
         DESTINATION ${ecse_dest})
-install(EXPORT ecse DESTINATION ${ecse_dest})
+install(EXPORT ecse
+  FILE ECSETargets.cmake
+  DESTINATION ${ecse_dest}
+)

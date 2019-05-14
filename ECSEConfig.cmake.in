@@ -3,8 +3,12 @@
 # Get the path to this directory
 get_filename_component(this_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
+# Find dependencies.
+find_package(Boost REQUIRED system filesystem)
+find_package(SFML 2 REQUIRED COMPONENTS audio graphics network window system)
+
 # Our exported library cmake file is right here
-include(${this_dir}/ecse.cmake)
+include(${this_dir}/ECSETargets.cmake)
 
 # Set up exports
 set(ECSE_INCLUDE_DIRS @exported_inc_dir@)
