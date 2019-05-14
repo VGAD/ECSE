@@ -84,21 +84,22 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # Get boost and include it when we build
 find_package(Boost REQUIRED system filesystem)
 include_directories(${Boost_INCLUDE_DIR})
-message(STATUS "BOOST: ${Boost_INCLUDE_DIR}")
+message(STATUS "BOOST: ${Boost_FOUND}, ${Boost_LIB_VERSION}")
 
 # Get SFML and include it when we build
-set(SFML_STATIC_LIBRARIES TRUE)
-find_package(SFML 2 REQUIRED COMPONENTS audio graphics network window system )
-message(STATUS "SFML FOUND ${SFML_FOUND}")
-message(STATUS "SFML LIBRARIES ${SFML_LIBRARIES}")
-message(STATUS "SFML DEPENDENCIES ${SFML_DEPENDENCIES}")
+find_package(SFML 2 REQUIRED COMPONENTS audio graphics network window system)
+message(STATUS "SFML FOUND: ${SFML_FOUND}")
 
-add_library(ecse STATIC ${ecse_src})
+add_library(ecse SHARED ${ecse_src})
 target_link_libraries(
   ecse
     ${Boost_LIBRARIES}
-    ${SFML_LIBRARIES}
-    ${SFML_DEPENDENCIES}
+    sfml-audio
+    sfml-graphics
+    sfml-network
+    sfml-window
+    sfml-system
+    ${OPENGL_LIBRARIES}
     pthread
 )
 
