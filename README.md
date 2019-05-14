@@ -26,12 +26,16 @@ significantly improves debug performance by removing Visual Studio's largely red
 
 Building and running on Linux
 =============================
-ECSE is confirmed to work on at least Ubuntu 18.04 LTS.
+ECSE is confirmed to work on at least Ubuntu 18.04 LTS. We use the same requirements as above but different versions
+and dynamic rather than static. This means that a linux distribution of your game will need to distribute shared
+objects with it or depend on already installed libraries on client computers. You can manage this by modifying your
+final executable's RPATH. More information can be found
+[here](https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/RPATH-handling).
 
 First install ECSE prequisite libraries:
 * libboost-all-dev
 
-Then clone and build SFML 2.5.2 (static):
+Then clone and build SFML 2.5.2:
 ```bash
 # Install SFML dependencies
 sudo apt-get install \
@@ -59,7 +63,7 @@ cmake <sfml source path> \
     -DCMAKE_BUILD_TYPE=Release \
     -DSFML_BUILD_EXAMPLES=False \
     -DSFML_BUILD_DOC=False \
-    -DBUILD_SHARED_LIBS=False
+    -DBUILD_SHARED_LIBS=True
 
 make -j <threads>
 sudo make install
